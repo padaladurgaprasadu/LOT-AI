@@ -34,6 +34,14 @@ app = FastAPI(
     openapi_url=None
 )
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 from backend.utils.logger import get_logger
 import time
 api_logger = get_logger("AiON_API")
