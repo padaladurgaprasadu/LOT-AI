@@ -202,7 +202,7 @@ ROLE_TO_TIER = {
 }
 
 
-def _build_nvidia_llm(model: str, temperature: float = 0.1, max_tokens: int = 4096) -> ChatOpenAI:
+def _build_nvidia_llm(model: str, temperature: float = 0.1, max_tokens: int = 16384) -> ChatOpenAI:
     """Constructs a single NVIDIA NIM LLM instance."""
     api_key = os.getenv("NVIDIA_API_KEY")
     if not api_key:
@@ -213,7 +213,7 @@ def _build_nvidia_llm(model: str, temperature: float = 0.1, max_tokens: int = 40
         model=model,
         temperature=temperature,
         max_tokens=max_tokens,
-        timeout=15,  # Reduced from 120s to prevent hanging on bad models
+        timeout=60,  # Increased from 15s to prevent timeouts on reasoning/thinking models
         max_retries=0,
         streaming=True,
     )
