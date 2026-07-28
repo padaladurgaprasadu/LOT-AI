@@ -41,17 +41,17 @@ NVIDIA_MODEL_TIERS = {
     # 🏎️ FAST — Docs, summaries, deployment configs, fast code snippets
     "fast": "meta/llama-3.1-8b-instruct",
 
-    # 💻 CODING — Deepest coding capability, 1M context window
-    "coding": "deepseek-ai/deepseek-r1",
+    # 💻 CODING — Sub-200ms fast coding model
+    "coding": "meta/llama-3.1-8b-instruct",
 
-    # 🏗️ PLANNING — Llama 3.1 8B, ultra-fast agentic planning, tool calling, CEO/Architect
+    # 🏗️ PLANNING — Sub-100ms ultra-fast planning model
     "planning": "meta/llama-3.1-8b-instruct",
 
-    # 🧠 REASONING — 550B-A55B Mamba-Transformer MoE, 1M context, QA, Security audit
-    "reasoning": "nvidia/nemotron-3-ultra-550b-a55b",
+    # 🧠 REASONING — Sub-200ms reasoning model
+    "reasoning": "meta/llama-3.1-8b-instruct",
 
-    # 🔬 RESEARCH — DeepSeek V4 MoE 1M context, world knowledge retrieval
-    "research": "deepseek-ai/deepseek-v4",
+    # 🔬 RESEARCH — Fast world knowledge model
+    "research": "meta/llama-3.1-8b-instruct",
 
     # 👁️ VISION — Qwen VLM 400B MoE, UI critique, screenshot analysis
     "vision": "qwen/qwen3-235b-a22b",
