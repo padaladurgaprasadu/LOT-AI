@@ -1027,6 +1027,9 @@ class ChatRequest(BaseModel):
     web_search: bool = False
 
 @app.post("/api/chat")
+# Global BaseAgent Singleton for Sub-100ms Instant Responses
+global_base_agent = None
+
 @limiter.limit("50/minute")
 async def ai_chat(request_data: ChatRequest, request: Request):
     from fastapi.responses import StreamingResponse
@@ -1035,7 +1038,10 @@ async def ai_chat(request_data: ChatRequest, request: Request):
     from backend.agents.base import BaseAgent
     from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
 
-    agent = BaseAgent()
+    global global_base_agent
+    if global_base_agent is None:
+        global_base_agent = BaseAgent()
+    agent = global_base_agent
     sanitized_message = re.sub(r'<[^>]*>', '', request_data.message)
 
     # 🟢 PHASE 1: Immediate Connection & Heartbeat Logging
@@ -1452,8 +1458,11 @@ IMPORTANT RULES:
             # Clear status indicator
             yield f"data: {json.dumps({'type': 'status', 'message': ''})}\n\n"
             
-            from backend.agents.base import BaseAgent
-            base_agent = BaseAgent()
+            global global_base_agent
+            if global_base_agent is None:
+                from backend.agents.base import BaseAgent
+                global_base_agent = BaseAgent()
+            base_agent = global_base_agent
             
             # 🟢 MULTI-SPEED LATENCY TIERING 🟢
             model_tier = str(intent_data.get("model_tier", "Fast"))
