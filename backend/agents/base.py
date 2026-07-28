@@ -26,60 +26,33 @@ class BaseAgent:
         self.model_name = model_name
         self.temperature = temperature
         
-        # yAI Swarm Protocol: Liquid Routing integration
-        from backend.agents.router import ModelRouter
-        self_role = self.__class__.__name__
-        
+        # yAI Omni-Intelligence: 11-Model Liquid Routing
+        from backend.utils.model_registry import AIModelRegistry
         try:
-            self.smart_llm = ModelRouter.get_optimal_llm(self_role, complexity="smart")
-            self.fast_llm = ModelRouter.get_optimal_llm(self_role, complexity="fast")
-            self.omega_llm = ModelRouter.get_optimal_llm(self_role, complexity="omega")
+            self.fast_llm    = AIModelRegistry.get_llm_for_tier("fast")
+            self.smart_llm   = AIModelRegistry.get_llm_for_tier("planning")
+            self.omega_llm   = AIModelRegistry.get_llm_for_tier("reasoning")
         except Exception as e:
             logger.warning(f"Failed to initialize ModelRouter: {e}")
             
-            # Safe instantiation that doesn't crash pydantic if keys are missing
-            if os.getenv("OPENAI_API_KEY"):
-                self.smart_llm = ChatOpenAI(model="gpt-4o", temperature=0.1, timeout=30, max_retries=0, streaming=True)
-                self.fast_llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.1, timeout=30, max_retries=0, streaming=True)
-            elif os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY"):
-                self.smart_llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro", temperature=0.1, timeout=30, max_retries=0, streaming=True)
-                self.fast_llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.1, timeout=30, max_retries=0, streaming=True)
-            elif os.getenv("NVIDIA_API_KEY"):
-                self.smart_llm = ChatOpenAI(
-                    base_url="https://integrate.api.nvidia.com/v1",
-                    api_key=os.getenv("NVIDIA_API_KEY"),
-                    model="meta/llama-3.1-70b-instruct",
-                    temperature=0.1,
-                    timeout=30,
-                    max_retries=0,
-                    streaming=True
-                )
+            nvidia_key = os.getenv("NVIDIA_API_KEY")
+            if nvidia_key:
                 self.fast_llm = ChatOpenAI(
                     base_url="https://integrate.api.nvidia.com/v1",
-                    api_key=os.getenv("NVIDIA_API_KEY"),
+                    api_key=nvidia_key,
                     model="meta/llama-3.1-8b-instruct",
-                    temperature=0.1,
-                    timeout=30,
-                    max_retries=0,
+                    temperature=0.3,
+                    max_retries=2,
+                    timeout=30.0,
                     streaming=True
                 )
-            elif os.getenv("OPENROUTER_API_KEY"):
                 self.smart_llm = ChatOpenAI(
-                    base_url="https://openrouter.ai/api/v1",
-                    api_key=os.getenv("OPENROUTER_API_KEY"),
-                    model="anthropic/claude-3.5-sonnet",
-                    temperature=0.1,
-                    timeout=30,
-                    max_retries=0,
-                    streaming=True
-                )
-                self.fast_llm = ChatOpenAI(
-                    base_url="https://openrouter.ai/api/v1",
-                    api_key=os.getenv("OPENROUTER_API_KEY"),
-                    model="google/gemini-flash-1.5",
-                    temperature=0.1,
-                    timeout=30,
-                    max_retries=0,
+                    base_url="https://integrate.api.nvidia.com/v1",
+                    api_key=nvidia_key,
+                    model="meta/llama-3.1-8b-instruct",
+                    temperature=0.5,
+                    max_retries=2,
+                    timeout=60.0,
                     streaming=True
                 )
             else:

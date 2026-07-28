@@ -110,13 +110,13 @@ const ProgressDashboard = ({ activeAgent, timeline, liveUpdates, streamFileName,
          </div>
          
          {/* Live Code/Telemetry Stream Terminal */}
-         <div className="cyber-panel" style={{ flex: 1, borderRadius: '12px', display: 'flex', flexDirection: 'column', overflow: 'hidden', border: '1px solid rgba(16, 185, 129, 0.3)', boxShadow: '0 0 20px rgba(16, 185, 129, 0.05)' }}>
-            <div style={{ padding: '12px 20px', backgroundColor: 'rgba(16, 185, 129, 0.1)', borderBottom: '1px solid rgba(16, 185, 129, 0.2)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-               <h4 style={{ margin: 0, color: '#10b981', fontSize: '0.9rem', letterSpacing: '1px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <div className="animate-pulse-glow-success" style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#10b981' }} />
+         <div className="cyber-panel" style={{ flex: 1, borderRadius: '12px', display: 'flex', flexDirection: 'column', overflow: 'hidden', border: '1px solid var(--border-color)', boxShadow: '0 4px 20px rgba(0,0,0,0.3)' }}>
+            <div style={{ padding: '12px 20px', backgroundColor: 'var(--panel-bg)', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+               <h4 style={{ margin: 0, color: 'var(--accent)', fontSize: '0.9rem', letterSpacing: '1px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <div className="animate-pulse-glow" style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--accent)' }} />
                   {activeAgent === 'executor' ? 'PRODUCTION TELEMETRY' : 'LIVE CODE STREAM'}
                </h4>
-               <div style={{ fontSize: '0.8rem', color: '#6ee7b7', fontFamily: 'monospace' }}>{activeAgent === 'executor' ? 'Deployment Engine' : (streamFileName || 'Awaiting file...')}</div>
+               <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontFamily: 'monospace' }}>{activeAgent === 'executor' ? 'Deployment Engine' : (streamFileName || 'Awaiting file...')}</div>
             </div>
             <div style={{ flex: 1, overflowY: 'auto', padding: '20px', backgroundColor: '#050505', fontFamily: 'monospace', fontSize: '0.85rem', color: '#a6accd', whiteSpace: 'pre-wrap', lineHeight: '1.5' }}>
                {activeAgent === 'executor' ? (

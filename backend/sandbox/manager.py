@@ -19,7 +19,7 @@ class SandboxManager:
 
     def _find_available_port(self):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.bind(('', 0))
+            s.bind(('127.0.0.1', 0))
             return s.getsockname()[1]
 
     async def start_sandbox(self, project_id: str, code_files: Dict[str, str], framework: str = "node") -> dict:
@@ -40,6 +40,7 @@ class SandboxManager:
         port = self._find_available_port()
         env = os.environ.copy()
         env["PORT"] = str(port)
+        env["HOST"] = "127.0.0.1"
         
         # Check if we need to install dependencies first
         has_root_package_json = "package.json" in code_files

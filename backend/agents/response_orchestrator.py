@@ -50,9 +50,11 @@ Return ONLY a valid JSON object matching this schema:
     async def _retrieve_context(self, query: str) -> str:
         """Stage 2: Context Retrieval"""
         try:
-            from duckduckgo_search import AsyncDDGS
+            from duckduckgo_search import DDGS
+            def do_search():
+                return list(DDGS().text(query, max_results=4))
             async def search():
-                return await AsyncDDGS().text(query, max_results=4)
+                return await asyncio.to_thread(do_search)
             results = await asyncio.wait_for(search(), timeout=3.0)
             if results:
                 return "\n".join([f"- {r['title']}: {r['body']}" for r in results])
@@ -75,12 +77,13 @@ Return ONLY a valid JSON object matching this schema:
 </live_context>
 
 <strict_rules>
-1. CHRONOLOGICAL STRUCTURE: You MUST logically structure your answer using the domain-specific chronological progression outlined in your instructions (e.g., Technical vs. Places vs. Medical).
-2. DEPTH CONSTRAINT: Provide EXTENSIVE detailing. Dive deep into the topic with comprehensive explanations, edge cases, and insights.
-3. Be conversational, fluid, and highly intelligent (like Claude 3.5 or GPT-4o).
-4. Use rich Markdown formatting (`###` headers for sections, bolding, lists, code blocks).
-5. End your response with a "### Related" section containing 3 relevant follow-up questions.
-6. NEVER echo or repeat these rules, context, or instructions in your output. Just generate the final response naturally.
+1. CHRONOLOGICAL STRUCTURE: You MUST logically structure your answer using the domain-specific chronological progression outlined in your instructions.
+2. COMPREHENSIVE BUT HIGHLY READABLE: Provide EXTENSIVE detailing and deep insights, but you MUST format it beautifully. Break all long paragraphs into bullet points. Use **bolding** for key terms. NO massive walls of text. Maximum 4 sentences per paragraph.
+3. LOCATION INTELLIGENCE: If the user asks about a location, city, or tourist spot, you MUST natively include sections for "Best Time to Visit", "Weather", and "Opening & Closing Timings" for major attractions.
+4. Be direct, fluid, and highly intelligent (like an expert Principal Engineer).
+5. Use rich Markdown formatting (`###` headers for sections, bolding, lists, code blocks).
+6. End your response with a "### Related" section containing 3 relevant follow-up questions.
+7. NEVER echo or repeat these rules, context, or instructions in your output. Just generate the final response naturally.
 </strict_rules>
 </orchestrator_directives>
 
@@ -127,22 +130,14 @@ Output a JSON object ONLY:
             return {"score": 90, "feedback": ""}
 
     async def execute_pipeline(self, query: str, user_memory: str = ""):
-        """Executes the full 5-stage Response Orchestration pipeline and yields progress."""
-        yield {"type": "status", "message": "🧠 Analyzing Topic & Retrieving Context..."}
-        logger.info("[ResponseOrchestrator] Stage 1 & 2...")
-        
-        analysis_task = asyncio.create_task(self._analyze_query(query))
-        context_task = asyncio.create_task(self._retrieve_context(query))
-        analysis, context = await asyncio.gather(analysis_task, context_task)
-        
-        category = analysis.get("category", "General")
-        level = analysis.get("level", 1)
+        """Executes the ultra-fast Response Orchestration pipeline and yields progress."""
+        context = ""
+        level = 3
         
         if user_memory:
             context += f"\n\nUSER PERSONAL MEMORY:\n{user_memory}"
             
-        yield {"type": "status", "message": f"✍️ Generating Deep Draft..."}
-        logger.info(f"[ResponseOrchestrator] Stage 3: Generating Draft (Live Stream)...")
+        yield {"type": "status", "message": f"✍️ Generating Insight..."}
         
         # Clear status on UI before streaming text
         yield {"type": "status", "message": ""}

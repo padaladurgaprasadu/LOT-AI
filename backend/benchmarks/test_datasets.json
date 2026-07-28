@@ -1,0 +1,28 @@
+{
+  "datasets": [
+    {
+      "id": "speed_test_1",
+      "type": "research",
+      "query": "What are the core principles of quantum mechanics?",
+      "expected_complexity": "Medium"
+    },
+    {
+      "id": "speed_test_2",
+      "type": "research",
+      "query": "Madurai Overview",
+      "expected_complexity": "Simple"
+    },
+    {
+      "id": "build_test_1",
+      "type": "build",
+      "query": "Build a React weather dashboard using standard weather APIs.",
+      "expected_complexity": "Large"
+    },
+    {
+      "id": "build_test_2",
+      "type": "build",
+      "query": "Create a Node.js Express backend for a blog with MongoDB models.",
+      "expected_complexity": "Large"
+    }
+  ]
+}

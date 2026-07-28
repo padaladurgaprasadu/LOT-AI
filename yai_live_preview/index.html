@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0a0a0f" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f5f5f0" media="(prefers-color-scheme: light)">
+  <title>Neon Clock</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"></noscript>
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #11111a;
+      --bg-card: rgba(17, 17, 26, 0.85);
+      --text-primary: #e8e8ed;
+      --text-secondary: #a0a0b0;
+      --neon-cyan: #00ffcc;
+      --neon-magenta: #ff006e;
+      --neon-glow-1: 0 0 4px currentColor, 0 0 8px currentColor, 0 0 16px currentColor;
+      --neon-glow-2: 0 0 2px currentColor, 0 0 6px currentColor, 0 0 12px currentColor, 0 0 24px currentColor;
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --transition-fast: 120ms ease-out;
+      --transition-smooth: 240ms ease-in-out;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --space-xs: clamp(4px, 1vw, 8px);
+      --space-sm: clamp(8px, 2vw, 16px);
+      --space-md: clamp(16px, 3vw, 24px);
+      --space-lg: clamp(24px, 4vw, 32px);
+      --space-xl: clamp(32px, 5vw, 48px);
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg-primary: #f5f5f0;
+        --bg-secondary: #eeeee8;
+        --bg-card: rgba(255, 255, 255, 0.9);
+        --text-primary: #1a1a2e;
+        --text-secondary: #4a4a5a;
+        --neon-cyan: #00b38f;
+        --neon-magenta: #cc0044;
+        --glass-border: rgba(0, 0, 0, 0.1);
+        --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+      }
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      line-height: 1.4;
+      overflow: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0, 255, 204, 0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 50% 100%, rgba(255, 0, 110, 0.05) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    @media (prefers-color-scheme: light) {
+      body::before {
+        background:
+          radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0, 179, 143, 0.08) 0%, transparent 60%),
+          radial-gradient(ellipse 60% 40% at 50% 100%, rgba(204, 0, 68, 0.06) 0%, transparent 50%);
+      }
+    }
+
+    .clock-card {
+      width: 100%;
+      max-width: clamp(280px, 90vw, 520px);
+      padding: var(--space-lg) var(--space-xl);
+      background: var(--bg-card);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--glass-shadow);
+      text-align: center;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .clock-card::after {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: var(--radius-xl);
+      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-magenta));
+      opacity: 0;
+      filter: blur(20px);
+      z-index: -1;
+      transition: opacity var(--transition-smooth);
+    }
+
+    .clock-card:hover::after,
+    .clock-card:focus-within::after {
+      opacity: 0.15;
+    }
+
+    #clock-time {
+      display: block;
+      font-size: clamp(2.5rem, 12vw, 6rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: 0.02em;
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: 'tnum' 1, 'cv02' 1;
+      color: var(--neon-cyan);
+      text-shadow: var(--neon-glow-1);
+      filter: drop-shadow(0 0 2px var(--neon-cyan)) drop-shadow(0 0 8px var(--neon-cyan));
+      animation: pulse 2s ease-in-out infinite;
+      will-change: text-shadow, filter;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        text-shadow: var(--neon-glow-1);
+        filter: drop-shadow(0 0 2px var(--neon-cyan)) drop-shadow(0 0 8px var(--neon-cyan));
+      }
+      50% {
+        text-shadow: var(--neon-glow-2);
+        filter: drop-shadow(0 0 4px var(--neon-cyan)) drop-shadow(0 0 16px var(--neon-cyan)) drop-shadow(0 0 32px var(--neon-cyan));
+      }
+    }
+
+    @keyframes flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 1;
+        text-shadow: var(--neon-glow-1);
+      }
+      20%, 24%, 55% {
+        opacity: 0.85;
+        text-shadow: 0 0 2px currentColor, 0 0 4px currentColor;
+      }
+    }
+
+    .clock-card.flicker #clock-time {
+      animation: flicker 3s ease-in-out infinite;
+    }
+
+    #clock-date {
+      margin-top: var(--space-sm);
+      font-size: clamp(0.875rem, 2.5vw, 1.125rem);
+      font-weight: 400;
+      color: var(--text-secondary);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      opacity: 0.9;
+      transition: opacity var(--transition-fast);
+    }
+
+    .neon-accent {
+      width: 60px;
+      height: 2px;
+      margin: var(--space-md) auto 0;
+      background: linear-gradient(90deg, transparent, var(--neon-cyan), var(--neon-magenta), transparent);
+      border-radius: 2px;
+      opacity: 0.6;
+      animation: accent-pulse 3s ease-in-out infinite;
+    }
+
+    @keyframes accent-pulse {
+      0%, 100% { opacity: 0.4; transform: scaleX(0.8); }
+      50% { opacity: 0.8; transform: scaleX(1); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #clock-time,
+      .neon-accent {
+        animation: none !important;
+      }
+      #clock-time {
+        text-shadow: var(--neon-glow-1);
+        filter: drop-shadow(0 0 2px var(--neon-cyan)) drop-shadow(0 0 8px var(--neon-cyan));
+      }
+      .neon-accent {
+        opacity: 0.6;
+        transform: none;
+      }
+      .clock-card::after {
+        transition: none;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .clock-card {
+        padding: var(--space-md) var(--space-lg);
+        border-radius: var(--radius-lg);
+      }
+      #clock-time {
+        font-size: clamp(2rem, 14vw, 3.5rem);
+      }
+    }
+
+    @media (max-width: 360px) {
+      html { font-size: 14px; }
+      .clock-card { padding: var(--space-sm) var(--space-md); }
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--neon-cyan);
+      outline-offset: 4px;
+      border-radius: var(--radius-lg);
+    }
+
+    @media (prefers-contrast: more) {
+      :root {
+        --neon-cyan: #00ffcc;
+        --neon-magenta: #ff006e;
+        --text-secondary: #c0c0d0;
+      }
+      @media (prefers-color-scheme: light) {
+        :root {
+          --neon-cyan: #008060;
+          --neon-magenta: #990033;
+          --text-secondary: #333344;
+        }
+      }
+      #clock-time {
+        text-shadow: var(--neon-glow-2);
+        filter: drop-shadow(0 0 4px var(--neon-cyan)) drop-shadow(0 0 16px var(--neon-cyan));
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="clock-card" role="region" aria-label="Digital Clock" tabindex="0">
+    <time id="clock-time" datetime="" aria-live="polite" aria-atomic="true"></time>
+    <div id="clock-date" aria-live="polite" aria-atomic="true"></div>
+    <div class="neon-accent" aria-hidden="true"></div>
+  </main>
+  <script>
+    (function () {
+      'use strict';
+
+      const timeEl = document.getElementById('clock-time');
+      const dateEl = document.getElementById('clock-date');
+      const cardEl = document.querySelector('.clock-card');
+
+      const timeFormatter = new Intl.DateTimeFormat(undefined, {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
+        timeZone: 'local'
+      });
+
+      const dateFormatter = new Intl.DateTimeFormat(undefined, {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        timeZone: 'local'
+      });
+
+      let rafId = null;
+      let lastSecond = -1;
+
+      function updateClock() {
+        const now = new Date();
+        const currentSecond = now.getSeconds();
+
+        if (currentSecond !== lastSecond) {
+          lastSecond = currentSecond;
+
+          const timeString = timeFormatter.format(now);
+          timeEl.textContent = timeString;
+          timeEl.dateTime = now.toISOString();
+
+          if (now.getHours() === 0 && now.getMinutes() === 0 && now.getSeconds() === 0) {
+            updateDate(now);
+          }
+        }
+
+        rafId = requestAnimationFrame(updateClock);
+      }
+
+      function updateDate(date) {
+        dateEl.textContent = dateFormatter.format(date);
+      }
+
+      function scheduleNextSecond() {
+        const now = Date.now();
+        const msToNextSecond = 1000 - (now % 1000);
+        setTimeout(() => {
+          if (rafId) cancelAnimationFrame(rafId);
+          updateClock();
+        }, msToNextSecond);
+      }
+
+      function handleVisibilityChange() {
+        if (document.hidden) {
+          if (rafId) cancelAnimationFrame(rafId);
+          rafId = null;
+        } else {
+          lastSecond = -1;
+          scheduleNextSecond();
+        }
+      }
+
+      document.addEventListener('visibilitychange', handleVisibilityChange);
+
+      window.addEventListener('beforeunload', () => {
+        if (rafId) cancelAnimationFrame(rafId);
+        document.removeEventListener('visibilitychange', handleVisibilityChange);
+      });
+
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      if (!prefersReducedMotion.matches) {
+        cardEl.classList.add('flicker');
+      }
+
+      prefersReducedMotion.addEventListener('change', (e) => {
+        if (e.matches) {
+          cardEl.classList.remove('flicker');
+        } else {
+          cardEl.classList.add('flicker');
+        }
+      });
+
+      updateDate(new Date());
+      scheduleNextSecond();
+    })();
+  </script>
+</body>
+</html>

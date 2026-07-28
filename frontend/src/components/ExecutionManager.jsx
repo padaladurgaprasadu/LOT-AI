@@ -18,10 +18,10 @@ const ExecutionLifecycle = ({ activeTab, onCrash }) => {
 
   const triggerRecovery = useCallback((reason) => {
     if (retryCount >= 3) {
-      console.error(`[yAI DevOps] Max auto-recovery attempts reached. Failed to recover from: ${reason}`);
+      console.error(`[PrismAI DevOps] Max auto-recovery attempts reached. Failed to recover from: ${reason}`);
       return;
     }
-    console.warn(`[yAI DevOps] Intercepted infrastructure crash (${reason}), attempting hard reboot... Attempt ${retryCount + 1}/3`);
+    console.warn(`[PrismAI DevOps] Intercepted infrastructure crash (${reason}), attempting hard reboot... Attempt ${retryCount + 1}/3`);
     setRestarting(true);
     setRetryCount(prev => prev + 1);
     
@@ -70,7 +70,7 @@ const ExecutionLifecycle = ({ activeTab, onCrash }) => {
       <div style={{ display: activeTab === 'preview' ? 'block' : 'none', height: '100%', width: '100%' }}>
         {restarting ? (
           <div style={{ padding: '20px', color: '#10b981', fontFamily: 'monospace', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
-            [yAI DevOps] Hard Rebooting WebContainer...
+            [PrismAI DevOps] Hard Rebooting WebContainer...
           </div>
         ) : (
           <div style={{ position: 'relative', height: '100%' }}>
@@ -114,7 +114,7 @@ const ExecutionLifecycle = ({ activeTab, onCrash }) => {
 
       <div style={{ display: activeTab === 'terminal' ? 'flex' : 'none', flexDirection: 'column', height: '100%', width: '100%' }}>
          <div style={{ padding: '12px 20px', borderBottom: '1px solid #222', color: '#888', fontSize: '0.85rem', display: 'flex', justifyContent: 'space-between', backgroundColor: '#000' }}>
-             <span>yAI Execution Logs (WebContainer)</span>
+             <span>PrismAI Execution Logs (WebContainer)</span>
              <span style={{ color: restarting ? '#ef4444' : '#10b981' }}>{restarting ? '● Rebooting' : '● Live'}</span>
          </div>
          <div style={{ flex: 1, overflow: 'auto', backgroundColor: '#000', padding: '10px' }}>
@@ -159,32 +159,50 @@ export const ExecutionManager = ({ files, dynamicDependencies, activeTab, isBack
          </div>
       )}
 
-      <div style={{ flex: 1, position: 'relative' }}>
+      <div style={{ flex: 1, position: 'relative', height: '100%', width: '100%', backgroundColor: '#06070a' }}>
           {isExecuting && activeTab === 'preview' && (
              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 10, backgroundColor: 'rgba(21,21,21,0.95)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <BuildStatus executionLogs={executionLogs} isRunning={true} hasError={false} />
              </div>
           )}
-          <SandpackProvider
-            key={`sp-reboot-${restartKey}`}
-            template="vite-react"
-            theme="dark"
-            files={files}
-            customSetup={{ 
-                dependencies: dynamicDependencies,
-                environment: {
-                   VITE_API_URL: previewUrl || ""
-                }
-            }}
-            options={{
-                recompileMode: "delayed",
-                recompileDelay: 2500
-            }}
-          >
-            <SandpackLayout style={{ height: '100%', border: 'none', background: 'transparent', display: 'flex', flexDirection: 'column' }}>
-              <ExecutionLifecycle activeTab={activeTab} onCrash={handleCrash} />
-            </SandpackLayout>
-          </SandpackProvider>
+          {(() => {
+            const indexHtmlContent = files && (files["/index.html"] || files["index.html"]);
+            const isSelfContainedHTML = indexHtmlContent && typeof indexHtmlContent === 'string' && (indexHtmlContent.includes('<!DOCTYPE html>') || indexHtmlContent.includes('<html'));
+            
+            if (isSelfContainedHTML) {
+              return (
+                <iframe
+                  srcDoc={indexHtmlContent}
+                  style={{ width: '100%', height: '100%', border: 'none', backgroundColor: '#06070a' }}
+                  title="PrismAI 3D / Web Preview"
+                  sandbox="allow-scripts allow-same-origin allow-modals allow-forms"
+                />
+              );
+            }
+            
+            return (
+              <SandpackProvider
+                key={`sp-reboot-${restartKey}`}
+                template="vite-react"
+                theme="dark"
+                files={files}
+                customSetup={{ 
+                    dependencies: dynamicDependencies,
+                    environment: {
+                       VITE_API_URL: previewUrl || ""
+                    }
+                }}
+                options={{
+                    recompileMode: "delayed",
+                    recompileDelay: 2500
+                }}
+              >
+                <SandpackLayout style={{ height: '100%', border: 'none', background: 'transparent', display: 'flex', flexDirection: 'column' }}>
+                  <ExecutionLifecycle activeTab={activeTab} onCrash={handleCrash} />
+                </SandpackLayout>
+              </SandpackProvider>
+            );
+          })()}
       </div>
     </div>
   );

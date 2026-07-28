@@ -1,7 +1,8 @@
 import React from 'react';
 import ArtifactViewer from './ArtifactViewer';
 import ArchitectureViewer from './ArchitectureViewer';
-import BackendSandbox from './BackendSandbox';
+import CanvasPro from './CanvasPro';
+import { WebContainerManager } from './WebContainerManager';
 import ExecutionManager from './ExecutionManager';
 import PlatformDashboards from './PlatformDashboards';
 import MemoryView from './MemoryView';
@@ -12,6 +13,7 @@ const AIWorkspaceTabs = ({
   activeTab, 
   setActiveTab,
   codeFiles,
+  setCodeFiles,
   blueprintJson,
   executionLogs,
   previewUrl,
@@ -25,9 +27,10 @@ const AIWorkspaceTabs = ({
 }) => {
   
   const tabs = [
-    { id: 'files', label: '📂 Files', hidden: !codeFiles },
-    { id: 'architecture', label: '📐 Architecture', hidden: !blueprintJson },
-    { id: 'preview', label: '👁️ Preview', hidden: !codeFiles },
+    { id: 'files', label: '📂 Files', hidden: false },
+    { id: 'canvas_pro', label: '🎨 Canvas Pro', hidden: false },
+    { id: 'architecture', label: '📐 Architecture', hidden: false },
+    { id: 'preview', label: '👁️ Preview', hidden: false },
     { id: 'logs', label: '📋 Logs', hidden: false },
     { id: 'tasks', label: '📝 Tasks', hidden: false },
     { id: 'memory', label: '🧠 Memory', hidden: false },
@@ -75,7 +78,21 @@ const AIWorkspaceTabs = ({
       {/* Workspace Content Area */}
       <div style={{ flex: 1, overflow: 'hidden', position: 'relative' }}>
         {activeTab === 'files' && (
-          <ArtifactViewer files={codeFiles} />
+          <ArtifactViewer 
+            codeFiles={codeFiles} 
+            setCodeFiles={setCodeFiles}
+            projectId={projectId}
+            isPreviewRunning={isPreviewRunning}
+            API_URL={API_URL}
+            executionLogs={executionLogs}
+            isBackend={isBackend}
+            previewUrl={previewUrl}
+            previewError={previewError}
+          />
+        )}
+        
+        {activeTab === 'canvas_pro' && (
+          <CanvasPro />
         )}
         
         {activeTab === 'architecture' && (
@@ -83,14 +100,8 @@ const AIWorkspaceTabs = ({
         )}
         
         {activeTab === 'preview' && (
-          <BackendSandbox 
-            previewUrl={previewUrl} 
-            previewError={previewError}
-            isBackend={isBackend}
-            projectId={projectId}
-            isPreviewRunning={isPreviewRunning}
-            previewPort={previewPort}
-            API_URL={API_URL}
+          <WebContainerManager 
+            codeFiles={codeFiles}
           />
         )}
         

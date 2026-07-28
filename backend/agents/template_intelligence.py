@@ -1,6 +1,5 @@
 import os
 import json
-from langchain_google_genai import ChatGoogleGenerativeAI
 from backend.orchestrator.state import AiONState
 
 class TemplateAgent:

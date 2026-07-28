@@ -28,7 +28,7 @@ from backend.orchestrator.state import AiONState
 load_dotenv()
 
 app = FastAPI(
-    title="yAI API",
+    title="PrismAI API",
     docs_url=None,
     redoc_url=None,
     openapi_url=None
@@ -69,9 +69,17 @@ except Exception as e:
     # Ignored if column already exists or DB doesn't support it directly
     pass
 
+# Initialize Global Workspace Manager for Omni-Intelligence
+try:
+    from backend.sandbox.workspace_manager import WorkspaceManager
+    global_workspace_manager = WorkspaceManager()
+    print("[yAI 100x] Global Workspace Manager (WebContainers) initialized.")
+except Exception as e:
+    print(f"[ERROR] Failed to init WorkspaceManager: {e}")
+
 @app.api_route("/", methods=["GET", "HEAD"])
 def health_check():
-    return {"status": "ok", "message": "yAI Backend is running with PostgreSQL & Redis"}
+    return {"status": "ok", "message": "PrismAI Backend is running with PostgreSQL & Redis, Omni-Intelligence Active."}
 
 # Initialize Redis for Rate Limiting
 # Note: slowapi requires an async redis connection string for storage
@@ -318,12 +326,12 @@ async def plan_project(request_data: PlanRequest, request: Request, auth: dict =
             if "Research" in agent_role:
                 tech_rule = "CRITICAL ARCHITECTURE RULE: You MUST design a research document structure instead of software. Your 'tech_stack' should list the methodologies or research fields involved. Your 'file_structure' MUST only include markdown files (e.g., 'research_paper.md', 'literature_review.md', 'methodology.md'). Do NOT include code files like package.json or server.js."
             elif "Fullstack" in agent_role or "Web" in agent_role or "UI" in agent_role:
-                framework_rules = "4. CRITICAL REACT REQUIREMENT: Do NOT include 'client/public/index.html', 'client/src/index.js', 'client/src/main.jsx', or 'client/package.json' in your file_structure! The backend will automatically scaffold the React app using Vite. You ONLY need to list the components you create (e.g., 'client/src/App.jsx', 'client/src/components/Dashboard.jsx') and the root 'package.json'.\n5. CRITICAL COMPONENT REQUIREMENT: Every single React component (e.g. Dashboard, Login, Navbar) you plan to use MUST be explicitly listed as a separate file with a '.jsx' extension in 'file_structure'. If you don't list it, it will never be generated and the app will crash with 'Module not found'.\n6. CRITICAL RUN REQUIREMENT: You MUST include a root 'package.json' with a 'dev' script that uses 'concurrently' to run the backend and the Vite frontend at the same time."
-                tech_rule = f"CRITICAL ARCHITECTURE RULE: You MUST ALWAYS build a FULLSTACK application with a Node.js (Express) backend and a React frontend. \nCRITICAL DB RULE: You MUST use PostgreSQL for the database using the 'pg' library. IMPORTANT: Hardcode the database connection string or pool config to use user 'postgres', password 'postgres', host 'localhost', port 5432, database 'postgres' as a fallback if env vars are missing.\nCRITICAL PORT RULE: Your backend MUST run on PORT 5000. Your React frontend MUST run on PORT 3000. \n{framework_rules}"
+                framework_rules = "4. CRITICAL REACT REQUIREMENT: Do NOT include 'client/public/index.html', 'client/src/index.js', 'client/src/main.jsx', or 'client/package.json' in your file_structure! The backend will automatically scaffold the React app using Vite. You ONLY need to list the components you create (e.g., 'client/src/App.jsx', 'client/src/components/Dashboard.jsx') and the root 'package.json'.\n5. CRITICAL COMPONENT REQUIREMENT: Every single React component (e.g. Dashboard, Login, Navbar) you plan to use MUST be explicitly listed as a separate file with a '.jsx' extension in 'file_structure'. If you don't list it, it will never be generated and the app will crash with 'Module not found'.\n6. CRITICAL UI REQUIREMENT: You MUST include 'lucide-react' and 'framer-motion' in your tech_stack. Design STUNNING, premium glassmorphic UIs."
+                tech_rule = f"CRITICAL ARCHITECTURE RULE: Build a modern FULLSTACK application with Node.js/FastAPI backend and React frontend. \n{framework_rules}"
             else:
-                tech_rule = "CRITICAL ARCHITECTURE RULE: You MUST build a Python-based application using frameworks suitable for ML/Data Science (e.g., Streamlit, FastAPI, Flask). Do NOT use React or Express. The app must run on port 3000 for the iframe preview (e.g., streamlit run app.py --server.port=3000). You MUST include a 'requirements.txt' file and a 'start.sh' or 'start.bat' script to launch it."
+                tech_rule = "CRITICAL ARCHITECTURE RULE: You MUST build a Python-based application using frameworks suitable for ML/Data Science (e.g., Streamlit, FastAPI, Flask). Do NOT use React or Express. The app must run on port 3000 for the iframe preview."
                 
-            system_prompt = f"You are an Elite Enterprise Systems Architect acting as a {agent_role}. Given a goal, a list of modules, and an Innovation Brief, design a highly advanced, cutting-edge, and production-ready technology stack and blueprint. Do NOT build simple 1990s CRUD apps; incorporate modern UX, AI where relevant, scalable structures, and robust data models. Use the provided Past Projects and Research Context as inspiration.\n\n{tech_rule}\n\nReturn ONLY valid JSON with three keys: 'tech_stack' (a list of exact technologies), 'blueprint_notes' (a detailed string explaining the advanced architectural decisions), and 'file_structure' (a comprehensive list of ALL necessary file paths). CRITICAL: Every item in 'file_structure' MUST be a file with an extension (e.g., 'server/app.js', 'client/src/App.jsx'). NEVER include raw directory names (like 'server' or 'client/src'). Do not include markdown formatting or backticks, just the raw JSON."
+            system_prompt = f"You are an Elite Enterprise Systems Architect acting as a {agent_role}. Given a goal, a list of modules, and an Innovation Brief, design a concise, cutting-edge technology stack and blueprint.\n\n{tech_rule}\n\nReturn ONLY valid JSON with three keys: 'tech_stack' (a list of exact technologies), 'blueprint_notes' (a detailed string explaining architectural decisions), and 'file_structure' (a list of file paths). Every item in 'file_structure' MUST be a file with an extension. Output raw JSON only."
 
             try:
                 def get_past_projects():
@@ -340,10 +348,18 @@ async def plan_project(request_data: PlanRequest, request: Request, auth: dict =
             ]
             
             buffer = ""
+            repeat_count = 0
             for chunk in architect.llm.stream(messages):
                 text_chunk = chunk.content
                 if isinstance(text_chunk, list):
                     text_chunk = "".join(c.get("text", "") if isinstance(c, dict) else str(c) for c in text_chunk)
+                
+                # Loop guard to prevent repetitive token loops
+                if "pg-connection-string" in text_chunk:
+                    repeat_count += 1
+                    if repeat_count > 3:
+                        continue
+                        
                 buffer += text_chunk
                 yield f"data: {json.dumps({'type': 'token', 'token': text_chunk})}\n\n"
         except Exception as e:
@@ -702,6 +718,31 @@ NODE_ENV=development
 
 active_servers = {}
 
+@app.get("/api/image_search")
+async def image_search(q: str):
+    """
+    Fetches the best real image of a place or person using Wikipedia's public API.
+    Redirects to the image URL so it can be used directly in Markdown ![Alt](/api/image_search?q=query)
+    """
+    import httpx
+    from fastapi.responses import RedirectResponse
+    
+    url = f"https://en.wikipedia.org/w/api.php?action=query&prop=pageimages&format=json&piprop=original&titles={q}"
+    try:
+        async with httpx.AsyncClient() as client:
+            resp = await client.get(url)
+            data = resp.json()
+            pages = data.get("query", {}).get("pages", {})
+            for page_id, page_data in pages.items():
+                if "original" in page_data:
+                    img_url = page_data["original"]["source"]
+                    return RedirectResponse(img_url)
+    except Exception as e:
+        print(f"Image search failed for {q}: {e}")
+        
+    # Fallback to a nice placeholder if no real image is found
+    return RedirectResponse(f"https://placehold.co/800x400/000000/FFFFFF/png?text={q}")
+
 class TutorRequest(BaseModel):
     query: str
     history: list = []
@@ -710,6 +751,8 @@ class TutorRequest(BaseModel):
 @limiter.limit("10/minute")
 async def chat_tutor(request: Request, req: TutorRequest):
     try:
+        from dotenv import load_dotenv
+        load_dotenv()
         from backend.agents.tutor import TutorAgent
         tutor = TutorAgent()
         # The agent expects a list of history objects e.g. [{"role": "user", "content": "hi"}, ...]
@@ -955,6 +998,9 @@ async def ai_chat(request_data: ChatRequest, request: Request):
         from backend.agents.router import OmniIntelligenceEngine
         from backend.agents.prompts import get_system_prompt
         
+        from backend.utils.metrics import TelemetryTracker
+        telemetry = TelemetryTracker()
+        
         try:
             start_time = time.time()
             
@@ -962,24 +1008,19 @@ async def ai_chat(request_data: ChatRequest, request: Request):
             if request_data.projectId:
                 yield f"data: {json.dumps({'type': 'status', 'message': '✨ Refining Project...'})}\n\n"
                 project_dir = os.path.join(os.getcwd(), "generated_projects", request_data.projectId)
-                code_files_str = ""
                 
-                # Load current project state
-                for root, dirs, files in os.walk(project_dir):
-                    for file in files:
-                        filepath = os.path.join(root, file)
-                        rel_path = os.path.relpath(filepath, project_dir).replace(os.sep, "/")
-                        if any(x in rel_path for x in ["node_modules", "aion_vite_cache", ".git"]): continue
-                        if rel_path.endswith((".png", ".jpg", ".jpeg", ".gif", ".ico", ".svg")): continue
-                        try:
-                            with open(filepath, "r", encoding="utf-8") as f:
-                                code_files_str += f'<file path="{rel_path}">\n{f.read()}\n</file>\n\n'
-                        except: pass
-
+                # Phase 8: Context Engine injection
+                from backend.memory.context_engine import ContextEngine
+                ctx_engine = ContextEngine(project_dir)
+                telemetry.mark("context_engine_start")
+                
+                # Extract only mathematically relevant context
+                engineered_context = ctx_engine.build_relevant_prompt({"intent": "refine"}, sanitized_message)
+                telemetry.record_delta("context_ranking_latency", "context_engine_start")
+                
                 system_prompt = f"""You are a Senior Full-Stack Developer refining an existing project.
 The user wants to make a change.
-Here are the current files:
-{code_files_str}
+{engineered_context}
 
 IMPORTANT RULES:
 1. Output the file(s) you modified EXACTLY in this format:
@@ -1013,17 +1054,39 @@ IMPORTANT RULES:
                 yield f"data: {json.dumps({'type': 'refine_done'})}\n\n"
                 return
 
-            # Immediately yield heartbeat to prevent frontend timeout
-            yield f"data: {json.dumps({'type': 'status', 'message': '✨ Analyzing Intent...'})}\n\n"
-            api_logger.info(f"TTFT_heartbeat: {(time.time() - start_time) * 1000:.2f}ms")
-            
+            # --- AUTONOMOUS SELF-HEALING INTERCEPTOR ---
+            error_keywords = ["traceback (most recent call last):", "syntaxerror:", "typeerror:", "referenceerror:", "uncaught error:", "failed to compile", "module not found"]
+            if any(kw in sanitized_message.lower() for kw in error_keywords):
+                yield f"data: {json.dumps({'type': 'status', 'message': '🩺 Autonomous Self-Healing Engine Active...'})}\n\n"
+                from backend.agents.self_healing import SelfHealingEngine
+                healer = SelfHealingEngine()
+                result = await healer.diagnose_and_heal(sanitized_message)
+                
+                diagnosis_text = f"### 🩺 Autonomous Self-Healing Diagnosis\n\n{result.get('diagnosis', 'Root cause identified and patched.')}\n\n"
+                yield f"data: {json.dumps({'type': 'chat', 'token': diagnosis_text})}\n\n"
+                
+                if result.get("fixed_code") and result.get("file_path"):
+                    file_token = f"```\n// Fixed File: {result['file_path']}\n{result['fixed_code']}\n```"
+                    yield f"data: {json.dumps({'type': 'chat', 'token': file_token})}\n\n"
+                    yield f"data: {json.dumps({'type': 'refine_file', 'file': result['file_path'], 'content': result['fixed_code']})}\n\n"
+                    
+                yield f"data: {json.dumps({'type': 'status', 'message': ''})}\n\n"
+                return
 
-            # 🟢 PHASE 2 & 3 CONCURRENT: Fast Intent Routing & Memory Retrieval
-            yield f"data: {json.dumps({'type': 'status', 'message': '🧠 Omni-Intelligence Routing...'})}\n\n"
+            # Calculate heuristic first — only fire the Swarm for explicit full-app builds or commands
+            import re
+            build_signals = [
+                "full app", "full stack", "full-stack", "saas", "dashboard app",
+                "scaffold a project", "build an architecture", "entire application",
+                "/swarm", "/goal"
+            ]
             
-            from backend.agents.router import OmniIntelligenceEngine
-            router = OmniIntelligenceEngine(llm=agent.fast_llm)
+            msg_lower = sanitized_message.lower()
             
+            # For general chat (even coding questions like "build a sorting algorithm"), we do NOT want to block on intent routing
+            is_complex = any(sig in msg_lower for sig in build_signals) or msg_lower.startswith("/") or (request_data.image is not None)
+            
+            # 🟢 PHASE 2: Ultra-Fast Memory & Conditional Routing
             async def get_memory():
                 try:
                     client = globals().get('global_chroma_client')
@@ -1033,29 +1096,46 @@ IMPORTANT RULES:
                         from backend.memory.chroma_client import ChromaClient
                         return await asyncio.to_thread(ChromaClient().retrieve_memory, "default_user", sanitized_message)
                 except Exception as e:
-                    api_logger.warning(f"Failed to retrieve vector memory: {e}")
                     return "No past memory recorded yet."
-
-            router_task = asyncio.create_task(router.adetect_intent(sanitized_message, request_data.history))
+                    
             memory_task = asyncio.create_task(get_memory())
+            intent_data = {}
             
-            try:
-                intent_data, USER_MEMORY = await asyncio.wait_for(
-                    asyncio.gather(router_task, memory_task),
-                    timeout=5.0
-                )
-            except asyncio.TimeoutError:
-                api_logger.warning("Router or memory task timed out! Falling back to defaults.")
-                intent_data = {}
-                USER_MEMORY = "No past memory recorded yet."
+            if is_complex:
+                yield f"data: {json.dumps({'type': 'status', 'message': '✨ Analyzing Intent...'})}\n\n"
+                api_logger.info(f"TTFT_heartbeat: {(time.time() - start_time) * 1000:.2f}ms")
+                yield f"data: {json.dumps({'type': 'status', 'message': '🧠 Initializing...' })}\n\n"
                 
-            if not USER_MEMORY:
-                USER_MEMORY = "No past memory recorded yet."
+                from backend.agents.router import OmniIntelligenceEngine
+                from backend.utils.nvidia_client import NvidiaMoEClient
+                
+                # Pillar 1: Hybrid MoE Routing - Use Nemotron-550b for deep architectural planning
+                nv_client = NvidiaMoEClient()
+                nemotron_llm = nv_client.get_architect_llm()
+                router = OmniIntelligenceEngine(llm=nemotron_llm)
+                
+                telemetry.mark("router_start")
+                router_task = asyncio.create_task(router.adetect_intent(sanitized_message, request_data.history))
+                try:
+                    intent_data, USER_MEMORY = await asyncio.wait_for(
+                        asyncio.gather(router_task, memory_task),
+                        timeout=15.0
+                    )
+                    telemetry.record_delta("intent_routing_latency", "router_start")
+                except asyncio.TimeoutError:
+                    USER_MEMORY = "No past memory recorded yet."
+            else:
+                # Ultra-fast path: Skip memory RAG entirely to achieve < 300ms TTFT
+                USER_MEMORY = "No past memory retrieved for quick chat."
+                memory_task.cancel()
+                telemetry.record_duration("intent_routing_latency", 0.0)
             
             missing_info = intent_data.get("missing_info_question")
             if missing_info and isinstance(missing_info, str) and missing_info.lower() not in ["none", "null", "", "n/a"]:
                 yield f"data: {json.dumps({'type': 'status', 'message': ''})}\n\n"
-                yield f"data: {json.dumps({'type': 'chat', 'token': missing_info})}\n\n"
+                yield f"data: {json.dumps({'type': 'chat', 'token': f'{missing_info} [End of transmission.] '})}\n\n"
+                # Phase 15: Final Telemetry yield
+                yield f"data: {json.dumps({'type': 'telemetry', 'metrics': telemetry.get_metrics()})}\n\n"
                 return
 
             # --- NON-BLOCKING VISUAL ENGINE ---
@@ -1063,6 +1143,8 @@ IMPORTANT RULES:
             visual_task = None
             entity_det = intent_data.get("entity_detection", {})
             visual_query_val = entity_det.get("search_query", "")
+            # Visual engine relies strictly on intelligent entity detection
+
             if entity_det.get("requires_visuals") and visual_query_val and visual_query_val.lower() not in ["null", "none"]:
                 visual_queue = asyncio.Queue()
                 yield f"data: {json.dumps({'type': 'status', 'message': '📸 Fetching Visuals (Background)...'})}\n\n"
@@ -1094,6 +1176,44 @@ IMPORTANT RULES:
                         await visual_queue.put(None) # EOF marker
                 
                 visual_task = asyncio.create_task(fetch_visuals())
+            elif not is_complex and len(sanitized_message.split()) <= 3:
+                tech_blacklist = {
+                    "dsa", "algo", "algorithm", "data structure", "data structures", "code", "coding", 
+                    "python", "java", "javascript", "js", "ts", "typescript", "c++", "cpp", "c#", "golang", 
+                    "rust", "html", "css", "react", "vue", "angular", "node", "express", "fastapi", "django", 
+                    "flask", "sql", "nosql", "mongodb", "postgres", "mysql", "redis", "docker", "k8s", 
+                    "kubernetes", "aws", "azure", "gcp", "git", "github", "api", "rest", "graphql", "oop", 
+                    "dbms", "os", "operating system", "linux", "windows", "array", "string", "linked list", 
+                    "stack", "queue", "hashmap", "tree", "graph", "heap", "trie", "sorting", "searching", 
+                    "recursion", "dp", "dynamic programming", "greedy", "backtracking", "bit manipulation",
+                    "hello", "hi", "hey", "test", "help", "thanks", "thank you", "bye", "who are you", "what is this"
+                }
+                import re
+                msg_clean = re.sub(r'[^\w\s]', '', sanitized_message).lower().strip()
+                question_words = {"who", "what", "where", "why", "how", "when", "can", "could", "would", "is", "are", "am", "do", "does", "did", "tell", "explain", "describe", "write", "build"}
+                is_question_or_greeting = msg_clean in tech_blacklist or any(w in msg_clean.split() for w in question_words) or any(w in msg_clean.split() for w in ["dsa", "code", "function", "class", "method", "algorithm", "variable", "bug", "error", "syntax", "compiler"])
+                
+                if not is_question_or_greeting and (sanitized_message[0].isupper() or len(sanitized_message.split()) >= 1):
+                    # Speculative visual fetching ONLY for genuine proper nouns / places (e.g., "Sabarimala", "Paris")
+                    visual_queue = asyncio.Queue()
+                    async def fetch_visuals_speculative():
+                        from backend.utils.visuals import get_real_world_image
+                        try:
+                            res = await asyncio.to_thread(get_real_world_image, sanitized_message, 1)
+                            if res:
+                                img_urls = res if isinstance(res, list) else [res]
+                                for img_url in img_urls:
+                                    await visual_queue.put({
+                                        "type": "visual",
+                                        "media_type": "image",
+                                        "url": img_url,
+                                        "alt": sanitized_message
+                                    })
+                        except Exception:
+                            pass
+                        finally:
+                            await visual_queue.put(None)
+                    visual_task = asyncio.create_task(fetch_visuals_speculative())
 
             msg_lower = sanitized_message.lower()
             primary_intent = str(intent_data.get("primary_intent", "General Chat"))
@@ -1105,15 +1225,39 @@ IMPORTANT RULES:
             
             is_architecture_req = any(word in msg_lower for word in ["diagram", "architecture", "flowchart", "workflow"]) or primary_intent == "Architecture"
             
-            build_intents = ["Website Development", "Mobile App Development", "API Development", "Database Design", "Coding"]
-            explicit_build = any(word in msg_lower for word in ["build a", "create a", "develop a", "make a", "generate a", "web app"])
+            build_intents = ["Website Development", "Mobile App Development"]
+            # Only trigger the Swarm for LARGE-scale or ENTERPRISE application builds
+            # explicitly detected by the intent router, or explicit full-app signals in the message
+            full_app_signals = [
+                "full app", "full stack", "web app", "mobile app", "saas",
+                "dashboard app", "build me a", "build a website", "create a website",
+                "create an app", "build an app", "develop a platform", "entire application",
+                "e-commerce site", "scaffold a project"
+            ]
+            explicit_full_app = any(sig in msg_lower for sig in full_app_signals)
             is_build_req = (
-                (primary_intent in ["Website Development", "Mobile App Development"]) or 
                 (primary_intent in build_intents and complexity in ["Large", "Enterprise"]) or
-                explicit_build
+                explicit_full_app
             )
             
             is_domain_expert_req = (complexity in ["Large", "Enterprise"] and not is_build_req and not is_architecture_req) or primary_intent in ["Research", "Security"]
+            
+            # Pillar 3: Visual Autonomous Browsing Interceptor
+            import re
+            url_pattern = re.compile(r'https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+')
+            urls = url_pattern.findall(sanitized_message)
+            if urls:
+                yield f"data: {json.dumps({'type': 'status', 'message': f'👁️ VLM Browsing: {urls[0]}'})}\n\n"
+                try:
+                    from backend.agents.browser_engine import BrowserEngine
+                    engine = BrowserEngine()
+                    analysis = await engine.analyze_with_vlm(urls[0], sanitized_message)
+                    yield f"data: {json.dumps({'type': 'chat', 'token': analysis})}\n\n"
+                    await engine.teardown()
+                    return
+                except Exception as e:
+                    api_logger.error(f"BrowserEngine failed: {e}")
+                    yield f"data: {json.dumps({'type': 'status', 'message': 'Browser Engine failed. Falling back.'})}\n\n"
             
             if is_domain_expert_req:
                 if primary_intent == "Security":
@@ -1123,25 +1267,15 @@ IMPORTANT RULES:
                 try:
                     from backend.agents.domain_experts import DomainOrchestrator
                     orchestrator = DomainOrchestrator()
-                    result = await orchestrator.execute_parallel_experts(sanitized_message, USER_MEMORY)
-                    experts_str = ", ".join(result["experts"])
                     
-                    yield f"data: {json.dumps({'type': 'status', 'message': f'✅ Quantum Swarm complete: {experts_str}'})}\n\n"
-                    await asyncio.sleep(0.8) # Brief pause so they see the success message
-                    yield f"data: {json.dumps({'type': 'status', 'message': ''})}\n\n"
+                    async for update in orchestrator.stream_expert_response(sanitized_message, USER_MEMORY):
+                        yield update
                     
-                    fused = result["fused_response"]
-                    chunk_size = 20
-                    for i in range(0, len(fused), chunk_size):
-                        yield f"data: {json.dumps({'type': 'chat', 'token': fused[i:i+chunk_size]})}\n\n"
-                        await asyncio.sleep(0.01)
-                    
-                    yield f"data: {json.dumps({'type': 'status', 'message': ''})}\n\n"
                     return
                 except Exception as e:
                     api_logger.error(f"Domain Orchestrator failed: {e}")
             
-            use_orchestrator = (not is_architecture_req and not is_build_req and complexity != "Simple")
+            use_orchestrator = (is_complex and not is_architecture_req and not is_build_req and complexity != "Simple")
             
             if use_orchestrator:
                 try:
@@ -1149,13 +1283,45 @@ IMPORTANT RULES:
                     orchestrator = ResponseOrchestrator()
                     final_response = ""
                     
-                    async for update in orchestrator.execute_pipeline(sanitized_message, USER_MEMORY):
-                        if update["type"] == "status":
-                            yield f"data: {json.dumps({'type': 'status', 'message': update['message']})}\n\n"
-                        elif update["type"] == "stream":
-                            yield f"data: {json.dumps({'type': 'chat', 'token': update['token']})}\n\n"
-                        elif update["type"] == "final":
-                            final_response = update["content"]
+                    orchestrator_gen = orchestrator.execute_pipeline(sanitized_message, USER_MEMORY)
+                    
+                    async def get_next_orch_update():
+                        try:
+                            return await anext(orchestrator_gen)
+                        except StopAsyncIteration:
+                            return None
+                            
+                    orch_task = asyncio.create_task(get_next_orch_update())
+                    queue_task = asyncio.create_task(visual_queue.get()) if (visual_task and visual_queue) else None
+                    
+                    while True:
+                        tasks = []
+                        if orch_task: tasks.append(orch_task)
+                        if queue_task: tasks.append(queue_task)
+                        if not tasks: break
+                        
+                        done, _ = await asyncio.wait(tasks, return_when=asyncio.FIRST_COMPLETED)
+                        
+                        if queue_task and queue_task in done:
+                            vis = queue_task.result()
+                            if vis:
+                                yield f"data: {json.dumps(vis)}\n\n"
+                                queue_task = asyncio.create_task(visual_queue.get())
+                            else:
+                                queue_task = None
+                                
+                        if orch_task and orch_task in done:
+                            update = orch_task.result()
+                            if update:
+                                if update["type"] == "status":
+                                    yield f"data: {json.dumps({'type': 'status', 'message': update['message']})}\n\n"
+                                elif update["type"] == "stream":
+                                    yield f"data: {json.dumps({'type': 'chat', 'token': update['token']})}\n\n"
+                                elif update["type"] == "final":
+                                    final_response = update["content"]
+                                orch_task = asyncio.create_task(get_next_orch_update())
+                            else:
+                                orch_task = None
                     
                     yield f"data: {json.dumps({'type': 'status', 'message': ''})}\n\n"
                     return
@@ -1191,10 +1357,17 @@ IMPORTANT RULES:
   Every node MUST include `tech`, `status`, and `description`.
   **CRITICAL FOR EFFICIENCY:** Design Highly Efficient, Advanced Architectures. Eliminate single points of failure. Use Event-Driven patterns. Incorporate caching layers and message queues for async tasks. Avoid monolithic chokepoints.
   THINK FIRST. Model the architecture, validate it, optimize it, then output the JSON. Every output must be presentation-ready for enterprise architecture discussions.
-- **Agent Hand-off:** If they are asking to build, develop, create, generate, OR research a complex project, return EXACTLY this format and nothing else:
+  [CRITICAL]: DO NOT use the <architecture> tag for general chat, conceptual explanations, or answering simple coding questions. ONLY output <architecture> if the user EXPLICITLY requests a system architecture diagram!
+- **Agent Hand-off:** If they are asking to physically BUILD, CODE, or DEVELOP a full software project, return EXACTLY this format and nothing else:
 [BUILD] {{"goal": "The specific project they want", "agent_role": "Select the best role: Fullstack Web Developer, Machine Learning Engineer, Deep Learning Researcher, Data Scientist, Data Analyst, AI Systems Architect"}}
-- **Memory System:** If the user explicitly shares a new personal fact about themselves (e.g., their name, profession, goals, skill level, or preferences), you MUST secretly append exactly `[MEMORY_ADD] <fact>` to the VERY END of your response. 
-
+[CRITICAL]: DO NOT use the [BUILD] tag for general questions, conceptual explanations, or small code snippets. If the user asks for an explanation (e.g., 'Explain sorting in DSA'), just answer them normally in chat!
+- **Memory System:** If the user explicitly shares a new personal fact about themselves, you MUST secretly append exactly `[MEMORY_ADD] <fact>` to the VERY END of your response.
+- **Location / Travel Queries:** If the user asks about a specific place, temple, city, or tourist destination (e.g. Sabarimala, Paris), you MUST structure your response with: 
+  1. Overview
+  2. Best time to visit and Activities to perform
+  3. Opening and closing timings
+  4. Summary/Conclusion
+  5. 3 Follow-up Questions at the end.
 [USER'S PAST MEMORY]:
 {USER_MEMORY}
 """
@@ -1245,33 +1418,13 @@ IMPORTANT RULES:
             is_build = False
             buffer = ""
             
-            # === SEMANTIC CACHE HIT CHECK ===
-            if len(request_data.history) == 0 and not request_data.image:
-                try:
-                    client = globals().get('global_chroma_client')
-                    if client:
-                        cached_response, distance = client.get_cache(sanitized_message)
-                    else:
-                        from backend.memory.chroma_client import ChromaClient
-                        cached_response, distance = ChromaClient().get_cache(sanitized_message)
-                    if cached_response:
-                        ttft = (time.time() - start_time) * 1000
-                        api_logger.info(f"[CACHE HIT] Distance: {distance:.4f} | TTFT: {ttft:.2f}ms")
-                        yield f"data: {json.dumps({'type': 'chat', 'token': cached_response})}\n\n"
-                        
-                        # Drain visual queue if it exists so cached responses still get visuals
-                        if visual_task:
-                            while True:
-                                vis = await visual_queue.get()
-                                if vis is None:
-                                    break
-                                yield f"data: {json.dumps(vis)}\n\n"
-                        return
-                except Exception:
-                    pass
+            # === SEMANTIC CACHE BYPASSED FOR LATENCY ===
+            # We skip the synchronous embedding call here because hitting the Nvidia API for embeddings 
+            # takes ~400ms, which ruins the strict < 300ms TTFT requirement. The fast LLM (Llama 3 8B)
+            # is fast enough to just generate the response dynamically under 300ms.
 
             # 🟢 PHASE 4: Direct Streaming (With Real-Time Compliance Middleware)
-            yield f"data: {json.dumps({'type': 'status', 'message': '⚡ Generating Advanced Response...'})}\n\n"
+            yield f"data: {json.dumps({'type': 'status', 'message': ''})}\n\n"
             from backend.utils.compliance import StreamingComplianceEngine
             compliance_engine = StreamingComplianceEngine(active_llm.astream(messages))
             
@@ -1331,19 +1484,37 @@ IMPORTANT RULES:
                         
                     if not first_token_yielded:
                         api_logger.info(f"TTFT_real_content: {(time.time() - start_time) * 1000:.2f}ms")
+                        telemetry.record_delta("llm_ttft", "router_start")
                         first_token_yielded = True
+                        yield f"data: {json.dumps({'type': 'telemetry', 'metrics': telemetry.get_metrics()})}\n\n"
                         
                     yield f"data: {json.dumps({'type': 'chat', 'token': text_chunk})}\n\n"
                     text_task = asyncio.create_task(get_next_token())
                 
             if is_build:
                 try:
+                    import re
                     json_str = draft_text.split("[BUILD]")[1].strip()
                     if json_str.startswith("```json"): json_str = json_str[7:]
                     elif json_str.startswith("```"): json_str = json_str[3:]
                     if json_str.endswith("```"): json_str = json_str[:-3]
                     json_str = json_str.strip()
-                    parsed = json.loads(json_str, strict=False)
+                    
+                    parsed = None
+                    # Try direct JSON loads
+                    try:
+                        parsed = json.loads(json_str, strict=False)
+                    except Exception:
+                        # Extract first valid JSON object using regex
+                        json_match = re.search(r'(\{[\s\S]*?\})', json_str)
+                        if json_match:
+                            try:
+                                parsed = json.loads(json_match.group(1), strict=False)
+                            except Exception:
+                                pass
+                    
+                    if not parsed or not isinstance(parsed, dict):
+                        parsed = {"goal": request_data.message, "agent_role": "Fullstack Web Developer"}
                     
                     mode = str(intent_data.get("execution_mode", "Deep")).lower()
                     
@@ -1351,14 +1522,106 @@ IMPORTANT RULES:
                         import uuid
                         project_id = f"proj-{str(uuid.uuid4())[:8]}"
                         
-                        # We no longer launch a detached background task here.
-                        # Instead, we yield 'mission_started' which signals the frontend 
-                        # to connect via the websocket and drive the autonomous loop so the user sees the logs.
-                        yield f"data: {json.dumps({'type': 'mission_started', 'data': parsed, 'project_id': project_id, 'agent_role': intent_data.get('agent_role', 'Fullstack Web Developer')})}\n\n"
+                        yield f"data: {json.dumps({'type': 'status', 'message': '🚀 Initializing 100x Multi-Agent Swarm...'})}\n\n"
+                        
+                        # Streaming callback for the Swarm
+                        async def swarm_status(msg: str):
+                            await asyncio.sleep(0.01) # flush
+                            # Since we are inside a generator, we can't yield directly from a nested callback easily if it's not a generator itself.
+                            # We can capture it via a queue or since this is python, we just append to a list, but wait, `yield` won't work in nested async def.
+                            # So let's build an event queue.
+                            pass # We will implement an event queue right outside
+                            
+                        # Actually, since SwarmManager is async, we can just run it, but we can't `yield` from a nested callback.
+                        # Instead, we will pass a queue to the callback.
+                        swarm_queue = asyncio.Queue()
+                        async def swarm_callback(msg: str):
+                            await swarm_queue.put(msg)
+                            
+                        from backend.orchestrator.swarm_manager import SwarmManager
+                        manager = SwarmManager()
+                        
+                        # Start swarm as background task
+                        swarm_task = asyncio.create_task(manager.spawn_swarm(
+                            parsed.get("goal", ""), 
+                            USER_MEMORY, 
+                            status_callback=swarm_callback,
+                            image_context=request_data.image
+                        ))
+                        
+                        # Consume queue while swarm is running
+                        while not swarm_task.done():
+                            try:
+                                msg = await asyncio.wait_for(swarm_queue.get(), timeout=0.5)
+                                yield f"data: {json.dumps({'type': 'status', 'message': msg})}\n\n"
+                            except asyncio.TimeoutError:
+                                pass
+                                
+                        # One last check of the queue
+                        while not swarm_queue.empty():
+                            msg = swarm_queue.get_nowait()
+                            yield f"data: {json.dumps({'type': 'status', 'message': msg})}\n\n"
+                            
+                        swarm_result = swarm_task.result()
+                        final_code = swarm_result.get("code", "")
+                        
+                        # Inject the final code back into the payload for the Artifact Viewer
+                        parsed["code"] = final_code
+                        yield f"data: {json.dumps({'type': 'status', 'message': '✅ Swarm execution complete!'})}\n\n"
+                        
+                        # Payload API: Stream AST directly to the Frontend's WebContainer
+                        if "webcontainer_files" in swarm_result:
+                            yield f"data: {json.dumps({'type': 'webcontainer_mount', 'files': swarm_result['webcontainer_files']})}\n\n"
+                            
+                        yield f"data: {json.dumps({'type': 'build', 'data': parsed})}\n\n"
 
-                    elif mode in ["lightning", "fast"]:
-                        yield f"data: {json.dumps({'type': 'fast_build', 'data': parsed})}\n\n"
+                    elif mode == "deploy":
+                        yield f"data: {json.dumps({'type': 'status', 'message': '🚀 Initializing Autonomous Deployment...'})}\n\n"
+                        from backend.agents.deployment_agent import DeploymentAgent
+                        deploy_agent = DeploymentAgent()
+                        
+                        # Generate a mock workspace ID for now or grab from payload
+                        workspace_id = f"ws-{str(uuid.uuid4())[:8]}"
+                        project_name = parsed.get("goal", "yai-auto-deploy").replace(" ", "-").lower()[:15]
+                        
+                        deploy_result = await deploy_agent.full_autonomous_deploy(workspace_id, project_name)
+                        
+                        if deploy_result["status"] == "success":
+                            deploy_url = deploy_result.get("url")
+                            msg = f"✅ Deployed successfully to: {deploy_url}"
+                            chat_msg = f"\\n\\n🚀 **Deployment Complete!**\\nYour application is live at: [**{deploy_url}**]({deploy_url})"
+                            yield f"data: {json.dumps({'type': 'status', 'message': msg})}\n\n"
+                            yield f"data: {json.dumps({'type': 'chat', 'token': chat_msg})}\n\n"
+                        else:
+                            deploy_msg = deploy_result.get("message")
+                            chat_msg = f"\\n\\n❌ **Deployment Failed**\\nError: {deploy_msg}"
+                            yield f"data: {json.dumps({'type': 'status', 'message': '❌ Deployment Failed'})}\n\n"
+                            yield f"data: {json.dumps({'type': 'chat', 'token': chat_msg})}\n\n"
+                            
+                    elif mode == "browse":
+                        yield f"data: {json.dumps({'type': 'status', 'message': '🌐 Initializing Physical Browser Engine...'})}\n\n"
+                        from backend.agents.browser_agent import BrowserAgent
+                        browser_agent = BrowserAgent()
+                        
+                        task_desc = parsed.get("goal", "Browse the web")
+                        browse_res = await browser_agent.browse(task_desc)
+                        
+                        if browse_res["status"] == "success":
+                            browse_ans = browse_res.get("final_answer")
+                            chat_msg = f"\\n\\n🌐 **Browser Analysis Complete:**\\n{browse_ans}"
+                            yield f"data: {json.dumps({'type': 'status', 'message': '✅ Browsing complete'})}\n\n"
+                            yield f"data: {json.dumps({'type': 'chat', 'token': chat_msg})}\n\n"
+                        else:
+                            browse_msg = browse_res.get("message")
+                            chat_msg = f"\\n\\n❌ **Browser Error:**\\n{browse_msg}"
+                            yield f"data: {json.dumps({'type': 'status', 'message': '❌ Browsing failed'})}\n\n"
+                            yield f"data: {json.dumps({'type': 'chat', 'token': chat_msg})}\n\n"
+
                     else:
+                        from backend.agents.ui_ux_pro_max_engine import synthesize_goal_web_app_html
+                        goal_name = parsed.get("goal", request_data.message)
+                        html_content = synthesize_goal_web_app_html(goal_name)
+                        yield f"data: {json.dumps({'type': 'webcontainer_mount', 'files': {'index.html': html_content}})}\n\n"
                         yield f"data: {json.dumps({'type': 'build', 'data': parsed})}\n\n"
                 except Exception as e:
                     yield f"data: {json.dumps({'type': 'chat', 'token': f'(Error parsing build request: {e})'})}\n\n"
@@ -1399,6 +1662,9 @@ IMPORTANT RULES:
                 except Exception as e:
                     print(f"[Semantic Cache] Error setting cache: {e}")
             # ==========================
+            
+            # Phase 15: Final Telemetry yield
+            yield f"data: {json.dumps({'type': 'telemetry', 'metrics': telemetry.get_metrics()})}\n\n"
                     
         except Exception as e:
             import traceback
@@ -1489,7 +1755,7 @@ async def execute_code(request: Request):
 
 @app.get("/api/health")
 async def health_check():
-    return {"status": "ok", "message": "yAI Multi-Agent Brain 3.0 is running!"}
+    return {"status": "ok", "message": "PrismAI Multi-Agent Brain 3.0 is running!"}
 
 @app.websocket("/api/ws/sandbox/{project_id}")
 async def websocket_sandbox_logs(websocket: WebSocket, project_id: str):
@@ -1610,4 +1876,4 @@ async def get_deploy_status(request: Request):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=10000)
+    uvicorn.run(app, host="127.0.0.1", port=8000)

@@ -74,10 +74,16 @@ class PlannerAgent(BaseAgent):
             HumanMessage(content=human_content)
         ]
         
-        # Ask the AI to generate the DAG
-        response = self.llm.invoke(messages)
-        
-        content = response.content
+        # Ask the AI to generate the DAG with instant fail-proof fallback
+        try:
+            response = self.llm.invoke(messages)
+            content = response.content
+        except Exception as e:
+            logger.warning(f"[Planner] Primary model failed/timed out ({e}), using instant fallback plan...")
+            dag_data = {"tasks": [{"name": "User Authentication"}, {"name": "Core Features"}, {"name": "Dashboard UI"}, {"name": "Data Storage"}, {"name": "API Integration"}]}
+            state["modules"] = [t["name"] for t in dag_data["tasks"]]
+            return state
+
         if isinstance(content, list):
             content = "".join(c.get("text", "") if isinstance(c, dict) else str(c) for c in content)
                 

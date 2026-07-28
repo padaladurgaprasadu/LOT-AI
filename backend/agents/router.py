@@ -4,7 +4,6 @@ from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_anthropic import ChatAnthropic
 from langchain_groq import ChatGroq
-from langchain_google_genai import ChatGoogleGenerativeAI
 from backend.utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -24,18 +23,8 @@ class ModelRouter:
         from backend.utils.model_registry import AIModelRegistry
         
         if complexity == "omega":
-            logger.info(f"[ModelRouter] Spinning up Omega Meta-Model (MoA) for {task_role}...")
-            # Grab multiple distinct models for the mixture
-            worker1 = AIModelRegistry.get_llm_chain(AIModelRegistry.resolve_capability(task_role, "fast"))
-            worker2 = AIModelRegistry.get_llm_chain(AIModelRegistry.resolve_capability(task_role, "smart"))
-            
-            # Try to grab a third fallback model for diverse reasoning
-            worker3 = worker2
-            
-            synthesizer = AIModelRegistry.get_llm_chain(AIModelRegistry.resolve_capability("Supervisor", "smart"))
-            
-            from backend.models.omega import OmegaModel
-            return OmegaModel(workers=[worker1, worker2, worker3], synthesizer=synthesizer)
+            logger.info(f"[ModelRouter] Bypassing Omega Meta-Model (MoA) for {task_role} to prevent API rate limits. Using Smart model instead.")
+            return AIModelRegistry.get_llm_chain(AIModelRegistry.resolve_capability(task_role, "smart"))
             
         capability = AIModelRegistry.resolve_capability(task_role, complexity)
         return AIModelRegistry.get_llm_chain(capability)
@@ -58,6 +47,72 @@ class ModelRouter:
         # Default / Config -> Fast model
         else:
             return ModelRouter.get_optimal_llm("CoderAgent", complexity="fast")
+
+    @staticmethod
+    async def execute_swarm(task_description: str, context: str = "") -> str:
+        """
+        Triggers the Multi-Agent Swarm Orchestrator for complex, zero-shot perfection tasks.
+        """
+        from backend.orchestrator.swarm_manager import SwarmManager
+        manager = SwarmManager()
+        return await manager.spawn_swarm(task_description, context)
+
+    @staticmethod
+    async def trigger_ui_render(html_content: str) -> str:
+        """
+        Sends the generated code to the UI Preview Engine for instant live-rendering.
+        """
+        import httpx
+        try:
+            async with httpx.AsyncClient() as client:
+                response = await client.post(
+                    "http://127.0.0.1:8001/render", 
+                    json={"html_content": html_content}
+                )
+                if response.status_code == 200:
+                    return response.json().get("preview_url")
+        except Exception as e:
+            return f"Failed to render UI: {str(e)}"
+        return "Failed to render UI."
+
+    @staticmethod
+    async def trigger_gstack_build(project_name: str, schema_sql: str, frontend_code: str) -> str:
+        """
+        Omni-Intelligence Pillar 4: G-Stack Generative SaaS
+        Requests the GStackGenerator to scaffold a full-stack SaaS inside an isolated workspace.
+        """
+        from backend.sandbox.workspace_manager import WorkspaceManager
+        from backend.sandbox.gstack_generator import GStackGenerator
+        
+        # Instantiate localized WorkspaceManager for routing
+        wm = WorkspaceManager()
+        generator = GStackGenerator(wm)
+        
+        try:
+            result = await generator.scaffold_saas(project_name, schema_sql, frontend_code)
+            return json.dumps(result)
+        except Exception as e:
+            return json.dumps({"status": "error", "message": str(e)})
+
+    @staticmethod
+    async def execute_vision_agent(base64_image: str, prompt: str) -> str:
+        """
+        Omni-Intelligence Pillar 2: VLM Browser Perception
+        Routes visual context to Qwen-3.5-VLM (or optimal vision model) to "see" the UI.
+        """
+        try:
+            vlm = ModelRouter.get_optimal_llm("VisionAgent", complexity="vision")
+            message = HumanMessage(
+                content=[
+                    {"type": "text", "text": prompt},
+                    {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}}
+                ]
+            )
+            response = await vlm.ainvoke([message])
+            return response.content
+        except Exception as e:
+            logger.error(f"[VisionAgent] VLM Execution failed: {e}")
+            return f"Vision Error: {str(e)}"
 
 class OmniIntelligenceEngine:
     def __init__(self, llm=None):
@@ -129,7 +184,17 @@ class OmniIntelligenceEngine:
         except Exception as e:
             logger.warning(f"[ROUTER] Intent detection failed, falling back smartly. Error: {e}")
             msg_lower = message.lower()
-            is_build = any(word in msg_lower for word in ["build", "create", "develop", "make a", "generate a", "web app", "website", "system", "app"])
+            
+            # Only trigger BUILD for explicit full-application requests.
+            # Excludes: "create a function", "make a list", "generate a snippet", "write a script"
+            build_signals = [
+                "full app", "full stack", "full-stack", "web app", "mobile app",
+                "saas", "dashboard app", "build me a", "build a website",
+                "create a website", "create an app", "build an app", "develop a platform",
+                "entire application", "complete application", "e-commerce site",
+                "landing page with backend", "deploy a", "scaffold a project",
+            ]
+            is_build = any(signal in msg_lower for signal in build_signals)
             
             return {
                 "primary_intent": "Website Development" if is_build else "General Chat",

@@ -85,8 +85,39 @@ export default function Chat() {
       if (!response.ok) {
         throw new Error(data.detail || 'Failed to get response');
       }
-
-      setMessages(prev => [...prev, { role: 'assistant', content: data.response }]);
+      let finalResponse = data.response;
+      
+      // --- FRONTEND HOTFIX: REAL IMAGES & BREVITY ---
+      // 1. Fetch REAL Wikipedia images (Not AI generated)
+      try {
+          const searchTerm = query.split(' ').slice(0, 3).join(' '); // use first few words for wiki
+          const wikiRes = await fetch(`https://en.wikipedia.org/w/api.php?action=query&prop=pageimages&format=json&piprop=original&titles=${encodeURIComponent(searchTerm)}&origin=*`);
+          const wikiData = await wikiRes.json();
+          const pages = wikiData.query?.pages;
+          if (pages) {
+              const pageId = Object.keys(pages)[0];
+              if (pageId !== "-1" && pages[pageId].original) {
+                  const imgUrl = pages[pageId].original.source;
+                  finalResponse = `![${searchTerm}](${imgUrl})\n\n` + finalResponse;
+              }
+          }
+      } catch(e) {
+          console.error("Wiki Image Fetch failed", e);
+      }
+      
+      // 2. Eradicate walls of text (Force extreme brevity)
+      finalResponse = finalResponse.split('\n').map(line => {
+          // If it's a massive paragraph, split it by sentences and add newlines
+          if (line.length > 200 && !line.startsWith('#') && !line.startsWith('-')) {
+             const sentences = line.match(/[^.!?]+[.!?]+/g);
+             if (sentences) {
+                 return sentences.map(s => s.trim()).join('\n\n- ');
+             }
+          }
+          return line;
+      }).join('\n');
+      
+      setMessages(prev => [...prev, { role: 'assistant', content: finalResponse }]);
     } catch (err) {
       setMessages(prev => [...prev, { role: 'assistant', content: `**Error:** ${err.message}` }]);
     } finally {
@@ -147,7 +178,7 @@ export default function Chat() {
             alignItems: 'center',
             gap: '8px'
           }}>
-            <span>🎓</span> yAI Mentor
+            <span>🎓</span> PrismAI Mentor
           </div>
           
           <div style={{
@@ -160,7 +191,7 @@ export default function Chat() {
           }}>
             {messages.length === 0 && (
               <div style={{ color: '#888', textAlign: 'center', marginTop: '20px' }}>
-                Ask me anything about code, architecture, or yAI concepts! I will format perfectly every time.
+                Ask me anything about code, architecture, or PrismAI concepts! I will format perfectly every time.
               </div>
             )}
             
@@ -208,7 +239,7 @@ export default function Chat() {
               type="text" 
               value={input}
               onChange={e => setInput(e.target.value)}
-              placeholder="Ask yAI Mentor..."
+              placeholder="Ask PrismAI Mentor..."
               disabled={isLoading}
               style={{
                 flex: 1,
