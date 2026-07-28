@@ -1364,9 +1364,8 @@ IMPORTANT RULES:
   **CRITICAL FOR EFFICIENCY:** Design Highly Efficient, Advanced Architectures. Eliminate single points of failure. Use Event-Driven patterns. Incorporate caching layers and message queues for async tasks. Avoid monolithic chokepoints.
   THINK FIRST. Model the architecture, validate it, optimize it, then output the JSON. Every output must be presentation-ready for enterprise architecture discussions.
   [CRITICAL]: DO NOT use the <architecture> tag for general chat, conceptual explanations, or answering simple coding questions. ONLY output <architecture> if the user EXPLICITLY requests a system architecture diagram!
-- **Agent Hand-off:** If they are asking to physically BUILD, CODE, or DEVELOP a full software project, return EXACTLY this format and nothing else:
-[BUILD] {{"goal": "The specific project they want", "agent_role": "Select the best role: Fullstack Web Developer, Machine Learning Engineer, Deep Learning Researcher, Data Scientist, Data Analyst, AI Systems Architect"}}
-[CRITICAL]: DO NOT use the [BUILD] tag for general questions, conceptual explanations, or small code snippets. If the user asks for an explanation (e.g., 'Explain sorting in DSA'), just answer them normally in chat!
+- **Agent Hand-off:** ONLY use [BUILD] if the user explicitly requests to build a multi-file software application (e.g. "build me a full-stack SaaS CRM").
+[CRITICAL]: ABSOLUTELY NEVER use the [BUILD] tag for identity questions (e.g., 'who are you?', 'what is your name?'), greetings, conceptual explanations, or general chat! Answer identity questions directly in text!
 - **Location / Travel Queries:** If the user asks about a specific place, temple, city, or tourist destination (e.g. Sabarimala, Paris), you MUST structure your response with: 
   1. Overview
   2. Best time to visit and Activities to perform
@@ -1483,7 +1482,10 @@ IMPORTANT RULES:
                     draft_text += text_chunk
                     buffer = draft_text
                     
-                    if "[BUILD]" in draft_text:
+                    if "[BUILD]" in draft_text and not is_build_req:
+                        # Ignore hallucinated [BUILD] tag on general chat
+                        draft_text = draft_text.replace("[BUILD]", "")
+                    elif "[BUILD]" in draft_text and is_build_req:
                         is_build = True
                         text_task = asyncio.create_task(get_next_token())
                         continue
