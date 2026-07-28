@@ -1367,7 +1367,6 @@ IMPORTANT RULES:
 - **Agent Hand-off:** If they are asking to physically BUILD, CODE, or DEVELOP a full software project, return EXACTLY this format and nothing else:
 [BUILD] {{"goal": "The specific project they want", "agent_role": "Select the best role: Fullstack Web Developer, Machine Learning Engineer, Deep Learning Researcher, Data Scientist, Data Analyst, AI Systems Architect"}}
 [CRITICAL]: DO NOT use the [BUILD] tag for general questions, conceptual explanations, or small code snippets. If the user asks for an explanation (e.g., 'Explain sorting in DSA'), just answer them normally in chat!
-- **Memory System:** If the user explicitly shares a new personal fact about themselves, you MUST secretly append exactly `[MEMORY_ADD] <fact>` to the VERY END of your response.
 - **Location / Travel Queries:** If the user asks about a specific place, temple, city, or tourist destination (e.g. Sabarimala, Paris), you MUST structure your response with: 
   1. Overview
   2. Best time to visit and Activities to perform
@@ -1495,20 +1494,15 @@ IMPORTANT RULES:
                         first_token_yielded = True
                         yield f"data: {json.dumps({'type': 'telemetry', 'metrics': telemetry.get_metrics()})}\n\n"
                         
-                    # --- [MEMORY_ADD] STREAM FILTER ---
-                    memory_tag = "[MEMORY_ADD]"
-                    safe_to_yield_len = len(draft_text)
-                    for length in range(len(memory_tag), 0, -1):
-                        prefix = memory_tag[:length]
-                        if draft_text.endswith(prefix):
-                            safe_to_yield_len = len(draft_text) - length
-                            break
-                            
+                    # --- MEMORY TAG CLEANUP & STREAM FILTER ---
+                    import re
+                    # Strip any legacy "Memory Add" or "[MEMORY_ADD]" headers dynamically
+                    cleaned_draft = re.sub(r'(?i)(#*\s*Memory\s*Add.*|\[MEMORY_ADD\].*)$', '', draft_text, flags=re.DOTALL)
+                    
+                    safe_to_yield_len = len(cleaned_draft)
                     if safe_to_yield_len > yielded_len:
-                        token_to_send = draft_text[yielded_len:safe_to_yield_len]
+                        token_to_send = cleaned_draft[yielded_len:safe_to_yield_len]
                         yielded_len = safe_to_yield_len
-                        if "[MEMORY_ADD]" in token_to_send:
-                            token_to_send = token_to_send.split("[MEMORY_ADD]")[0]
                         if token_to_send:
                             yield f"data: {json.dumps({'type': 'chat', 'token': token_to_send})}\n\n"
                             
