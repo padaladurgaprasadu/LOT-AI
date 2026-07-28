@@ -2008,36 +2008,10 @@ function generateClientSideWebAppHTML(goal) {
             <div style={{ width: '100%', maxWidth: '800px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
               
               {chatMessages.length === 0 && step === 1 && (
-                <div style={{ textAlign: 'center', marginTop: '14vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                  <h2 style={{ fontSize: '2.2rem', marginBottom: '28px', fontWeight: '600', color: '#f1f5f9', letterSpacing: '-0.5px' }}>
+                <div style={{ textAlign: 'center', marginTop: '18vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <h2 style={{ fontSize: '2.2rem', marginBottom: '8px', fontWeight: '600', color: '#f1f5f9', letterSpacing: '-0.5px' }}>
                     Where should we begin?
                   </h2>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', justifyContent: 'center', maxWidth: '650px', marginTop: '12px' }}>
-                    <button 
-                      onClick={() => { setGoal("Build me a modern SaaS web application"); document.querySelector("textarea")?.focus(); }}
-                      style={{ backgroundColor: '#18181b', border: '1px solid #27272a', borderRadius: '12px', padding: '10px 16px', color: '#d4d4d8', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', transition: 'all 0.2s' }}
-                    >
-                      <span>💻</span> Write or edit code
-                    </button>
-                    <button 
-                      onClick={() => { setGoal("Generate a high quality corporate vector logo for PrismAI"); document.querySelector("textarea")?.focus(); }}
-                      style={{ backgroundColor: '#18181b', border: '1px solid #27272a', borderRadius: '12px', padding: '10px 16px', color: '#d4d4d8', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', transition: 'all 0.2s' }}
-                    >
-                      <span>🖼️</span> Create an image
-                    </button>
-                    <button 
-                      onClick={() => { setGoal("Search the web for the latest AI LLM benchmark models in 2026"); document.querySelector("textarea")?.focus(); }}
-                      style={{ backgroundColor: '#18181b', border: '1px solid #27272a', borderRadius: '12px', padding: '10px 16px', color: '#d4d4d8', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', transition: 'all 0.2s' }}
-                    >
-                      <span>🌐</span> Search the web
-                    </button>
-                    <button 
-                      onClick={() => { setGoal("Design a high-availability microservices system architecture diagram"); document.querySelector("textarea")?.focus(); }}
-                      style={{ backgroundColor: '#18181b', border: '1px solid #27272a', borderRadius: '12px', padding: '10px 16px', color: '#d4d4d8', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', transition: 'all 0.2s' }}
-                    >
-                      <span>🏛️</span> System architecture
-                    </button>
-                  </div>
                 </div>
               )}
 
