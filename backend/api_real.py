@@ -1414,6 +1414,7 @@ IMPORTANT RULES:
                 api_logger.info("Using Tier 2 (Smart LLM) for reasoning/coding latency.")
             
             first_token_yielded = False
+            yielded_len = 0
             draft_text = ""
             is_build = False
             buffer = ""
@@ -1488,7 +1489,23 @@ IMPORTANT RULES:
                         first_token_yielded = True
                         yield f"data: {json.dumps({'type': 'telemetry', 'metrics': telemetry.get_metrics()})}\n\n"
                         
-                    yield f"data: {json.dumps({'type': 'chat', 'token': text_chunk})}\n\n"
+                    # --- [MEMORY_ADD] STREAM FILTER ---
+                    memory_tag = "[MEMORY_ADD]"
+                    safe_to_yield_len = len(draft_text)
+                    for length in range(len(memory_tag), 0, -1):
+                        prefix = memory_tag[:length]
+                        if draft_text.endswith(prefix):
+                            safe_to_yield_len = len(draft_text) - length
+                            break
+                            
+                    if safe_to_yield_len > yielded_len:
+                        token_to_send = draft_text[yielded_len:safe_to_yield_len]
+                        yielded_len = safe_to_yield_len
+                        if "[MEMORY_ADD]" in token_to_send:
+                            token_to_send = token_to_send.split("[MEMORY_ADD]")[0]
+                        if token_to_send:
+                            yield f"data: {json.dumps({'type': 'chat', 'token': token_to_send})}\n\n"
+                            
                     text_task = asyncio.create_task(get_next_token())
                 
             if is_build:
