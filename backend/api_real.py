@@ -239,6 +239,53 @@ async def save_user_history(req: HistoryRequest, auth: dict = Depends(verify_tok
     finally:
         db.close()
 
+class UpgradeTierRequest(BaseModel):
+    tier: str # "pro" or "max"
+
+@app.get("/api/user/tier")
+async def get_user_tier(auth: dict = Depends(verify_token)):
+    from backend.db.database import SessionLocal
+    from backend.db.models import User
+    db = SessionLocal()
+    try:
+        email = auth.get("email")
+        if not email: return {"tier": "free", "daily_requests": 0, "max_requests": 30}
+        user = db.query(User).filter(User.email == email).first()
+        if not user:
+            return {"tier": "free", "daily_requests": 0, "max_requests": 30}
+        
+        tier = getattr(user, 'tier', 'free') or 'free'
+        max_reqs = 500 if tier == 'pro' else (999999 if tier == 'max' else 30)
+        return {
+            "tier": tier,
+            "daily_requests": getattr(user, 'daily_request_count', 0) or 0,
+            "max_requests": max_reqs
+        }
+    finally:
+        db.close()
+
+@app.post("/api/user/upgrade-tier")
+async def upgrade_user_tier(req: UpgradeTierRequest, auth: dict = Depends(verify_token)):
+    from backend.db.database import SessionLocal
+    from backend.db.models import User
+    db = SessionLocal()
+    try:
+        email = auth.get("email")
+        if not email: raise HTTPException(status_code=401, detail="Unauthorized")
+        user = db.query(User).filter(User.email == email).first()
+        if not user:
+            user = User(email=email, tier=req.tier)
+            db.add(user)
+        else:
+            user.tier = req.tier
+        db.commit()
+        return {"status": "success", "tier": req.tier, "message": f"Successfully upgraded to PrismAI {req.tier.upper()}!"}
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        db.close()
+
 class PlanRequest(BaseModel):
     goal: str
     agent_role: str = "Fullstack Web Developer"

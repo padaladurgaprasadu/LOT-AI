@@ -13,6 +13,9 @@ class User(Base):
     id = Column(String, primary_key=True, index=True, default=generate_uuid)
     email = Column(String, unique=True, index=True, nullable=False)
     hashed_password = Column(String, nullable=True) # Can be null if using OAuth/Supabase
+    tier = Column(String, default="free") # "free", "pro", "max"
+    daily_request_count = Column(Integer, default=0)
+    last_request_reset = Column(DateTime(timezone=True), server_default=func.now())
     chat_history = Column(JSON, nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     

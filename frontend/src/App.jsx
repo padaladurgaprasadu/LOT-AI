@@ -179,8 +179,10 @@ function App() {
   const [isPlanning, setIsPlanning] = useState(false)
   const [error, setError] = useState(null)
   
-  // Auth state
+  // Auth & Tier state
   const [session, setSession] = useState(null)
+  const [userTier, setUserTier] = useState('free') // 'free' | 'pro' | 'max'
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false)
   
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -195,6 +197,17 @@ function App() {
 
     return () => subscription.unsubscribe()
   }, [])
+
+  useEffect(() => {
+    if (session) {
+      fetch(`${API_URL}/api/user/tier`, {
+        headers: { 'Authorization': `Bearer ${session.access_token || 'mock-token-for-local-dev'}` }
+      })
+      .then(res => res.json())
+      .then(data => { if (data.tier) setUserTier(data.tier); })
+      .catch(() => {});
+    }
+  }, [session, API_URL])
   
   // Wizard state
   const [step, setStep] = useState(1) // 1: Prompt, 2: Review Blueprint, 3: Generation
@@ -1750,11 +1763,110 @@ function generateClientSideWebAppHTML(goal) {
             <img src={prismaiLogo} alt="PrismAI Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
           <h1 style={{ margin: 0, fontSize: '1.2rem', letterSpacing: '1px', fontWeight: '600' }}>PrismAI</h1>
+          <span style={{ 
+            fontSize: '0.75rem', 
+            fontWeight: 'bold', 
+            padding: '3px 8px', 
+            borderRadius: '6px', 
+            textTransform: 'uppercase',
+            backgroundColor: userTier === 'max' ? 'rgba(168, 85, 247, 0.2)' : userTier === 'pro' ? 'rgba(59, 130, 246, 0.2)' : 'rgba(255, 255, 255, 0.1)',
+            color: userTier === 'max' ? '#c084fc' : userTier === 'pro' ? '#60a5fa' : '#94a3b8',
+            border: `1px solid ${userTier === 'max' ? '#a855f7' : userTier === 'pro' ? '#3b82f6' : '#475569'}`
+          }}>
+            {userTier === 'max' ? '💎 MAX' : userTier === 'pro' ? '⚡ PRO' : 'FREE'}
+          </span>
         </div>
-        <div style={{ display: 'flex', gap: '12px' }}>
-          {/* Dashboard toggle removed per user request */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <button 
+            onClick={() => setShowUpgradeModal(true)} 
+            style={{ 
+              background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)', 
+              border: 'none', 
+              color: '#fff', 
+              padding: '6px 14px', 
+              borderRadius: '8px', 
+              fontSize: '0.85rem', 
+              fontWeight: '600', 
+              cursor: 'pointer',
+              boxShadow: '0 2px 10px rgba(139, 92, 246, 0.3)',
+              transition: 'transform 0.2s'
+            }}
+          >
+            Upgrade Plan 🚀
+          </button>
         </div>
       </header>
+
+      {/* UPGRADE PRICING MODAL */}
+      {showUpgradeModal && (
+        <div style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(8px)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px' }}>
+          <div style={{ backgroundColor: '#121212', border: '1px solid #2a2a2a', borderRadius: '16px', maxWidth: '850px', width: '100%', padding: '32px', position: 'relative', boxShadow: '0 20px 50px rgba(0,0,0,0.8)' }}>
+            <button onClick={() => setShowUpgradeModal(false)} style={{ position: 'absolute', top: '16px', right: '16px', background: 'none', border: 'none', color: '#888', fontSize: '1.5rem', cursor: 'pointer' }}>✕</button>
+            <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+              <h2 style={{ fontSize: '1.8rem', fontWeight: 'bold', margin: '0 0 8px 0', background: 'linear-gradient(135deg, #60a5fa, #c084fc)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Choose Your PrismAI Plan</h2>
+              <p style={{ color: '#94a3b8', margin: 0 }}>Unlock full multi-agent swarm power, zero latency streaming, and 3D WebGL generation.</p>
+            </div>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: '20px' }}>
+              {/* FREE TIER */}
+              <div style={{ backgroundColor: '#1a1a1a', border: '1px solid #2a2a2a', borderRadius: '12px', padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                <div>
+                  <h3 style={{ margin: '0 0 8px 0', fontSize: '1.2rem', color: '#e0e0e0' }}>Free</h3>
+                  <div style={{ fontSize: '1.8rem', fontWeight: 'bold', margin: '12px 0', color: '#fff' }}>$0 <span style={{ fontSize: '0.9rem', color: '#888' }}>/ mo</span></div>
+                  <ul style={{ paddingLeft: '18px', margin: '16px 0', color: '#94a3b8', fontSize: '0.85rem', lineHeight: '1.8' }}>
+                    <li>30 Queries / day</li>
+                    <li>Sub-150ms Instant Fast Model</li>
+                    <li>1 Active Project</li>
+                    <li>Basic WASM Preview</li>
+                  </ul>
+                </div>
+                <button onClick={() => handleUpgradeTier('free')} disabled={userTier === 'free'} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #333', backgroundColor: userTier === 'free' ? '#222' : '#333', color: userTier === 'free' ? '#666' : '#fff', cursor: userTier === 'free' ? 'default' : 'pointer' }}>
+                  {userTier === 'free' ? 'Current Plan' : 'Downgrade to Free'}
+                </button>
+              </div>
+
+              {/* PRO TIER */}
+              <div style={{ backgroundColor: '#161e2e', border: '2px solid #3b82f6', borderRadius: '12px', padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', position: 'relative' }}>
+                <div style={{ position: 'absolute', top: '-12px', right: '16px', backgroundColor: '#3b82f6', color: '#fff', fontSize: '0.7rem', fontWeight: 'bold', padding: '2px 8px', borderRadius: '12px' }}>POPULAR</div>
+                <div>
+                  <h3 style={{ margin: '0 0 8px 0', fontSize: '1.2rem', color: '#60a5fa' }}>⚡ Pro</h3>
+                  <div style={{ fontSize: '1.8rem', fontWeight: 'bold', margin: '12px 0', color: '#fff' }}>$29 <span style={{ fontSize: '0.9rem', color: '#888' }}>/ mo</span></div>
+                  <p style={{ fontSize: '0.75rem', color: '#64748b', margin: '-8px 0 12px 0' }}>Or ₹2,499 / month</p>
+                  <ul style={{ paddingLeft: '18px', margin: '16px 0', color: '#cbd5e1', fontSize: '0.85rem', lineHeight: '1.8' }}>
+                    <li>500 Queries / day</li>
+                    <li>Fast + DeepSeek Coding Model</li>
+                    <li>10 Active Projects</li>
+                    <li>3D WebGL Engine ✅</li>
+                    <li>30-Day Vector Memory</li>
+                  </ul>
+                </div>
+                <button onClick={() => handleUpgradeTier('pro')} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: 'none', backgroundColor: '#3b82f6', color: '#fff', fontWeight: 'bold', cursor: 'pointer' }}>
+                  {userTier === 'pro' ? 'Current Plan' : 'Upgrade to Pro ⚡'}
+                </button>
+              </div>
+
+              {/* MAX TIER */}
+              <div style={{ backgroundColor: '#21162e', border: '2px solid #a855f7', borderRadius: '12px', padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                <div>
+                  <h3 style={{ margin: '0 0 8px 0', fontSize: '1.2rem', color: '#c084fc' }}>💎 Max</h3>
+                  <div style={{ fontSize: '1.8rem', fontWeight: 'bold', margin: '12px 0', color: '#fff' }}>$99 <span style={{ fontSize: '0.9rem', color: '#888' }}>/ mo</span></div>
+                  <p style={{ fontSize: '0.75rem', color: '#64748b', margin: '-8px 0 12px 0' }}>Or ₹7,999 / month</p>
+                  <ul style={{ paddingLeft: '18px', margin: '16px 0', color: '#e9d5ff', fontSize: '0.85rem', lineHeight: '1.8' }}>
+                    <li>Unlimited Queries</li>
+                    <li>Full 37-Agent Swarm Matrix</li>
+                    <li>Unlimited Active Projects</li>
+                    <li>WASM + Docker Containers</li>
+                    <li>Permanent Vector Memory</li>
+                  </ul>
+                </div>
+                <button onClick={() => handleUpgradeTier('max')} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: 'none', backgroundColor: '#a855f7', color: '#fff', fontWeight: 'bold', cursor: 'pointer' }}>
+                  {userTier === 'max' ? 'Current Plan' : 'Upgrade to Max 💎'}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       
       {/* MAIN CONTENT AREA */}
       <div className="main-content-wrapper" style={{ display: 'flex', flex: 1, overflow: 'hidden', position: 'relative' }}>
