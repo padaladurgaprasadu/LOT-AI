@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import './App.css'
-import prismaiLogo from './assets/prismai_logo.jpg'
+import prismaiLogo from './assets/prismai_logo.png'
 import Auth from './components/Auth'
 import Chat from './components/Chat'
 import { supabase } from './lib/supabaseClient'
