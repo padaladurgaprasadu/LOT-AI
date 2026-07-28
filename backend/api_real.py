@@ -1035,6 +1035,16 @@ class ChatRequest(BaseModel):
 # Global BaseAgent Singleton for Sub-100ms Instant Responses
 global_base_agent = None
 
+@app.on_event("startup")
+async def startup_event():
+    global global_base_agent
+    try:
+        from backend.agents.base import BaseAgent
+        global_base_agent = BaseAgent()
+        print("⚡ [PrismAI Startup] Global BaseAgent pre-warmed & ready in memory!")
+    except Exception as e:
+        print("⚠️ [PrismAI Startup] Warning pre-warming BaseAgent:", e)
+
 @app.post("/api/chat")
 @limiter.limit("50/minute")
 async def ai_chat(request_data: ChatRequest, request: Request):
