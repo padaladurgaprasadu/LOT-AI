@@ -205,6 +205,8 @@ function App() {
       })
       .then(res => res.json())
       .then(data => { if (data.tier) setUserTier(data.tier); })
+      .catch(() => {});
+    }
   }, [session, API_URL])
 
   const handleUpgradeTier = async (newTier) => {
