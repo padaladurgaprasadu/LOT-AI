@@ -47,19 +47,40 @@ logger = get_logger(__name__)
 # MCP Tool Registry
 # ─────────────────────────────────────────────────────────────────────────────
 MCP_TOOL_REGISTRY = {
+    "context7": {
+        "description": "Context7: Real-time documentation lookup for modern libraries & frameworks",
+        "transport": "http",
+        "capabilities": ["fetch_docs", "search_api", "verify_syntax"],
+        "schema": {"library": "string", "query": "string"},
+        "rate_limit_rpm": 500,
+    },
     "filesystem": {
-        "description": "Read, write, list, delete files and directories",
+        "description": "Filesystem: Read, write, list, delete local files and workspace trees",
         "transport": "stdio",
         "capabilities": ["read", "write", "list", "delete"],
         "schema": {"action": "string", "path": "string", "content": "string?"},
         "rate_limit_rpm": 1000,
     },
     "github": {
-        "description": "GitHub API: repos, PRs, issues, commits, code search",
+        "description": "GitHub API: repos, PRs, issues, commits, code search, workflow dispatch",
         "transport": "http",
         "capabilities": ["read", "write", "search"],
         "schema": {"action": "string", "repo": "string", "payload": "object?"},
-        "rate_limit_rpm": 60,
+        "rate_limit_rpm": 100,
+    },
+    "playwright": {
+        "description": "Playwright Browser Automation: navigate, screenshot, E2E testing, visual critique",
+        "transport": "stdio",
+        "capabilities": ["navigate", "click", "screenshot", "extract", "e2e_test"],
+        "schema": {"action": "string", "url": "string?", "selector": "string?"},
+        "rate_limit_rpm": 200,
+    },
+    "sequential_thinking": {
+        "description": "Sequential Thinking Engine: structured multi-step reasoning & problem decomposition",
+        "transport": "stdio",
+        "capabilities": ["think_step", "revise_hypothesis", "plan_branches"],
+        "schema": {"thought": "string", "step_number": "integer", "is_revision": "boolean?"},
+        "rate_limit_rpm": 1000,
     },
     "browser": {
         "description": "Headless Chromium browser: navigate, click, screenshot, scrape",
