@@ -1803,8 +1803,8 @@ function generateClientSideWebAppHTML(goal) {
           <div style={{ backgroundColor: '#101216', border: '1px solid #2a2d36', borderRadius: '20px', maxWidth: '1050px', width: '100%', padding: '32px', position: 'relative', boxShadow: '0 25px 60px rgba(0,0,0,0.9)' }}>
             <button onClick={() => setShowUpgradeModal(false)} style={{ position: 'absolute', top: '20px', right: '20px', background: 'none', border: 'none', color: '#888', fontSize: '1.5rem', cursor: 'pointer' }}>✕</button>
             <div style={{ textAlign: 'center', marginBottom: '28px' }}>
-              <h2 style={{ fontSize: '2rem', fontWeight: '800', margin: '0 0 8px 0', background: 'linear-gradient(135deg, #60a5fa, #c084fc)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Choose Your PrismAI Sovereign Plan</h2>
-              <p style={{ color: '#94a3b8', margin: 0, fontSize: '0.95rem' }}>Outperforming ChatGPT at every tier with live WASM execution, 3D WebGL, and 37-agent swarms.</p>
+              <h2 style={{ fontSize: '2rem', fontWeight: '800', margin: '0 0 8px 0', background: 'linear-gradient(135deg, #60a5fa, #c084fc)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Choose Your PrismAI Plan</h2>
+              <p style={{ color: '#94a3b8', margin: 0, fontSize: '0.95rem' }}>Select the optimal power tier for your AI engineering, live compilation, and multi-agent workflows.</p>
             </div>
             
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))', gap: '16px' }}>
@@ -1812,7 +1812,7 @@ function generateClientSideWebAppHTML(goal) {
               <div style={{ backgroundColor: '#16181d', border: '1px solid #262930', borderRadius: '14px', padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 <div>
                   <h3 style={{ margin: '0 0 4px 0', fontSize: '1.15rem', color: '#e0e0e0' }}>Free</h3>
-                  <p style={{ fontSize: '0.75rem', color: '#64748b', margin: '0 0 12px 0' }}>See what PrismAI can do</p>
+                  <p style={{ fontSize: '0.75rem', color: '#64748b', margin: '0 0 12px 0' }}>Essential AI capabilities</p>
                   <div style={{ fontSize: '1.6rem', fontWeight: 'bold', margin: '8px 0', color: '#fff' }}>₹0 <span style={{ fontSize: '0.8rem', color: '#888' }}>/ month</span></div>
                   <ul style={{ paddingLeft: '16px', margin: '14px 0', color: '#94a3b8', fontSize: '0.8rem', lineHeight: '1.7' }}>
                     <li>30 Queries / day</li>
@@ -1830,7 +1830,7 @@ function generateClientSideWebAppHTML(goal) {
               <div style={{ backgroundColor: '#132219', border: '1px solid #22c55e', borderRadius: '14px', padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 <div>
                   <h3 style={{ margin: '0 0 4px 0', fontSize: '1.15rem', color: '#4ade80' }}>🚀 Go</h3>
-                  <p style={{ fontSize: '0.75rem', color: '#64748b', margin: '0 0 12px 0' }}>Beat ChatGPT Go (₹399)</p>
+                  <p style={{ fontSize: '0.75rem', color: '#64748b', margin: '0 0 12px 0' }}>Expanded access & 3D WebGL</p>
                   <div style={{ fontSize: '1.6rem', fontWeight: 'bold', margin: '8px 0', color: '#fff' }}>₹299 <span style={{ fontSize: '0.8rem', color: '#888' }}>/ month</span></div>
                   <ul style={{ paddingLeft: '16px', margin: '14px 0', color: '#bbf7d0', fontSize: '0.8rem', lineHeight: '1.7' }}>
                     <li>150 Queries / day</li>
@@ -1850,7 +1850,7 @@ function generateClientSideWebAppHTML(goal) {
                 <div style={{ position: 'absolute', top: '-10px', right: '14px', backgroundColor: '#3b82f6', color: '#fff', fontSize: '0.65rem', fontWeight: 'bold', padding: '2px 8px', borderRadius: '10px' }}>POPULAR</div>
                 <div>
                   <h3 style={{ margin: '0 0 4px 0', fontSize: '1.15rem', color: '#60a5fa' }}>⚡ Plus</h3>
-                  <p style={{ fontSize: '0.75rem', color: '#64748b', margin: '0 0 12px 0' }}>Beat ChatGPT Plus (₹1,999)</p>
+                  <p style={{ fontSize: '0.75rem', color: '#64748b', margin: '0 0 12px 0' }}>Full 37-Agent Swarm & IDE</p>
                   <div style={{ fontSize: '1.6rem', fontWeight: 'bold', margin: '8px 0', color: '#fff' }}>₹1,499 <span style={{ fontSize: '0.8rem', color: '#888' }}>/ month</span></div>
                   <ul style={{ paddingLeft: '16px', margin: '14px 0', color: '#cbd5e1', fontSize: '0.8rem', lineHeight: '1.7' }}>
                     <li>1,000 Queries / day</li>
@@ -1869,7 +1869,7 @@ function generateClientSideWebAppHTML(goal) {
               <div style={{ backgroundColor: '#211430', border: '2px solid #a855f7', borderRadius: '14px', padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 <div>
                   <h3 style={{ margin: '0 0 4px 0', fontSize: '1.15rem', color: '#c084fc' }}>👑 Pro</h3>
-                  <p style={{ fontSize: '0.75rem', color: '#64748b', margin: '0 0 12px 0' }}>Beat ChatGPT Pro (₹10,699)</p>
+                  <p style={{ fontSize: '0.75rem', color: '#64748b', margin: '0 0 12px 0' }}>Air-gapped executive suite</p>
                   <div style={{ fontSize: '1.6rem', fontWeight: 'bold', margin: '8px 0', color: '#fff' }}>₹7,999 <span style={{ fontSize: '0.8rem', color: '#888' }}>/ month</span></div>
                   <ul style={{ paddingLeft: '16px', margin: '14px 0', color: '#e9d5ff', fontSize: '0.8rem', lineHeight: '1.7' }}>
                     <li>Unlimited Queries</li>
