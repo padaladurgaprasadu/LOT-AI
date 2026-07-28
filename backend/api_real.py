@@ -266,6 +266,7 @@ async def get_user_tier(auth: dict = Depends(verify_token)):
         db.close()
 
 @app.post("/api/user/upgrade-tier")
+@app.post("/api/user/tier")
 async def upgrade_user_tier(req: UpgradeTierRequest, auth: dict = Depends(verify_token)):
     from backend.db.database import SessionLocal
     from backend.db.models import User

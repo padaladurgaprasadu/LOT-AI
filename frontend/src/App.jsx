@@ -205,9 +205,26 @@ function App() {
       })
       .then(res => res.json())
       .then(data => { if (data.tier) setUserTier(data.tier); })
-      .catch(() => {});
-    }
   }, [session, API_URL])
+
+  const handleUpgradeTier = async (newTier) => {
+    setUserTier(newTier);
+    setShowUpgradeModal(false);
+    try {
+      const res = await fetch(`${API_URL}/api/user/upgrade-tier`, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session?.access_token || 'mock-token-for-local-dev'}` 
+        },
+        body: JSON.stringify({ tier: newTier })
+      });
+      const data = await res.json();
+      console.log("Tier upgrade response:", data);
+    } catch(e) {
+      console.log("Tier updated locally to", newTier);
+    }
+  };
   
   // Wizard state
   const [step, setStep] = useState(1) // 1: Prompt, 2: Review Blueprint, 3: Generation
