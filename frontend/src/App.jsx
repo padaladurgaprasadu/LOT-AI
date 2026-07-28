@@ -1780,19 +1780,35 @@ function generateClientSideWebAppHTML(goal) {
           <button 
             onClick={() => setShowUpgradeModal(true)} 
             style={{ 
-              background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)', 
-              border: 'none', 
-              color: '#fff', 
+              backgroundColor: 'rgba(59, 130, 246, 0.08)', 
+              border: '1px solid rgba(59, 130, 246, 0.25)', 
+              color: '#93c5fd', 
               padding: '6px 14px', 
-              borderRadius: '8px', 
+              borderRadius: '20px', 
               fontSize: '0.85rem', 
-              fontWeight: '600', 
+              fontWeight: '500', 
               cursor: 'pointer',
-              boxShadow: '0 2px 10px rgba(139, 92, 246, 0.3)',
-              transition: 'transform 0.2s'
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              transition: 'all 0.2s ease',
+              backdropFilter: 'blur(4px)'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(59, 130, 246, 0.18)';
+              e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.45)';
+              e.currentTarget.style.color = '#bfdbfe';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(59, 130, 246, 0.08)';
+              e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.25)';
+              e.currentTarget.style.color = '#93c5fd';
             }}
           >
-            Upgrade Plan 🚀
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+            </svg>
+            <span>Upgrade</span>
           </button>
         </div>
       </header>
