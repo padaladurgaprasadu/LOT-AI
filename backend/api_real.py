@@ -1018,6 +1018,11 @@ async def stop_preview(project_id: str):
     
     return {"status": "stopped", "message": "Preview stopped successfully."}
 
+@app.get("/health")
+@app.get("/api/health")
+async def health_check():
+    return {"status": "healthy", "service": "PrismAI Core API", "timestamp": time.time()}
+
 class ChatRequest(BaseModel):
     message: str
     history: list = []
@@ -1026,10 +1031,10 @@ class ChatRequest(BaseModel):
     projectId: typing.Optional[str] = None
     web_search: bool = False
 
-@app.post("/api/chat")
 # Global BaseAgent Singleton for Sub-100ms Instant Responses
 global_base_agent = None
 
+@app.post("/api/chat")
 @limiter.limit("50/minute")
 async def ai_chat(request_data: ChatRequest, request: Request):
     from fastapi.responses import StreamingResponse

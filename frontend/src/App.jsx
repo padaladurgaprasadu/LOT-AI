@@ -168,8 +168,8 @@ const renderMessageContent = (content, onOpenArchitecture) => {
 };
 
 function App() {
-  // API_URL resolution (works for localhost and production)
-  const API_URL = import.meta.env.VITE_API_URL || window.location.origin;
+  // API_URL resolution (works for localhost dev server and production)
+  const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:8000' : window.location.origin);
   const WS_URL = API_URL.replace(/^http/, 'ws');
   
   const [activeView, setActiveView] = useState('workspace'); // 'workspace' | 'dashboards'
