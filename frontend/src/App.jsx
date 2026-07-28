@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import './App.css'
+import prismaiLogo from './assets/prismai_logo.jpg'
 import Auth from './components/Auth'
 import Chat from './components/Chat'
 import { supabase } from './lib/supabaseClient'
@@ -1746,7 +1747,7 @@ function generateClientSideWebAppHTML(goal) {
             ☰
           </button>
           <div style={{ width: '32px', height: '32px', borderRadius: '8px', overflow: 'hidden', display: 'flex', justifyContent: 'center', alignItems: 'center', border: '1px solid rgba(255,255,255,0.1)' }}>
-            <img src="/prismai_logo.jpg" alt="PrismAI Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <img src={prismaiLogo} alt="PrismAI Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
           <h1 style={{ margin: 0, fontSize: '1.2rem', letterSpacing: '1px', fontWeight: '600' }}>PrismAI</h1>
         </div>
