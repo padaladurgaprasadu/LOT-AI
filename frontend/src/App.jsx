@@ -599,20 +599,33 @@ function App() {
           setChatStatus("✨ Generating...");
       }, 3000);
 
-      const response = await fetch(`${API_URL}/api/chat`, {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${session?.access_token || 'mock-token-for-local-dev'}`
-        },
-        body: JSON.stringify(payload)
-      })
+      let response;
+      try {
+        response = await fetch(`${API_URL}/api/chat`, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session?.access_token || 'mock-token-for-local-dev'}`
+          },
+          body: JSON.stringify(payload)
+        });
+      } catch(primaryErr) {
+        console.warn("Primary API endpoint failed, trying direct localhost:8000 fallback...", primaryErr);
+        response = await fetch(`http://localhost:8000/api/chat`, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session?.access_token || 'mock-token-for-local-dev'}`
+          },
+          body: JSON.stringify(payload)
+        });
+      }
       
       clearTimeout(wakeTimer);
       
-      if (!response.ok) {
+      if (!response || !response.ok) {
         setIsChatLoading(false)
-        let errorDetail = `⚠️ Error: Could not connect to AI.`;
+        let errorDetail = `⚠️ Error: Could not connect to AI server on port 8000.`;
         try {
             const errData = await response.json();
             if (errData.detail) errorDetail = `⚠️ Error: ${errData.detail}`;
