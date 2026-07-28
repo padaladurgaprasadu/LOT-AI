@@ -1062,6 +1062,8 @@ async def ai_chat(request_data: ChatRequest, request: Request):
         
         try:
             start_time = time.time()
+            # ⚡ ZERO-LATENCY INSTANT FLUSH (Sub-5ms Network Connection)
+            yield f"data: {json.dumps({'type': 'status', 'message': ''})}\n\n"
             
             # === ZERO-LATENCY ITERATIVE REFINING MODE ===
             if request_data.projectId:
@@ -1145,21 +1147,6 @@ IMPORTANT RULES:
             # For general chat (even coding questions like "build a sorting algorithm"), we do NOT want to block on intent routing
             is_complex = any(sig in msg_lower for sig in build_signals) or msg_lower.startswith("/") or (request_data.image is not None)
             
-            # 🟢 PHASE 2: Ultra-Fast Memory & Conditional Routing
-            async def get_memory():
-                try:
-                    client = globals().get('global_chroma_client')
-                    if client:
-                        return await asyncio.to_thread(client.retrieve_memory, "default_user", sanitized_message)
-                    else:
-                        from backend.memory.chroma_client import ChromaClient
-                        return await asyncio.to_thread(ChromaClient().retrieve_memory, "default_user", sanitized_message)
-                except Exception as e:
-                    return "No past memory recorded yet."
-                    
-            memory_task = asyncio.create_task(get_memory())
-            intent_data = {}
-            
             # 🟢 PHASE 2: Sub-150ms Instant Local Intent Classification & Fast Memory Retrieval
             telemetry.mark("router_start")
             
@@ -1191,11 +1178,22 @@ IMPORTANT RULES:
                 "model_tier": tier
             }
 
-            # Non-blocking tight memory retrieval (50ms max timeout) to guarantee sub-300ms TTFT
-            try:
-                USER_MEMORY = await asyncio.wait_for(memory_task, timeout=0.05)
-            except Exception:
-                USER_MEMORY = ""
+            USER_MEMORY = ""
+            if is_complex and tier != "fast":
+                async def get_memory():
+                    try:
+                        client = globals().get('global_chroma_client')
+                        if client:
+                            return await asyncio.to_thread(client.retrieve_memory, "default_user", sanitized_message)
+                    except Exception:
+                        pass
+                    return ""
+                        
+                try:
+                    memory_task = asyncio.create_task(get_memory())
+                    USER_MEMORY = await asyncio.wait_for(memory_task, timeout=0.02)
+                except Exception:
+                    USER_MEMORY = ""
                 
             telemetry.record_duration("intent_routing_latency", 0.1)
             
