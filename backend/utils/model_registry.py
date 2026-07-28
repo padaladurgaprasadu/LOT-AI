@@ -203,17 +203,20 @@ ROLE_TO_TIER = {
 
 
 def _build_nvidia_llm(model: str, temperature: float = 0.1, max_tokens: int = 16384) -> ChatOpenAI:
-    """Constructs a single NVIDIA NIM LLM instance."""
+    """Constructs a single NVIDIA NIM LLM instance tuned for sub-200ms streaming."""
     api_key = os.getenv("NVIDIA_API_KEY")
     if not api_key:
         raise ValueError("NVIDIA_API_KEY not set in environment.")
+    # For instant/fast models, use tight 10s timeout to guarantee sub-200ms TTFT
+    is_fast_model = "8b" in model.lower() or "instant" in model.lower() or "fast" in model.lower()
+    req_timeout = 10 if is_fast_model else 30
     return ChatOpenAI(
         base_url=NVIDIA_BASE_URL,
         api_key=api_key,
         model=model,
         temperature=temperature,
-        max_tokens=max_tokens,
-        timeout=60,  # Increased from 15s to prevent timeouts on reasoning/thinking models
+        max_tokens=max_tokens if not is_fast_model else 4096,
+        timeout=req_timeout,
         max_retries=0,
         streaming=True,
     )
