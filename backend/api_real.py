@@ -1159,7 +1159,11 @@ IMPORTANT RULES:
             telemetry.mark("router_start")
             
             # Local Heuristic Intent Classification (< 0.1ms)
-            if any(w in msg_lower for w in ["build me", "create an app", "full stack", "dashboard app", "saas", "scaffold"]):
+            if any(w in msg_lower for w in ["presentation", "powerpoint", "pptx", "deck", "pdf report", "excel sheet", "mckinsey"]):
+                p_intent = "Presentation Generation"
+                comp = "Large"
+                tier = "reasoning"
+            elif any(w in msg_lower for w in ["build me", "create an app", "full stack", "dashboard app", "saas", "scaffold"]):
                 p_intent = "Website Development"
                 comp = "Large"
                 tier = "coding"
@@ -1167,7 +1171,7 @@ IMPORTANT RULES:
                 p_intent = "Architecture"
                 comp = "Large"
                 tier = "reasoning"
-            elif any(w in msg_lower for w in ["research", "security audit", "vulnerability"]):
+            elif any(w in msg_lower for w in ["research", "security audit", "vulnerability", "investigate", "report", "kimi"]):
                 p_intent = "Research"
                 comp = "Medium"
                 tier = "research"
