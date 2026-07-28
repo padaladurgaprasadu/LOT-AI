@@ -1769,11 +1769,11 @@ function generateClientSideWebAppHTML(goal) {
             padding: '3px 8px', 
             borderRadius: '6px', 
             textTransform: 'uppercase',
-            backgroundColor: userTier === 'max' ? 'rgba(168, 85, 247, 0.2)' : userTier === 'pro' ? 'rgba(59, 130, 246, 0.2)' : 'rgba(255, 255, 255, 0.1)',
-            color: userTier === 'max' ? '#c084fc' : userTier === 'pro' ? '#60a5fa' : '#94a3b8',
-            border: `1px solid ${userTier === 'max' ? '#a855f7' : userTier === 'pro' ? '#3b82f6' : '#475569'}`
+            backgroundColor: userTier === 'pro' ? 'rgba(168, 85, 247, 0.2)' : userTier === 'plus' ? 'rgba(59, 130, 246, 0.2)' : userTier === 'go' ? 'rgba(34, 197, 94, 0.2)' : 'rgba(255, 255, 255, 0.1)',
+            color: userTier === 'pro' ? '#c084fc' : userTier === 'plus' ? '#60a5fa' : userTier === 'go' ? '#4ade80' : '#94a3b8',
+            border: `1px solid ${userTier === 'pro' ? '#a855f7' : userTier === 'plus' ? '#3b82f6' : userTier === 'go' ? '#22c55e' : '#475569'}`
           }}>
-            {userTier === 'max' ? '💎 MAX' : userTier === 'pro' ? '⚡ PRO' : 'FREE'}
+            {userTier === 'pro' ? '👑 PRO' : userTier === 'plus' ? '⚡ PLUS' : userTier === 'go' ? '🚀 GO' : 'FREE'}
           </span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -1797,25 +1797,26 @@ function generateClientSideWebAppHTML(goal) {
         </div>
       </header>
 
-      {/* UPGRADE PRICING MODAL */}
+      {/* UPGRADE PRICING MODAL (ChatGPT Killer Matrix) */}
       {showUpgradeModal && (
-        <div style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(8px)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px' }}>
-          <div style={{ backgroundColor: '#121212', border: '1px solid #2a2a2a', borderRadius: '16px', maxWidth: '850px', width: '100%', padding: '32px', position: 'relative', boxShadow: '0 20px 50px rgba(0,0,0,0.8)' }}>
-            <button onClick={() => setShowUpgradeModal(false)} style={{ position: 'absolute', top: '16px', right: '16px', background: 'none', border: 'none', color: '#888', fontSize: '1.5rem', cursor: 'pointer' }}>✕</button>
-            <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-              <h2 style={{ fontSize: '1.8rem', fontWeight: 'bold', margin: '0 0 8px 0', background: 'linear-gradient(135deg, #60a5fa, #c084fc)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Choose Your PrismAI Plan</h2>
-              <p style={{ color: '#94a3b8', margin: 0 }}>Unlock full multi-agent swarm power, zero latency streaming, and 3D WebGL generation.</p>
+        <div style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(10px)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px' }}>
+          <div style={{ backgroundColor: '#101216', border: '1px solid #2a2d36', borderRadius: '20px', maxWidth: '1050px', width: '100%', padding: '32px', position: 'relative', boxShadow: '0 25px 60px rgba(0,0,0,0.9)' }}>
+            <button onClick={() => setShowUpgradeModal(false)} style={{ position: 'absolute', top: '20px', right: '20px', background: 'none', border: 'none', color: '#888', fontSize: '1.5rem', cursor: 'pointer' }}>✕</button>
+            <div style={{ textAlign: 'center', marginBottom: '28px' }}>
+              <h2 style={{ fontSize: '2rem', fontWeight: '800', margin: '0 0 8px 0', background: 'linear-gradient(135deg, #60a5fa, #c084fc)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Choose Your PrismAI Sovereign Plan</h2>
+              <p style={{ color: '#94a3b8', margin: 0, fontSize: '0.95rem' }}>Outperforming ChatGPT at every tier with live WASM execution, 3D WebGL, and 37-agent swarms.</p>
             </div>
             
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: '20px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))', gap: '16px' }}>
               {/* FREE TIER */}
-              <div style={{ backgroundColor: '#1a1a1a', border: '1px solid #2a2a2a', borderRadius: '12px', padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+              <div style={{ backgroundColor: '#16181d', border: '1px solid #262930', borderRadius: '14px', padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 <div>
-                  <h3 style={{ margin: '0 0 8px 0', fontSize: '1.2rem', color: '#e0e0e0' }}>Free</h3>
-                  <div style={{ fontSize: '1.8rem', fontWeight: 'bold', margin: '12px 0', color: '#fff' }}>$0 <span style={{ fontSize: '0.9rem', color: '#888' }}>/ mo</span></div>
-                  <ul style={{ paddingLeft: '18px', margin: '16px 0', color: '#94a3b8', fontSize: '0.85rem', lineHeight: '1.8' }}>
+                  <h3 style={{ margin: '0 0 4px 0', fontSize: '1.15rem', color: '#e0e0e0' }}>Free</h3>
+                  <p style={{ fontSize: '0.75rem', color: '#64748b', margin: '0 0 12px 0' }}>See what PrismAI can do</p>
+                  <div style={{ fontSize: '1.6rem', fontWeight: 'bold', margin: '8px 0', color: '#fff' }}>₹0 <span style={{ fontSize: '0.8rem', color: '#888' }}>/ month</span></div>
+                  <ul style={{ paddingLeft: '16px', margin: '14px 0', color: '#94a3b8', fontSize: '0.8rem', lineHeight: '1.7' }}>
                     <li>30 Queries / day</li>
-                    <li>Sub-150ms Instant Fast Model</li>
+                    <li>Sub-150ms Instant Model</li>
                     <li>1 Active Project</li>
                     <li>Basic WASM Preview</li>
                   </ul>
@@ -1825,42 +1826,61 @@ function generateClientSideWebAppHTML(goal) {
                 </button>
               </div>
 
-              {/* PRO TIER */}
-              <div style={{ backgroundColor: '#161e2e', border: '2px solid #3b82f6', borderRadius: '12px', padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', position: 'relative' }}>
-                <div style={{ position: 'absolute', top: '-12px', right: '16px', backgroundColor: '#3b82f6', color: '#fff', fontSize: '0.7rem', fontWeight: 'bold', padding: '2px 8px', borderRadius: '12px' }}>POPULAR</div>
+              {/* GO TIER */}
+              <div style={{ backgroundColor: '#132219', border: '1px solid #22c55e', borderRadius: '14px', padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 <div>
-                  <h3 style={{ margin: '0 0 8px 0', fontSize: '1.2rem', color: '#60a5fa' }}>⚡ Pro</h3>
-                  <div style={{ fontSize: '1.8rem', fontWeight: 'bold', margin: '12px 0', color: '#fff' }}>$29 <span style={{ fontSize: '0.9rem', color: '#888' }}>/ mo</span></div>
-                  <p style={{ fontSize: '0.75rem', color: '#64748b', margin: '-8px 0 12px 0' }}>Or ₹2,499 / month</p>
-                  <ul style={{ paddingLeft: '18px', margin: '16px 0', color: '#cbd5e1', fontSize: '0.85rem', lineHeight: '1.8' }}>
-                    <li>500 Queries / day</li>
-                    <li>Fast + DeepSeek Coding Model</li>
-                    <li>10 Active Projects</li>
+                  <h3 style={{ margin: '0 0 4px 0', fontSize: '1.15rem', color: '#4ade80' }}>🚀 Go</h3>
+                  <p style={{ fontSize: '0.75rem', color: '#64748b', margin: '0 0 12px 0' }}>Beat ChatGPT Go (₹399)</p>
+                  <div style={{ fontSize: '1.6rem', fontWeight: 'bold', margin: '8px 0', color: '#fff' }}>₹299 <span style={{ fontSize: '0.8rem', color: '#888' }}>/ month</span></div>
+                  <ul style={{ paddingLeft: '16px', margin: '14px 0', color: '#bbf7d0', fontSize: '0.8rem', lineHeight: '1.7' }}>
+                    <li>150 Queries / day</li>
                     <li>3D WebGL Engine ✅</li>
-                    <li>30-Day Vector Memory</li>
+                    <li>Voice AI Integration</li>
+                    <li>100k Context Memory</li>
+                    <li>5 Active Projects</li>
                   </ul>
                 </div>
-                <button onClick={() => handleUpgradeTier('pro')} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: 'none', backgroundColor: '#3b82f6', color: '#fff', fontWeight: 'bold', cursor: 'pointer' }}>
-                  {userTier === 'pro' ? 'Current Plan' : 'Upgrade to Pro ⚡'}
+                <button onClick={() => handleUpgradeTier('go')} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: 'none', backgroundColor: '#22c55e', color: '#fff', fontWeight: 'bold', cursor: 'pointer' }}>
+                  {userTier === 'go' ? 'Current Plan' : 'Upgrade to Go 🚀'}
                 </button>
               </div>
 
-              {/* MAX TIER */}
-              <div style={{ backgroundColor: '#21162e', border: '2px solid #a855f7', borderRadius: '12px', padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+              {/* PLUS TIER */}
+              <div style={{ backgroundColor: '#131e33', border: '2px solid #3b82f6', borderRadius: '14px', padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', position: 'relative' }}>
+                <div style={{ position: 'absolute', top: '-10px', right: '14px', backgroundColor: '#3b82f6', color: '#fff', fontSize: '0.65rem', fontWeight: 'bold', padding: '2px 8px', borderRadius: '10px' }}>POPULAR</div>
                 <div>
-                  <h3 style={{ margin: '0 0 8px 0', fontSize: '1.2rem', color: '#c084fc' }}>💎 Max</h3>
-                  <div style={{ fontSize: '1.8rem', fontWeight: 'bold', margin: '12px 0', color: '#fff' }}>$99 <span style={{ fontSize: '0.9rem', color: '#888' }}>/ mo</span></div>
-                  <p style={{ fontSize: '0.75rem', color: '#64748b', margin: '-8px 0 12px 0' }}>Or ₹7,999 / month</p>
-                  <ul style={{ paddingLeft: '18px', margin: '16px 0', color: '#e9d5ff', fontSize: '0.85rem', lineHeight: '1.8' }}>
-                    <li>Unlimited Queries</li>
+                  <h3 style={{ margin: '0 0 4px 0', fontSize: '1.15rem', color: '#60a5fa' }}>⚡ Plus</h3>
+                  <p style={{ fontSize: '0.75rem', color: '#64748b', margin: '0 0 12px 0' }}>Beat ChatGPT Plus (₹1,999)</p>
+                  <div style={{ fontSize: '1.6rem', fontWeight: 'bold', margin: '8px 0', color: '#fff' }}>₹1,499 <span style={{ fontSize: '0.8rem', color: '#888' }}>/ month</span></div>
+                  <ul style={{ paddingLeft: '16px', margin: '14px 0', color: '#cbd5e1', fontSize: '0.8rem', lineHeight: '1.7' }}>
+                    <li>1,000 Queries / day</li>
                     <li>Full 37-Agent Swarm Matrix</li>
-                    <li>Unlimited Active Projects</li>
-                    <li>WASM + Docker Containers</li>
-                    <li>Permanent Vector Memory</li>
+                    <li>In-Browser WebContainer IDE</li>
+                    <li>Self-Healing Code Interceptor</li>
+                    <li>30-Day Vector Memory</li>
                   </ul>
                 </div>
-                <button onClick={() => handleUpgradeTier('max')} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: 'none', backgroundColor: '#a855f7', color: '#fff', fontWeight: 'bold', cursor: 'pointer' }}>
-                  {userTier === 'max' ? 'Current Plan' : 'Upgrade to Max 💎'}
+                <button onClick={() => handleUpgradeTier('plus')} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: 'none', backgroundColor: '#3b82f6', color: '#fff', fontWeight: 'bold', cursor: 'pointer' }}>
+                  {userTier === 'plus' ? 'Current Plan' : 'Upgrade to Plus ⚡'}
+                </button>
+              </div>
+
+              {/* PRO TIER */}
+              <div style={{ backgroundColor: '#211430', border: '2px solid #a855f7', borderRadius: '14px', padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                <div>
+                  <h3 style={{ margin: '0 0 4px 0', fontSize: '1.15rem', color: '#c084fc' }}>👑 Pro</h3>
+                  <p style={{ fontSize: '0.75rem', color: '#64748b', margin: '0 0 12px 0' }}>Beat ChatGPT Pro (₹10,699)</p>
+                  <div style={{ fontSize: '1.6rem', fontWeight: 'bold', margin: '8px 0', color: '#fff' }}>₹7,999 <span style={{ fontSize: '0.8rem', color: '#888' }}>/ month</span></div>
+                  <ul style={{ paddingLeft: '16px', margin: '14px 0', color: '#e9d5ff', fontSize: '0.8rem', lineHeight: '1.7' }}>
+                    <li>Unlimited Queries</li>
+                    <li>100% Air-Gapped Privacy</li>
+                    <li>Docker Sandbox Execution</li>
+                    <li>Unlimited Swarm Rollouts</li>
+                    <li>Permanent AST Memory</li>
+                  </ul>
+                </div>
+                <button onClick={() => handleUpgradeTier('pro')} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: 'none', backgroundColor: '#a855f7', color: '#fff', fontWeight: 'bold', cursor: 'pointer' }}>
+                  {userTier === 'pro' ? 'Current Plan' : 'Upgrade to Pro 👑'}
                 </button>
               </div>
             </div>

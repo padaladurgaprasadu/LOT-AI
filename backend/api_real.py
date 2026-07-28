@@ -240,7 +240,7 @@ async def save_user_history(req: HistoryRequest, auth: dict = Depends(verify_tok
         db.close()
 
 class UpgradeTierRequest(BaseModel):
-    tier: str # "pro" or "max"
+    tier: str # "free", "go", "plus", "pro"
 
 @app.get("/api/user/tier")
 async def get_user_tier(auth: dict = Depends(verify_token)):
@@ -255,7 +255,8 @@ async def get_user_tier(auth: dict = Depends(verify_token)):
             return {"tier": "free", "daily_requests": 0, "max_requests": 30}
         
         tier = getattr(user, 'tier', 'free') or 'free'
-        max_reqs = 500 if tier == 'pro' else (999999 if tier == 'max' else 30)
+        req_limits = {"free": 30, "go": 150, "plus": 1000, "pro": 999999}
+        max_reqs = req_limits.get(tier, 30)
         return {
             "tier": tier,
             "daily_requests": getattr(user, 'daily_request_count', 0) or 0,
