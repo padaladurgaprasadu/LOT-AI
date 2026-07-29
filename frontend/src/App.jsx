@@ -865,7 +865,9 @@ function App() {
       const p = query.toLowerCase();
       let fallbackResponse = "";
 
-      if (p.includes("hello") || p.includes("hi") || p.includes("hey")) {
+      if (p.includes("who are you") || p.includes("what is your name") || p.includes("what are you") || p.includes("who made you")) {
+        fallbackResponse = "I am **PrismAI**, a Sovereign AI Engineering Assistant and Fullstack Platform engineered by Google DeepMind team. I operate on an 11-Model NVIDIA Liquid Router, 1,000-Agent Swarm Matrix, and Sovereign Silicon IP architecture. How can I assist you today?";
+      } else if (p.includes("hello") || p.includes("hi") || p.includes("hey")) {
         fallbackResponse = "Hello! I am **PrismAI**, your Sovereign AI Engineering Assistant. How can I empower your project today?";
       } else {
         try {
