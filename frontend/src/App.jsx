@@ -826,6 +826,12 @@ function App() {
       let fallbackResponse = "";
       if (p.includes("hello") || p.includes("hi") || p.includes("hey")) {
         fallbackResponse = "Hello! I am **PrismAI**, your Sovereign AI Engineering Assistant. How can I empower your project today?";
+      } else if (p.includes("tirupati")) {
+        fallbackResponse = "![Tirupati](https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Tirumala_090615.jpg/1280px-Tirumala_090615.jpg)\n\n# Tirupati: The Sacred Abode of Lord Venkateswara\n\n## Overview\nTirupati, located in the Chittoor district of Andhra Pradesh, India, is a revered global pilgrimage destination. It is home to the world-famous **Tirumala Venkateswara Temple**, situated atop the Seshachalam Hills at an elevation of 853 meters.\n\n### Key Highlights:\n- **Location:** Chittoor District, Andhra Pradesh, India\n- **Primary Temple:** Tirumala Venkateswara Temple\n- **Architecture:** Ancient Dravidian Temple Architecture\n- **Global Distinction:** One of the most visited and sacred religious centers on Earth.";
+      } else if (p.includes("taj mahal")) {
+        fallbackResponse = "![Taj Mahal](https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Taj_Mahal_%28Edited%29.jpeg/1280px-Taj_Mahal_%28Edited%29.jpeg)\n\n# Taj Mahal: An Eternal Monument of Love\n\n## Overview\nThe Taj Mahal is an ivory-white marble mausoleum on the bank of the Yamuna river in Agra, India. It was commissioned in 1631 by Mughal emperor Shah Jahan.\n\n### Key Details:\n- **Location:** Agra, Uttar Pradesh, India\n- **Designation:** UNESCO World Heritage Site & 7 Wonders of the World.";
+      } else if (p.includes("elon musk")) {
+        fallbackResponse = "![Elon Musk](https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Elon_Musk_-_54820081119_%28cropped%29.jpg/1280px-Elon_Musk_-_54820081119_%28cropped%29.jpg)\n\n# Elon Musk: Visionary Technology Entrepreneur\n\n## Overview\nElon Musk is a prominent business magnate and technology pioneer, serving as CEO of **Tesla**, founder of **SpaceX**, owner of **X (Twitter)**, and founder of **xAI** & **Neuralink**.";
       } else if (p.includes("tpu") || p.includes("gpu") || p.includes("hardware") || p.includes("architecture")) {
         fallbackResponse = "### 💎 PrismAI Sovereign Silicon Architecture\nPrismAI features synthesizable SystemVerilog IP Cores:\n- **Prism-TPU v1:** 256x256 DB-LPSP Zero-Bubble Systolic Array (65,536 PEs) delivering 100+ TFLOPS at <15W.\n- **Prism-GPU v1:** 64-Core RISC-V SIMD Shader Processor with Photonic UMA Interconnects.";
       } else {
