@@ -1413,6 +1413,9 @@ IMPORTANT RULES:
                     messages.append(AIMessage(content=content))
                     
             is_identity_query = any(k in sanitized_message.lower() for k in ["who are you", "what is your name", "who made you", "what is prismai", "what can you do", "who created you"])
+            
+            from backend.memory.intelligent_ui_rules import classify_content_type
+            content_type = classify_content_type(sanitized_message)
 
             if is_architecture_req:
                 formatting_reminder = "\n\n[CRITICAL REMINDER]: You MUST output EXACTLY the `<architecture>` JSON block. DO NOT write any markdown text. DO NOT generate ASCII art. ONLY output the `<architecture>` tags containing the JSON payload."
@@ -1420,14 +1423,37 @@ IMPORTANT RULES:
                 formatting_reminder = "\n\n[CRITICAL REMINDER]: The user wants to build a project. You MUST return EXACTLY the `[BUILD] {\"goal\": \"...\", \"agent_role\": \"...\"}` format and nothing else. DO NOT generate markdown lists or conversational text. Output ONLY the [BUILD] tag."
             elif is_identity_query:
                 formatting_reminder = "\n\n[SHORT & CLEAN IDENTITY DIRECTIVE]: Provide a SHORT, CRISP, CLEAN 1-section summary with MAX 3-4 bullet points. DO NOT generate multiple sections or dump internal tech stack modules!"
+            elif content_type == "Programming":
+                formatting_reminder = """\n\n[PROGRAMMING & CODE EXECUTION DIRECTIVE]:
+• DO NOT output hero images, image tags (![alt](url)), or non-technical headers (like Sacred Heritage or Visitor Guide).
+• Provide direct, expert technical explanations followed by FULL, COPYABLE syntax-highlighted code blocks (```python, ```javascript, etc.).
+• ALWAYS include an Expected Output block (` ```text `) right below each code example so the user sees the exact result.
+• Structure your response as:
+  # [Programming Topic Title]
+
+  ## Overview
+  Brief conceptual explanation...
+
+  ## Code Implementation
+  ```python
+  # Clean, copyable, production-ready code
+  ```
+
+  ### Expected Output
+  ```text
+  # Exact output of the code execution
+  ```
+
+  ## Key Usage & Best Practices
+  • **Tip 1:** Best practice point 1...
+  • **Tip 2:** Best practice point 2...
+"""
             else:
                 formatting_reminder = """\n\n[CONCISE & DISTINCT BULLET POINT MANDATE]:
 Structure your response into clean executive sections. 
 • Separate EVERY bullet point with a blank line so it renders as a distinct block.
 • ABSOLUTELY NO combining bullet points into a single continuous paragraph.
 • Every bullet point MUST be 1 short, crisp line (max 15-20 words per item).
-
-![Hero Image](url)
 
 # [Title]
 
@@ -1442,12 +1468,6 @@ Structure your response into clean executive sections.
 • Short historical origin detail...
 
 • Short milestone detail...
-
-## Architectural & Cultural Significance
-
-• Short architectural style detail...
-
-• Short cultural significance detail...
 
 ## Key Information & Visitor Guide
 
@@ -1472,8 +1492,8 @@ Structure your response into clean executive sections.
             # Clear status indicator
             yield f"data: {json.dumps({'type': 'status', 'message': ''})}\n\n"
 
-            # 🖼️ SMART MEDIA EMBEDDER: Fetch official Wikimedia/Wikipedia image for places & people queries
-            if not is_build_req and not is_architecture_req and len(sanitized_message.strip()) > 2:
+            # 🖼️ SMART MEDIA EMBEDDER: Fetch official Wikimedia/Wikipedia image for places & people queries ONLY
+            if content_type != "Programming" and not is_identity_query and not is_build_req and not is_architecture_req and len(sanitized_message.strip()) > 2:
                 try:
                     from backend.utils.media_fetcher import fetch_wikimedia_image
                     wiki_img = fetch_wikimedia_image(sanitized_message.strip())
