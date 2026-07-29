@@ -115,17 +115,20 @@ const ImageBlock = ({ node, ...props }) => {
 };
 
 const renderMessageContent = (content, onOpenArchitecture) => {
-  if (!content.includes('<architecture>')) {
+  // Strip all markdown image tags (![alt](url)) to guarantee clean professional text responses
+  const cleanContent = (content || "").replace(/!\[.*?\]\(.*?\)/g, '').trim();
+
+  if (!cleanContent.includes('<architecture>')) {
       return (
           <div className="markdown-body" onClick={handleMarkdownClick}>
-              <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={{ code: CodeBlock, img: ImageBlock }}>
-                  {content}
+              <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={{ code: CodeBlock }}>
+                  {cleanContent}
               </ReactMarkdown>
           </div>
       );
   }
   
-  const parts = content.split(/(<architecture>[\s\S]*?(?:<\/architecture>|$))/);
+  const parts = cleanContent.split(/(<architecture>[\s\S]*?(?:<\/architecture>|$))/);
   return parts.map((part, i) => {
       if (part.startsWith('<architecture>')) {
           if (part.endsWith('</architecture>')) {
@@ -169,7 +172,7 @@ const renderMessageContent = (content, onOpenArchitecture) => {
       if (!part.trim()) return null;
       return (
           <div key={i} className="markdown-body" onClick={handleMarkdownClick}>
-              <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={{ code: CodeBlock, img: ImageBlock }}>
+              <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={{ code: CodeBlock }}>
                   {part}
               </ReactMarkdown>
           </div>
