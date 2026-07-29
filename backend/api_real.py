@@ -1467,10 +1467,12 @@ IMPORTANT RULES:
             from backend.memory.impeccable_design_engine import inject_impeccable_design_prompt
             from backend.memory.open_design_matrix import inject_open_design_prompt
             from backend.memory.grok_build_engine import inject_grok_build_prompt
+            from backend.memory.chrome_quality_engine import inject_chrome_quality_prompt
 
             system_prompt = inject_impeccable_design_prompt(system_prompt)
             system_prompt = inject_open_design_prompt(system_prompt)
             system_prompt = inject_grok_build_prompt(system_prompt)
+            system_prompt = inject_chrome_quality_prompt(system_prompt)
 
             messages = [SystemMessage(content=system_prompt)]
             for msg in request_data.history:
