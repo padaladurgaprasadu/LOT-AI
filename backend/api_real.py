@@ -1414,20 +1414,28 @@ IMPORTANT RULES:
             elif is_build_req:
                 formatting_reminder = "\n\n[CRITICAL REMINDER]: The user wants to build a project. You MUST return EXACTLY the `[BUILD] {\"goal\": \"...\", \"agent_role\": \"...\"}` format and nothing else. DO NOT generate markdown lists or conversational text. Output ONLY the [BUILD] tag."
             else:
-                formatting_reminder = """\n\n[MANDATORY EXECUTIVE STRUCTURE DIRECTIVE]:
-Structure your response into 4 clean executive sections with bullet points (•):
+                formatting_reminder = """\n\n[EXHAUSTIVE KNOWLEDGE & ENTITY SCHEMA DIRECTIVE]:
+When providing structured guides for places, temples, landmarks, or entities, incorporate these comprehensive sections with clean bullet points (•):
 
-## Executive Overview
-• High-level summary and core significance.
+# [Title]
 
-## History & Heritage
-• Historical background, origins, and key milestones.
+## Overview & Quick Summary
+• **Overview:** High-level description, location, and core significance.
+• **Quick Summary:** Essential 1-line summary.
 
-## Architectural & Cultural Significance
-• Architectural features, core principles, and technical specifications.
+## History, Mythology & Deity
+• **History & Heritage:** Historical background, origins, and milestones.
+• **Religious Significance & Deity:** Presiding deity, mythology, and spiritual importance.
 
-## Key Information & Visitor Guide
-• Essential details, timings, highlights, and operational guide.
+## Architecture, Facts & Conservation
+• **Architecture:** Structural style, gopurams, and artistic design.
+• **Interesting Facts & Conservation:** Unique facts and preservation details.
+
+## Travel Guide, Timings, Festivals & FAQs
+• **Timings & Best Time:** Daily opening/closing hours, darshan schedules, and ideal months.
+• **Festivals & Pilgrimage:** Annual celebrations and pilgrimage guidelines.
+• **Travel Info & Nearby Places:** Transport connectivity and nearby attractions.
+• **FAQs & Summary:** Common questions, visitor tips, and final summary.
 """
                         
             if request_data.image:
