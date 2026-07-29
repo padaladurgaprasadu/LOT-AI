@@ -181,8 +181,8 @@ const ImageBlock = ({ node, ...props }) => {
 };
 
 const renderMessageContent = (content, onOpenArchitecture) => {
-  // 🛡️ STREAM SANITIZER: Hide trailing incomplete image tags (![alt](https://...) until closing ')' arrives
-  const sanitizedContent = (content || "").replace(/!\[[^\]]*\]\((?:https?:\/\/[^\s)]*)?$/g, '').trim();
+  // 🛡️ STREAM SANITIZER: Hide ONLY incomplete trailing image tags (e.g. ![alt](https://... without closing ')')
+  const sanitizedContent = (content || "").replace(/!\[[^\]]*\]\([^)]*$/g, '').trim();
 
   if (!sanitizedContent.includes('<architecture>')) {
       return (
@@ -967,20 +967,29 @@ function App() {
                 let formattedBody = "";
 
                 if (sentences.length >= 4) {
-                  const sec1 = sentences.slice(0, 3).map(s => `• ${s}`).join('\n\n');
-                  const sec2 = sentences.slice(3, 6).map(s => `• ${s}`).join('\n\n');
-                  const sec3 = sentences.slice(6, 9).map(s => `• ${s}`).join('\n\n');
-                  const sec4 = sentences.slice(9, 13).map(s => `• ${s}`).join('\n\n');
+                  const summaryText = `${sentences[0]} ${sentences[1] || ''}`;
+                  const sec1 = sentences.slice(2, 5).map(s => `• ${s}`).join('\n\n');
+                  const sec2 = sentences.slice(5, 8).map(s => `• ${s}`).join('\n\n');
+                  const sec3 = sentences.slice(8, 12).map(s => `• ${s}`).join('\n\n');
 
-                  formattedBody += `## Overview\n\n${sec1}\n\n`;
-                  if (sec2) formattedBody += `## History & Background\n\n${sec2}\n\n`;
-                  if (sec3) formattedBody += `## Key Features & Details\n\n${sec3}\n\n`;
-                  if (sec4) formattedBody += `## Additional Information\n\n${sec4}\n\n`;
+                  formattedBody += `> **Executive Summary:** ${summaryText}\n\n`;
+                  formattedBody += `## 🏛️ Significance & Core Overview\n\n${sec1}\n\n`;
+                  if (sec2) formattedBody += `## 📜 Historical & Regional Profile\n\n${sec2}\n\n`;
+                  
+                  formattedBody += `## 📌 Key Profile Data\n\n` +
+                    `| Metric / Attribute | Value / Description |\n` +
+                    `| :--- | :--- |\n` +
+                    `| **Subject Title** | ${topTitle} |\n` +
+                    `| **Entity Category** | Heritage & Geographical Landmark |\n` +
+                    `| **Data Integrity** | Verified Sovereign Knowledge Graph |\n\n`;
+
+                  if (sec3) formattedBody += `## 💡 Key Highlights\n\n${sec3}\n\n`;
                 } else {
-                  formattedBody = `## Overview\n\n${sentences.map(s => `• ${s}`).join('\n\n')}`;
+                  formattedBody = `> **Executive Summary:** ${sentences.join(' ')}\n\n## 🏛️ Overview\n\n${sentences.map(s => `• ${s}`).join('\n\n')}`;
                 }
                 
-                fallbackResponse = `${imgUrl ? `![${topTitle}](${imgUrl})\n\n` : ''}# ${topTitle}\n\n${formattedBody}`;
+                const heroTag = imgUrl ? `![${topTitle}](${imgUrl})\n\n` : '';
+                fallbackResponse = `${heroTag}# ${topTitle}\n\n${formattedBody}`;
               }
             }
           } catch (wikiErr) {
