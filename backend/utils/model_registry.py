@@ -41,47 +41,47 @@ NVIDIA_MODEL_TIERS = {
     # 🏎️ FAST — Docs, summaries, deployment configs, fast code snippets
     "fast": "meta/llama-3.1-8b-instruct",
 
-    # 💻 CODING — DeepSeek V4 Flash / Llama 3.3 70B
-    "coding": "deepseek-ai/deepseek-v4-flash",
+    # 💻 CODING — Llama 3.3 70B Instruct
+    "coding": "meta/llama-3.3-70b-instruct",
 
-    # 🏗️ PLANNING — Nemotron Ultra 253B / 550B
-    "planning": "nvidia/llama-3.1-nemotron-ultra-253b-v1",
+    # 🏗️ PLANNING — Llama 3.3 70B Instruct
+    "planning": "meta/llama-3.3-70b-instruct",
 
-    # 🧠 REASONING — Nemotron 550B Hybrid Mamba-MoE
-    "reasoning": "nvidia/nemotron-3-ultra-550b-a55b",
+    # 🧠 REASONING — Llama 3.3 70B Instruct
+    "reasoning": "meta/llama-3.3-70b-instruct",
 
-    # 🔬 RESEARCH — DeepSeek V4 Pro (1M Context)
-    "research": "deepseek-ai/deepseek-v4-pro",
+    # 🔬 RESEARCH — Llama 3.3 70B Instruct
+    "research": "meta/llama-3.3-70b-instruct",
 
     # 👁️ VISION — Llama 3.2 90B Vision
     "vision": "meta/llama-3.2-90b-vision-instruct",
 
-    # 🖼️ MULTIMODAL — MiniMax M3 Vision-Language Flagship
-    "multimodal": "minimaxai/minimax-m3",
+    # 🖼️ MULTIMODAL — Llama 3.2 90B Vision
+    "multimodal": "meta/llama-3.2-90b-vision-instruct",
 
-    # 📚 LONGCTX — Gemma 4 31B IT
-    "longctx": "google/gemma-4-31b-it",
+    # 📜 LONGCTX — Llama 3.3 70B Instruct
+    "longctx": "meta/llama-3.3-70b-instruct",
 
-    # ⚙️ MOE_CHAT — Mistral Medium 3.5 128B
-    "moe_chat": "mistralai/mistral-medium-3.5-128b",
+    # 💬 MOE_CHAT — Llama 3.3 70B Instruct
+    "moe_chat": "meta/llama-3.3-70b-instruct",
 
-    # 🚀 FRONTIER — Z-AI GLM 5.2 Flagship Agentic LLM
-    "frontier": "z-ai/glm-5.2",
+    # 👑 FRONTIER — Llama 3.3 70B Instruct
+    "frontier": "meta/llama-3.3-70b-instruct",
 
-    # ⚡ GPT-7 REASONING ENGINE — Extended Thinking 550B Hybrid Mamba-MoE
-    "gpt7_reasoning": "nvidia/nemotron-3-ultra-550b-a55b",
+    # ⚡ REASONING TIER — Nemotron 70B
+    "gpt7_reasoning": "nvidia/llama-3.1-nemotron-70b-instruct",
 
-    # 📚 KIMI K5 ULTRA-LONG CONTEXT ENGINE — DeepSeek V4 Pro 1M Context
-    "kimi_k5_longctx": "deepseek-ai/deepseek-v4-pro",
+    # 📚 LONG CONTEXT TIER — Llama 3.3 70B
+    "kimi_k5_longctx": "meta/llama-3.3-70b-instruct",
 
-    # ⚡ GEMINI FLASH 5 ENGINE — Ultra-Fast Llama 3.1 8B
+    # ⚡ FLASH TIER — Llama 3.1 8B
     "gemini_flash5": "meta/llama-3.1-8b-instruct",
 
-    # 🌐 GLM-5.2 — Z.ai Flagship Agentic LLM for Long-Horizon Coding & Reasoning
-    "glm_5_2": "z-ai/glm-5.2",
+    # 🌐 GLM TIER — Llama 3.3 70B
+    "glm_5_2": "meta/llama-3.3-70b-instruct",
 
-    # ⚡ MISTRAL MEDIUM 3.5 — 128K Context Fast Reasoning Engine
-    "mistral_medium": "mistralai/mistral-medium-3.5-128b",
+    # ⚡ MISTRAL TIER — Llama 3.3 70B
+    "mistral_medium": "meta/llama-3.3-70b-instruct"
 }
 
 # ═══════════════════════════════════════════════════════════════

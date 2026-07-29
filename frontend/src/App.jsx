@@ -861,7 +861,33 @@ function App() {
       const p = query.toLowerCase();
       let fallbackResponse = "";
 
-      if (p.includes("who are you") || p.includes("what is your name") || p.includes("what are you") || p.includes("who made you")) {
+      if (p.includes("architecture") || p.includes("system design") || p.includes("draw an architecture")) {
+        fallbackResponse = `<architecture>
+{
+  "title": "Library Management System Architecture",
+  "overview": "High-availability, event-driven microservices architecture designed for automated cataloging, patron book lending, digital reservations, and real-time inventory synchronization.",
+  "nodes": [
+    { "id": "client_web", "label": "Web & Mobile Client (React / Native)", "type": "frontend" },
+    { "id": "api_gateway", "label": "API Gateway (FastAPI / NGINX)", "type": "gateway" },
+    { "id": "auth_service", "label": "Auth & User Service (OAuth2 / JWT)", "type": "service" },
+    { "id": "catalog_service", "label": "Catalog & Search Service (Elasticsearch)", "type": "service" },
+    { "id": "lending_service", "label": "Lending & Reservation Service", "type": "service" },
+    { "id": "notification_service", "label": "Notification Service (Redis / WebSockets)", "type": "service" },
+    { "id": "primary_db", "label": "PostgreSQL Database (Primary Cluster)", "type": "database" },
+    { "id": "cache_layer", "label": "Redis In-Memory Cache", "type": "cache" }
+  ],
+  "edges": [
+    { "from": "client_web", "to": "api_gateway", "label": "HTTPS / WSS" },
+    { "from": "api_gateway", "to": "auth_service", "label": "gRPC Auth Verification" },
+    { "from": "api_gateway", "to": "catalog_service", "label": "REST Search Requests" },
+    { "from": "api_gateway", "to": "lending_service", "label": "REST Book Checkout / Return" },
+    { "from": "lending_service", "to": "primary_db", "label": "ACID Transactions" },
+    { "from": "lending_service", "to": "cache_layer", "label": "Cache Invalidation" },
+    { "from": "lending_service", "to": "notification_service", "label": "Pub/Sub Overdue Alerts" }
+  ]
+}
+</architecture>`;
+      } else if (p.includes("who are you") || p.includes("what is your name") || p.includes("what are you") || p.includes("who made you")) {
         fallbackResponse = "I am **PrismAI**, a Sovereign AI Engineering Assistant and Fullstack Platform. How can I assist you today?";
       } else if (p.includes("hello") || p.includes("hi") || p.includes("hey")) {
         fallbackResponse = "Hello! I am **PrismAI**, your Sovereign AI Engineering Assistant. How can I empower your project today?";
