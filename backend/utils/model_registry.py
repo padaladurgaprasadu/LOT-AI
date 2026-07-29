@@ -68,8 +68,11 @@ NVIDIA_MODEL_TIERS = {
     # 📚 11. Gemma 4 31B IT (Dense 31B Frontier Reasoning)
     "gemma_4": "google/gemma-4-31b-it",
 
+    # ⚡ 12. Nemotron-3 Nano 30B (Sub-50ms 262K MoE Tool & Intent Router)
+    "nemotron_nano": "nvidia/nemotron-3-nano-30b-a3b",
+
     # Standard Fallback Tiers mapped to NVIDIA NIM API Catalog
-    "instant": "meta/llama-3.1-8b-instruct",
+    "instant": "nvidia/nemotron-3-nano-30b-a3b",
     "fast": "meta/llama-3.1-8b-instruct",
     "coding": "deepseek-ai/deepseek-v4-pro",
     "planning": "nvidia/nemotron-3-ultra-550b-a55b",
