@@ -1540,14 +1540,17 @@ Structure your response into clean executive sections:
             # Clear status indicator
             yield f"data: {json.dumps({'type': 'status', 'message': ''})}\n\n"
 
-            # 🖼️ SMART MEDIA EMBEDDER: Fetch official Wikimedia/Wikipedia image for places & people queries ONLY
+            # 🖼️ SMART MEDIA EMBEDDER: Fetch official Wikimedia/Wikipedia image for places, landmarks, people & subjects
             if content_type != "Programming" and not is_identity_query and not is_build_req and not is_architecture_req and len(sanitized_message.strip()) > 2:
                 try:
                     from backend.utils.media_fetcher import fetch_wikimedia_image
                     wiki_img = fetch_wikimedia_image(sanitized_message.strip())
                     if wiki_img:
-                        img_token = f"![{sanitized_message.strip()}]({wiki_img})\n\n"
-                        yield f"data: {json.dumps({'token': img_token})}\n\n"
+                        # Yield type visual for hero card at top of context
+                        yield f"data: {json.dumps({'type': 'visual', 'url': wiki_img, 'alt': sanitized_message.strip(), 'media_type': 'image'})}\n\n"
+                        # Yield type chat for markdown image tag at top of text response
+                        img_markdown = f"![{sanitized_message.strip()}]({wiki_img})\n\n"
+                        yield f"data: {json.dumps({'type': 'chat', 'token': img_markdown})}\n\n"
                 except Exception as img_err:
                     api_logger.warning(f"Media fetcher skipped: {img_err}")
             
