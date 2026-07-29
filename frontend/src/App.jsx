@@ -861,29 +861,33 @@ function App() {
       const p = query.toLowerCase();
       let fallbackResponse = "";
 
-      if (p.includes("architecture") || p.includes("system design") || p.includes("draw an architecture")) {
+      if (p.includes("architecture") || p.includes("system design") || p.includes("draw an architecture") || p.includes("diagram")) {
+        const topicRaw = userMessage.replace(/draw|an|architecture|diagram|to|build|system|for|management/gi, '').trim() || "Restaurant Management";
+        const topic = topicRaw.charAt(0).toUpperCase() + topicRaw.slice(1);
+        const cleanTitle = `${topic} System Architecture`;
+        
         fallbackResponse = `<architecture>
 {
-  "title": "Library Management System Architecture",
-  "overview": "High-availability, event-driven microservices architecture designed for automated cataloging, patron book lending, digital reservations, and real-time inventory synchronization.",
+  "title": "${cleanTitle}",
+  "overview": "High-availability, event-driven microservices architecture designed for ${topic} with automated load balancing, distributed caching, secure authentication, and real-time data persistence.",
   "nodes": [
-    { "id": "client_web", "label": "Web & Mobile Client (React / Native)", "type": "frontend" },
-    { "id": "api_gateway", "label": "API Gateway (FastAPI / NGINX)", "type": "gateway" },
-    { "id": "auth_service", "label": "Auth & User Service (OAuth2 / JWT)", "type": "service" },
-    { "id": "catalog_service", "label": "Catalog & Search Service (Elasticsearch)", "type": "service" },
-    { "id": "lending_service", "label": "Lending & Reservation Service", "type": "service" },
-    { "id": "notification_service", "label": "Notification Service (Redis / WebSockets)", "type": "service" },
-    { "id": "primary_db", "label": "PostgreSQL Database (Primary Cluster)", "type": "database" },
-    { "id": "cache_layer", "label": "Redis In-Memory Cache", "type": "cache" }
+    { "id": "client_app", "label": "Client Web & Mobile App (React / Tailwind)", "type": "frontend" },
+    { "id": "api_gateway", "label": "API Gateway & Load Balancer (NGINX / FastAPI)", "type": "gateway" },
+    { "id": "auth_service", "label": "Auth & Session Service (OAuth2 / JWT)", "type": "service" },
+    { "id": "core_service", "label": "Core ${topic} Business Logic Engine", "type": "service" },
+    { "id": "analytics_service", "label": "Analytics & Reporting Service", "type": "service" },
+    { "id": "notification_service", "label": "Real-Time Notification Worker (Redis Pub/Sub)", "type": "service" },
+    { "id": "primary_db", "label": "PostgreSQL Primary Cluster (ACID Storage)", "type": "database" },
+    { "id": "cache_layer", "label": "Redis Distributed In-Memory Cache", "type": "cache" }
   ],
   "edges": [
-    { "from": "client_web", "to": "api_gateway", "label": "HTTPS / WSS" },
-    { "from": "api_gateway", "to": "auth_service", "label": "gRPC Auth Verification" },
-    { "from": "api_gateway", "to": "catalog_service", "label": "REST Search Requests" },
-    { "from": "api_gateway", "to": "lending_service", "label": "REST Book Checkout / Return" },
-    { "from": "lending_service", "to": "primary_db", "label": "ACID Transactions" },
-    { "from": "lending_service", "to": "cache_layer", "label": "Cache Invalidation" },
-    { "from": "lending_service", "to": "notification_service", "label": "Pub/Sub Overdue Alerts" }
+    { "from": "client_app", "to": "api_gateway", "label": "HTTPS / Secure WSS" },
+    { "from": "api_gateway", "to": "auth_service", "label": "Token Validation" },
+    { "from": "api_gateway", "to": "core_service", "label": "REST / gRPC Requests" },
+    { "from": "api_gateway", "to": "analytics_service", "label": "Telemetry Logs" },
+    { "from": "core_service", "to": "primary_db", "label": "Read/Write Queries" },
+    { "from": "core_service", "to": "cache_layer", "label": "In-Memory Caching" },
+    { "from": "core_service", "to": "notification_service", "label": "Async Event Queue" }
   ]
 }
 </architecture>`;

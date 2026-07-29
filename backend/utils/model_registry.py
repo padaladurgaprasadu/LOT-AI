@@ -199,24 +199,33 @@ ROLE_TO_TIER = {
 }
 
 
-def _build_nvidia_llm(model: str, temperature: float = 0.1, max_tokens: int = 16384) -> ChatOpenAI:
-    """Constructs a single NVIDIA NIM LLM instance tuned for sub-200ms streaming."""
+def _build_nvidia_llm(model: str, temperature: float = 0.1, max_tokens: int = 16384):
+    """Constructs a single NVIDIA NIM LLM instance with robust fallback chains."""
     api_key = os.getenv("NVIDIA_API_KEY")
     if not api_key:
         raise ValueError("NVIDIA_API_KEY not set in environment.")
-    # For instant/fast models, use tight 10s timeout to guarantee sub-200ms TTFT
-    is_fast_model = "8b" in model.lower() or "instant" in model.lower() or "fast" in model.lower()
-    req_timeout = 10 if is_fast_model else 30
-    return ChatOpenAI(
+    
+    primary = ChatOpenAI(
         base_url=NVIDIA_BASE_URL,
         api_key=api_key,
         model=model,
         temperature=temperature,
-        max_tokens=max_tokens if not is_fast_model else 4096,
-        timeout=req_timeout,
-        max_retries=0,
+        max_tokens=max_tokens,
+        timeout=30,
+        max_retries=2,
         streaming=True,
     )
+    fallback = ChatOpenAI(
+        base_url=NVIDIA_BASE_URL,
+        api_key=api_key,
+        model="meta/llama-3.3-70b-instruct",
+        temperature=temperature,
+        max_tokens=max_tokens,
+        timeout=30,
+        max_retries=2,
+        streaming=True,
+    )
+    return primary.with_fallbacks([fallback])
 
 
 class AIModelRegistry:
