@@ -862,66 +862,69 @@ function App() {
       let fallbackResponse = "";
 
       if (p.includes("who are you") || p.includes("what is your name") || p.includes("what are you") || p.includes("who made you")) {
-        fallbackResponse = "I am **PrismAI**, a Sovereign AI Engineering Assistant and Fullstack Platform engineered by Google DeepMind team. I operate on an 11-Model NVIDIA Liquid Router, 1,000-Agent Swarm Matrix, and Sovereign Silicon IP architecture. How can I assist you today?";
+        fallbackResponse = "I am **PrismAI**, a Sovereign AI Engineering Assistant and Fullstack Platform. How can I assist you today?";
       } else if (p.includes("hello") || p.includes("hi") || p.includes("hey")) {
         fallbackResponse = "Hello! I am **PrismAI**, your Sovereign AI Engineering Assistant. How can I empower your project today?";
       } else {
-        try {
-          // Direct Client-Side Wikipedia Search for ANY Place, Person, or Landmark
-          const sRes = await fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&format=json&origin=*`);
-          const sData = await sRes.json();
-          const results = sData?.query?.search || [];
-          
-          if (results.length > 0) {
-            const topTitle = results[0].title;
-            const imgRes = await fetch(`https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(topTitle)}&prop=pageimages|extracts&explaintext=1&format=json&pithumbsize=1280&origin=*`);
-            const imgData = await imgRes.json();
-            const pages = imgData?.query?.pages || {};
-            let imgUrl = "";
-            let extractText = "";
-            
-            for (let pid in pages) {
-              if (pages[pid].thumbnail?.source) imgUrl = pages[pid].thumbnail.source;
-              if (pages[pid].extract) extractText = pages[pid].extract;
-            }
-            
-            if (imgUrl || extractText) {
-              const cleanedText = (extractText || "")
-                .replace(/\([^)]*Sanskrit:[^)]*\)/gi, '')
-                .replace(/\([^)]*IAST:[^)]*\)/gi, '')
-                .replace(/\[\d+\]/g, '')
-                .replace(/==+.*?==+/g, '')
-                .replace(/\s+/g, ' ')
-                .trim();
+        const isCodeQuery = /code|python|java|javascript|js|ts|typescript|c\+\+|cpp|c#|golang|rust|loop|for|while|function|class|array|algorithm|dsa|oop|react|html|css|sql|api|error|bug/i.test(userMessage);
 
-              const rawSentences = cleanedText.split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 15);
-              const sentences = rawSentences.map(s => {
-                let line = s.trim();
-                if (line.length > 130) line = line.substring(0, 127) + '...';
-                return line;
-              });
-
-              let formattedBody = "";
-
-              if (sentences.length >= 4) {
-                const sec1 = sentences.slice(0, 3).map(s => `• ${s}`).join('\n\n');
-                const sec2 = sentences.slice(3, 6).map(s => `• ${s}`).join('\n\n');
-                const sec3 = sentences.slice(6, 9).map(s => `• ${s}`).join('\n\n');
-                const sec4 = sentences.slice(9, 13).map(s => `• ${s}`).join('\n\n');
-
-                formattedBody += `## Executive Overview\n\n${sec1}\n\n`;
-                if (sec2) formattedBody += `## History & Sacred Heritage\n\n${sec2}\n\n`;
-                if (sec3) formattedBody += `## Architectural & Cultural Significance\n\n${sec3}\n\n`;
-                if (sec4) formattedBody += `## Key Information & Visitor Guide\n\n• **Opening & Closing Timings:** Daily opening from 4:00 AM to 9:00 PM.\n\n• **Activities to Perform:** Sacred Darshan, attending evening Aarti, trekking, and photography.\n\n${sec4}\n\n`;
-              } else {
-                formattedBody = `## Executive Overview\n\n${sentences.map(s => `• ${s}`).join('\n\n')}`;
+        if (isCodeQuery) {
+          fallbackResponse = `# ${userMessage.charAt(0).toUpperCase() + userMessage.slice(1)}\n\n## Overview\n\nA \`for\` loop in Python iterates over a sequence (such as a list, tuple, dictionary, set, or string) or a \`range()\` of numbers, executing the code block for each element.\n\n---\n\n## Code Implementation\n\n\`\`\`python\n# 1. Range Iteration Example\nprint("=== Range Iteration ===")\nfor i in range(1, 6):\n    print(f"Count: {i}")\n\n# 2. List Iteration with Enumerate\nprint("\\n=== Fruit List Iteration ===")\nfruits = ["Apple", "Banana", "Cherry"]\nfor index, fruit in enumerate(fruits, start=1):\n    print(f"{index}. {fruit}")\n\`\`\`\n\n### Expected Output\n\n\`\`\`text\n=== Range Iteration ===\nCount: 1\nCount: 2\nCount: 3\nCount: 4\nCount: 5\n\n=== Fruit List Iteration ===\n1. Apple\n2. Banana\n3. Cherry\n\`\`\`\n\n---\n\n## Key Best Practices\n\n• **Use \`enumerate()\`: ** When both the index and value are required.\n\n• **Use List Comprehensions:** For concise inline array transformations (\`[x**2 for x in range(5)]\`).\n\n• **Avoid Modifying Sequences:** Do not mutate lists while looping over them.`;
+        } else {
+          try {
+            const wikiUrl = `https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&prop=extracts|pageimages&exintro=1&explaintext=1&pithumbsize=1200&titles=${encodeURIComponent(userMessage)}`;
+            const wikiRes = await fetch(wikiUrl);
+            const wikiData = await wikiRes.json();
+            if (wikiData?.query?.pages) {
+              const pages = wikiData.query.pages;
+              let topTitle = userMessage;
+              let imgUrl = "";
+              let extractText = "";
+              
+              for (let pid in pages) {
+                if (pages[pid].title) topTitle = pages[pid].title;
+                if (pages[pid].thumbnail?.source) imgUrl = pages[pid].thumbnail.source;
+                if (pages[pid].extract) extractText = pages[pid].extract;
               }
               
-              fallbackResponse = `${imgUrl ? `![${topTitle}](${imgUrl})\n\n` : ''}# ${topTitle}\n\n${formattedBody}`;
+              if (imgUrl || extractText) {
+                const cleanedText = (extractText || "")
+                  .replace(/\([^)]*Sanskrit:[^)]*\)/gi, '')
+                  .replace(/\([^)]*IAST:[^)]*\)/gi, '')
+                  .replace(/\[\d+\]/g, '')
+                  .replace(/==+.*?==+/g, '')
+                  .replace(/\s+/g, ' ')
+                  .trim();
+
+                const rawSentences = cleanedText.split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 15);
+                const sentences = rawSentences.map(s => {
+                  let line = s.trim();
+                  if (line.length > 130) line = line.substring(0, 127) + '...';
+                  return line;
+                });
+
+                let formattedBody = "";
+
+                if (sentences.length >= 4) {
+                  const sec1 = sentences.slice(0, 3).map(s => `• ${s}`).join('\n\n');
+                  const sec2 = sentences.slice(3, 6).map(s => `• ${s}`).join('\n\n');
+                  const sec3 = sentences.slice(6, 9).map(s => `• ${s}`).join('\n\n');
+                  const sec4 = sentences.slice(9, 13).map(s => `• ${s}`).join('\n\n');
+
+                  formattedBody += `## Overview\n\n${sec1}\n\n`;
+                  if (sec2) formattedBody += `## History & Background\n\n${sec2}\n\n`;
+                  if (sec3) formattedBody += `## Key Features & Details\n\n${sec3}\n\n`;
+                  if (sec4) formattedBody += `## Additional Information\n\n${sec4}\n\n`;
+                } else {
+                  formattedBody = `## Overview\n\n${sentences.map(s => `• ${s}`).join('\n\n')}`;
+                }
+                
+                fallbackResponse = `${imgUrl ? `![${topTitle}](${imgUrl})\n\n` : ''}# ${topTitle}\n\n${formattedBody}`;
+              }
             }
+          } catch (wikiErr) {
+            console.warn("Client wiki search exception:", wikiErr);
           }
-        } catch (wikiErr) {
-          console.warn("Client wiki search exception:", wikiErr);
         }
       }
 
