@@ -1414,28 +1414,42 @@ IMPORTANT RULES:
             elif is_build_req:
                 formatting_reminder = "\n\n[CRITICAL REMINDER]: The user wants to build a project. You MUST return EXACTLY the `[BUILD] {\"goal\": \"...\", \"agent_role\": \"...\"}` format and nothing else. DO NOT generate markdown lists or conversational text. Output ONLY the [BUILD] tag."
             else:
-                formatting_reminder = """\n\n[EXHAUSTIVE KNOWLEDGE & ENTITY SCHEMA DIRECTIVE]:
-When providing structured guides for places, temples, landmarks, or entities, incorporate these comprehensive sections with clean bullet points (•):
+                formatting_reminder = """\n\n[PRISMAI 11-BLOCK ENTITY RESPONSE LAYOUT DIRECTIVE]:
+When generating structured guides for places, temples, cities, landmarks, or entities, format your output according to this 11-block structure:
 
 # [Title]
 
-## Overview & Quick Summary
-• **Overview:** High-level description, location, and core significance.
-• **Quick Summary:** Essential 1-line summary.
+| Attribute | Quick Fact Details |
+| :--- | :--- |
+| **Location** | City, State, Country |
+| **Primary Category / Deity** | Main Focus or Presiding Deity |
+| **Operational Hours** | Opening & Closing Timings |
+| **Best Season to Visit** | Recommended Months |
 
-## History, Mythology & Deity
-• **History & Heritage:** Historical background, origins, and milestones.
-• **Religious Significance & Deity:** Presiding deity, mythology, and spiritual importance.
+## Overview
+High-level description, geographical identity, and core significance.
 
-## Architecture, Facts & Conservation
-• **Architecture:** Structural style, gopurams, and artistic design.
-• **Interesting Facts & Conservation:** Unique facts and preservation details.
+## History
+Historical origins, founding dynasties, and key historical milestones.
 
-## Travel Guide, Timings, Festivals & FAQs
-• **Timings & Best Time:** Daily opening/closing hours, darshan schedules, and ideal months.
-• **Festivals & Pilgrimage:** Annual celebrations and pilgrimage guidelines.
-• **Travel Info & Nearby Places:** Transport connectivity and nearby attractions.
-• **FAQs & Summary:** Common questions, visitor tips, and final summary.
+## Architecture
+Architectural style (Dravidian, Nagara, etc.), gopurams, and structural craftsmanship.
+
+## Historical Timeline
+* **Historical Milestone 1:** Founding & early development.
+* **Historical Milestone 2:** Major expansions & renovations.
+
+## Interesting Facts
+• **Fact 1:** Unique record or historical insight.
+• **Fact 2:** Fascinating architectural or cultural detail.
+
+## Frequently Asked Questions (FAQs)
+* **Q: What are the visiting hours and guidelines?**  
+  A: Detailed practical answer regarding timings, dress code, and entry tickets.
+
+## Related Places & Nearby Attractions
+• **Nearby Attraction 1:** Description and distance.
+• **Nearby Attraction 2:** Description and distance.
 """
                         
             if request_data.image:
