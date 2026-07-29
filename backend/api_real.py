@@ -1429,24 +1429,7 @@ IMPORTANT RULES:
             elif is_build_req:
                 formatting_reminder = "\n\n[CRITICAL REMINDER]: The user wants to build a project. You MUST return EXACTLY the `[BUILD] {\"goal\": \"...\", \"agent_role\": \"...\"}` format and nothing else. DO NOT generate markdown lists or conversational text. Output ONLY the [BUILD] tag."
             else:
-                formatting_reminder = """\n\n[MANDATORY EXECUTIVE STRUCTURE DIRECTIVE]:
-You MUST structure your response into 4 distinct, highly readable sections using Markdown headers with icons, bold terms, and bullet points (•):
-
-## 📌 Executive Overview
-• **Core Summary:** High-level overview and definition.
-• **Primary Significance:** Main purpose, significance, or context.
-
-## 🏛️ History & Fundamental Background
-• **Historical Origins:** Background, heritage, or foundational principles.
-• **Key Milestones:** Evolution and core developments.
-
-## 🧭 Key Details, Specifications & Guide
-• **Core Features / Timings:** Essential details, specifications, or operational hours.
-• **Key Aspects:** Primary features, guidelines, or technical aspects.
-
-## 💡 Key Highlights & Important Takeaways
-• **Highlights:** Essential takeaways, recommendations, and activities.
-"""
+                formatting_reminder = "\n\n[FORMATTING DIRECTIVE]: Structure your response naturally with clean, elegant Markdown headers and bullet points. Avoid walls of text. Provide direct, highly readable, expert answers."
                         
             if request_data.image:
                 human_content = [{"type": "text", "text": sanitized_message + formatting_reminder}]

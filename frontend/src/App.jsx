@@ -900,12 +900,12 @@ function App() {
                 const sec3 = sentences.slice(7, 11).map(s => `• ${s.trim()}`).join('\n');
                 const sec4 = sentences.slice(11, 16).map(s => `• ${s.trim()}`).join('\n');
 
-                formattedBody += `## 📌 Executive Overview\n${sec1}\n\n`;
-                if (sec2) formattedBody += `## 🏛️ History & Heritage\n${sec2}\n\n`;
-                if (sec3) formattedBody += `## 🧭 Key Details & Specifications\n${sec3}\n\n`;
-                if (sec4) formattedBody += `## 💡 Key Highlights & Visitor Guide\n${sec4}\n\n`;
+                formattedBody += `## Overview\n${sec1}\n\n`;
+                if (sec2) formattedBody += `## History & Heritage\n${sec2}\n\n`;
+                if (sec3) formattedBody += `## Key Details & Specifications\n${sec3}\n\n`;
+                if (sec4) formattedBody += `## Visitor Guide & Highlights\n${sec4}\n\n`;
               } else {
-                formattedBody = `## 📌 Executive Overview\n${cleanedText}`;
+                formattedBody = `## Overview\n${cleanedText}`;
               }
               
               fallbackResponse = `${imgUrl ? `![${topTitle}](${imgUrl})\n\n` : ''}# ${topTitle}\n\n${formattedBody}`;
