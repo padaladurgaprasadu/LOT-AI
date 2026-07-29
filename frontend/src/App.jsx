@@ -876,21 +876,26 @@ function App() {
             }
             
             if (imgUrl || extractText) {
-              const paragraphs = (extractText || "").split('\n\n').filter(p => p.trim().length > 20);
+              const cleanedText = (extractText || "")
+                .replace(/==+.*?==+/g, '')
+                .replace(/\[\d+\]/g, '')
+                .trim();
+
+              const sentences = cleanedText.split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 15);
               let formattedBody = "";
-              if (paragraphs.length > 0) {
-                formattedBody += `## Executive Overview\n${paragraphs[0]}\n\n`;
-                if (paragraphs.length > 1) {
-                  formattedBody += `## History & Sacred Heritage\n${paragraphs[1]}\n\n`;
-                }
-                if (paragraphs.length > 2) {
-                  formattedBody += `## Architectural & Cultural Significance\n${paragraphs[2]}\n\n`;
-                }
-                if (paragraphs.length > 3) {
-                  formattedBody += `## Key Information & Visitor Guide\n${paragraphs.slice(3, 8).join('\n\n')}\n\n`;
-                }
+
+              if (sentences.length >= 4) {
+                const sec1 = sentences.slice(0, 3).map(s => `• ${s.trim()}`).join('\n');
+                const sec2 = sentences.slice(3, 7).map(s => `• ${s.trim()}`).join('\n');
+                const sec3 = sentences.slice(7, 11).map(s => `• ${s.trim()}`).join('\n');
+                const sec4 = sentences.slice(11, 16).map(s => `• ${s.trim()}`).join('\n');
+
+                formattedBody += `## Executive Overview\n${sec1}\n\n`;
+                if (sec2) formattedBody += `## History & Sacred Heritage\n${sec2}\n\n`;
+                if (sec3) formattedBody += `## Architectural & Cultural Significance\n${sec3}\n\n`;
+                if (sec4) formattedBody += `## Key Information & Visitor Guide\n${sec4}\n\n`;
               } else {
-                formattedBody = extractText || `Comprehensive guide regarding **${query}**.`;
+                formattedBody = `## Executive Overview\n${cleanedText}`;
               }
               
               fallbackResponse = `${imgUrl ? `![${topTitle}](${imgUrl})\n\n` : ''}# ${topTitle}\n\n${formattedBody}`;
