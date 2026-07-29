@@ -1396,6 +1396,7 @@ IMPORTANT RULES:
             from backend.memory.intelligent_ui_rules import inject_intelligent_ui_rules
             from backend.agents.swarm_matrix_37 import inject_swarm_matrix_37
             from backend.memory.openworker_engine import inject_openworker_prompt
+            from backend.memory.jcode_engine import inject_jcode_prompt
 
             system_prompt = inject_impeccable_design_prompt(system_prompt)
             system_prompt = inject_open_design_prompt(system_prompt)
@@ -1406,6 +1407,7 @@ IMPORTANT RULES:
             system_prompt = inject_intelligent_ui_rules(system_prompt)
             system_prompt = inject_swarm_matrix_37(system_prompt)
             system_prompt = inject_openworker_prompt(system_prompt)
+            system_prompt = inject_jcode_prompt(system_prompt)
 
             messages = [SystemMessage(content=system_prompt)]
             for msg in request_data.history:
