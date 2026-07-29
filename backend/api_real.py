@@ -1417,42 +1417,31 @@ IMPORTANT RULES:
             elif is_build_req:
                 formatting_reminder = "\n\n[CRITICAL REMINDER]: The user wants to build a project. You MUST return EXACTLY the `[BUILD] {\"goal\": \"...\", \"agent_role\": \"...\"}` format and nothing else. DO NOT generate markdown lists or conversational text. Output ONLY the [BUILD] tag."
             else:
-                formatting_reminder = """\n\n[PRISMAI 11-BLOCK ENTITY RESPONSE LAYOUT DIRECTIVE]:
-When generating structured guides for places, temples, cities, landmarks, or entities, format your output according to this 11-block structure:
+                formatting_reminder = """\n\n[CONCISE & SHORT BULLET POINT MANDATE]:
+Structure your response into clean executive sections. 
+• Every bullet point MUST be 1 SHORT, CRISP line (max 15-20 words per bullet point).
+• ABSOLUTELY NO long run-on paragraphs, walls of text, or academic parenthetical clutter.
+• Make every line punchy, scannable, and executive-grade.
+
+![Hero Image](url)
 
 # [Title]
 
-| Attribute | Quick Fact Details |
-| :--- | :--- |
-| **Location** | City, State, Country |
-| **Primary Category / Deity** | Main Focus or Presiding Deity |
-| **Operational Hours** | Opening & Closing Timings |
-| **Best Season to Visit** | Recommended Months |
+## Executive Overview
+• Short, crisp bullet point 1...
+• Short, crisp bullet point 2...
 
-## Overview
-High-level description, geographical identity, and core significance.
+## History & Sacred Heritage
+• Short historical origin detail...
+• Short milestone detail...
 
-## History
-Historical origins, founding dynasties, and key historical milestones.
+## Architectural & Cultural Significance
+• Short architectural style detail...
+• Short cultural significance detail...
 
-## Architecture
-Architectural style (Dravidian, Nagara, etc.), gopurams, and structural craftsmanship.
-
-## Historical Timeline
-* **Historical Milestone 1:** Founding & early development.
-* **Historical Milestone 2:** Major expansions & renovations.
-
-## Interesting Facts
-• **Fact 1:** Unique record or historical insight.
-• **Fact 2:** Fascinating architectural or cultural detail.
-
-## Frequently Asked Questions (FAQs)
-* **Q: What are the visiting hours and guidelines?**  
-  A: Detailed practical answer regarding timings, dress code, and entry tickets.
-
-## Related Places & Nearby Attractions
-• **Nearby Attraction 1:** Description and distance.
-• **Nearby Attraction 2:** Description and distance.
+## Key Information & Visitor Guide
+• Short timing / operational detail...
+• Short travel / highlight detail...
 """
                         
             if request_data.image:

@@ -887,25 +887,34 @@ function App() {
             
             if (imgUrl || extractText) {
               const cleanedText = (extractText || "")
-                .replace(/==+.*?==+/g, '')
+                .replace(/\([^)]*Sanskrit:[^)]*\)/gi, '')
+                .replace(/\([^)]*IAST:[^)]*\)/gi, '')
                 .replace(/\[\d+\]/g, '')
+                .replace(/==+.*?==+/g, '')
+                .replace(/\s+/g, ' ')
                 .trim();
 
-              const sentences = cleanedText.split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 15);
+              const rawSentences = cleanedText.split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 15);
+              const sentences = rawSentences.map(s => {
+                let line = s.trim();
+                if (line.length > 130) line = line.substring(0, 127) + '...';
+                return line;
+              });
+
               let formattedBody = "";
 
               if (sentences.length >= 4) {
-                const sec1 = sentences.slice(0, 3).map(s => `• ${s.trim()}`).join('\n');
-                const sec2 = sentences.slice(3, 7).map(s => `• ${s.trim()}`).join('\n');
-                const sec3 = sentences.slice(7, 11).map(s => `• ${s.trim()}`).join('\n');
-                const sec4 = sentences.slice(11, 16).map(s => `• ${s.trim()}`).join('\n');
+                const sec1 = sentences.slice(0, 3).map(s => `• ${s}`).join('\n');
+                const sec2 = sentences.slice(3, 6).map(s => `• ${s}`).join('\n');
+                const sec3 = sentences.slice(6, 9).map(s => `• ${s}`).join('\n');
+                const sec4 = sentences.slice(9, 13).map(s => `• ${s}`).join('\n');
 
                 formattedBody += `## Executive Overview\n${sec1}\n\n`;
                 if (sec2) formattedBody += `## History & Sacred Heritage\n${sec2}\n\n`;
                 if (sec3) formattedBody += `## Architectural & Cultural Significance\n${sec3}\n\n`;
                 if (sec4) formattedBody += `## Key Information & Visitor Guide\n${sec4}\n\n`;
               } else {
-                formattedBody = `## Executive Overview\n${cleanedText}`;
+                formattedBody = `## Executive Overview\n${sentences.map(s => `• ${s}`).join('\n')}`;
               }
               
               fallbackResponse = `${imgUrl ? `![${topTitle}](${imgUrl})\n\n` : ''}# ${topTitle}\n\n${formattedBody}`;
