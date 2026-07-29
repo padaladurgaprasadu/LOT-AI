@@ -109,13 +109,14 @@ const ImageBlock = ({ node, ...props }) => {
   if (hasError || !props.src) return null;
 
   return (
-    <div style={{ margin: '16px 0', display: 'flex', justifyContent: 'center' }}>
+    <div style={{ margin: '16px 0', display: 'flex', justifyContent: 'center', width: '100%' }}>
       <img 
         {...props} 
+        referrerPolicy="no-referrer"
         onError={() => setHasError(true)} 
         style={{ 
-          maxWidth: '100%', 
-          maxHeight: '420px', 
+          width: '100%', 
+          maxHeight: '450px', 
           borderRadius: '16px', 
           border: '1px solid rgba(255, 255, 255, 0.15)', 
           boxShadow: '0 12px 30px rgba(0,0,0,0.6)', 
@@ -827,7 +828,7 @@ function App() {
       if (p.includes("hello") || p.includes("hi") || p.includes("hey")) {
         fallbackResponse = "Hello! I am **PrismAI**, your Sovereign AI Engineering Assistant. How can I empower your project today?";
       } else if (p.includes("tirupati")) {
-        fallbackResponse = "![Tirupati](https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Tirumala_090615.jpg/1280px-Tirumala_090615.jpg)\n\n# Tirupati: The Sacred Abode of Lord Venkateswara\n\n## Overview\nTirupati, located in the Chittoor district of Andhra Pradesh, India, is a revered global pilgrimage destination. It is home to the world-famous **Tirumala Venkateswara Temple**, situated atop the Seshachalam Hills at an elevation of 853 meters.\n\n### Key Highlights:\n- **Location:** Chittoor District, Andhra Pradesh, India\n- **Primary Temple:** Tirumala Venkateswara Temple\n- **Architecture:** Ancient Dravidian Temple Architecture\n- **Global Distinction:** One of the most visited and sacred religious centers on Earth.";
+        fallbackResponse = "![Tirupati Temple](https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=1200&auto=format&fit=crop)\n\n# Tirupati: The Sacred Abode of Lord Venkateswara\n\n## Overview\nTirupati, located in the Chittoor district of Andhra Pradesh, India, is a revered global pilgrimage destination. It is home to the world-famous **Tirumala Venkateswara Temple**, situated atop the Seshachalam Hills at an elevation of 853 meters.\n\n### Key Highlights:\n- **Location:** Chittoor District, Andhra Pradesh, India\n- **Primary Temple:** Tirumala Venkateswara Temple\n- **Architecture:** Ancient Dravidian Temple Architecture\n- **Global Distinction:** One of the most visited and sacred religious centers on Earth.";
       } else if (p.includes("taj mahal")) {
         fallbackResponse = "![Taj Mahal](https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Taj_Mahal_%28Edited%29.jpeg/1280px-Taj_Mahal_%28Edited%29.jpeg)\n\n# Taj Mahal: An Eternal Monument of Love\n\n## Overview\nThe Taj Mahal is an ivory-white marble mausoleum on the bank of the Yamuna river in Agra, India. It was commissioned in 1631 by Mughal emperor Shah Jahan.\n\n### Key Details:\n- **Location:** Agra, Uttar Pradesh, India\n- **Designation:** UNESCO World Heritage Site & 7 Wonders of the World.";
       } else if (p.includes("elon musk")) {
