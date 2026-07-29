@@ -114,22 +114,32 @@ const ImageBlock = ({ node, ...props }) => {
     finalSrc = `https://wsrv.nl/?url=${encodeURIComponent(finalSrc)}&w=1200&output=webp`;
   }
 
-  const altText = props.alt || "Featured Image";
-
   return (
     <div style={{ 
-      margin: '0 0 20px 0', 
+      margin: '12px 0 20px 0', 
       width: '100%', 
       borderRadius: '16px', 
       overflow: 'hidden', 
       border: '1px solid rgba(255, 255, 255, 0.12)', 
       backgroundColor: '#18181b',
-      boxShadow: '0 12px 32px rgba(0, 0, 0, 0.4)'
+      boxShadow: '0 12px 32px rgba(0, 0, 0, 0.4)',
+      position: 'relative'
     }}>
+      {!isLoaded && (
+        <div style={{ 
+          width: '100%', 
+          height: '240px', 
+          backgroundColor: '#1e1e24', 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'center'
+        }}>
+          <div className="spinner" style={{ width: '20px', height: '20px', borderWidth: '2px', borderTopColor: '#60a5fa' }}></div>
+        </div>
+      )}
       <img 
-        {...props} 
         src={finalSrc}
-        alt={altText}
+        alt=""
         referrerPolicy="no-referrer"
         onLoad={() => setIsLoaded(true)}
         onError={() => setHasError(true)} 
@@ -137,9 +147,7 @@ const ImageBlock = ({ node, ...props }) => {
           width: '100%', 
           maxHeight: '420px', 
           objectFit: 'cover',
-          display: 'block',
-          opacity: isLoaded ? 1 : 0,
-          transition: 'opacity 0.3s ease'
+          display: isLoaded ? 'block' : 'none'
         }} 
       />
     </div>
