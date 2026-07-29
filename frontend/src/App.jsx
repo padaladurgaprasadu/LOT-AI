@@ -105,20 +105,20 @@ const CodeBlock = ({ node, className, children, ...props }) => {
 };
 
 const ImageBlock = ({ node, ...props }) => {
+  const [hasError, setHasError] = useState(false);
+  if (hasError || !props.src) return null;
+
   return (
-    <div style={{ margin: '16px 0' }}>
+    <div style={{ margin: '16px 0', display: 'flex', justifyContent: 'center' }}>
       <img 
         {...props} 
-        onError={(e) => { 
-          if (e.currentTarget.parentElement) e.currentTarget.parentElement.style.display = 'none';
-          e.currentTarget.style.display = 'none'; 
-        }} 
+        onError={() => setHasError(true)} 
         style={{ 
           maxWidth: '100%', 
-          maxHeight: '450px', 
+          maxHeight: '420px', 
           borderRadius: '16px', 
-          border: '1px solid rgba(255, 255, 255, 0.1)', 
-          boxShadow: '0 12px 30px rgba(0,0,0,0.5)', 
+          border: '1px solid rgba(255, 255, 255, 0.15)', 
+          boxShadow: '0 12px 30px rgba(0,0,0,0.6)', 
           objectFit: 'cover',
           display: 'block'
         }} 
