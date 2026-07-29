@@ -13,6 +13,10 @@ import logging
 logger = logging.getLogger(__name__)
 
 CURATED_HIGH_RES_IMAGES = {
+    "vijayawada": "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=1200&auto=format&fit=crop",
+    "vijayawada temple": "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=1200&auto=format&fit=crop",
+    "kanaka durga": "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=1200&auto=format&fit=crop",
+    "kanaka durga temple": "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=1200&auto=format&fit=crop",
     "tirupati": "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=1200&auto=format&fit=crop",
     "tirupati temple": "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=1200&auto=format&fit=crop",
     "kedarnath": "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=1200&auto=format&fit=crop",
@@ -21,7 +25,7 @@ CURATED_HIGH_RES_IMAGES = {
     "varanasi": "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?w=1200&auto=format&fit=crop",
     "golden temple": "https://images.unsplash.com/photo-1514222134-b57cbb8ce073?w=1200&auto=format&fit=crop",
     "ayodhya": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&auto=format&fit=crop",
-    "elon musk": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Elon_Musk_-_54820081119_%28cropped%29.jpg/1280px-Elon_Musk_-_54820081119_%28cropped%29.jpg"
+    "elon musk": "https://wsrv.nl/?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2F5%2F5e%2FElon_Musk_-_54820081119_%2528cropped%2529.jpg%2F1280px-Elon_Musk_-_54820081119_%2528cropped%2529.jpg&w=1200&output=webp"
 }
 
 def fetch_wikimedia_image(query_term: str) -> str:
@@ -60,9 +64,11 @@ def fetch_wikimedia_image(query_term: str) -> str:
                     pages = i_data.get("query", {}).get("pages", {})
                     for pid, pinfo in pages.items():
                         if "thumbnail" in pinfo and "source" in pinfo["thumbnail"]:
-                            found_url = pinfo["thumbnail"]["source"]
-                            logger.info(f"[MediaFetcher] Universal image found for '{term}' via '{top_title}': {found_url}")
-                            return found_url
+                            raw_url = pinfo["thumbnail"]["source"]
+                            # Wrap in wsrv.nl CDN proxy to bypass browser CORS & hotlink blocks on upload.wikimedia.org!
+                            proxied_url = f"https://wsrv.nl/?url={urllib.parse.quote(raw_url)}&w=1200&output=webp"
+                            logger.info(f"[MediaFetcher] Universal image found for '{term}' via '{top_title}': {proxied_url}")
+                            return proxied_url
     except Exception as e:
         logger.warning(f"[MediaFetcher] Wikipedia search failed for '{term}': {e}")
         
