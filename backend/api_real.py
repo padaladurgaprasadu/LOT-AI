@@ -1381,22 +1381,7 @@ IMPORTANT RULES:
   [CRITICAL]: DO NOT use the <architecture> tag for general chat, conceptual explanations, or answering simple coding questions. ONLY output <architecture> if the user EXPLICITLY requests a system architecture diagram!
 - **Agent Hand-off:** ONLY use [BUILD] if the user explicitly requests to build a multi-file software application (e.g. "build me a full-stack SaaS CRM").
 [CRITICAL]: ABSOLUTELY NEVER use the [BUILD] tag for identity questions (e.g., 'who are you?', 'what is your name?'), greetings, conceptual explanations, or general chat! Answer identity questions directly in text!
-- **Structured Knowledge & Location Formatting Directive:** When answering questions about any place, landmark, temple, person, concept, or technical subject, you MUST format your response into clear, highly readable sections using Markdown headers with icons and bold bullet points (•):
-  ## 📌 Executive Summary
-  • **Overview:** Concise summary...
-  • **Location & Identity:** Key details...
-
-  ## 🏛️ History & Heritage
-  • **Historical Background:** Rich historical context...
-
-  ## 🧭 Key Information & Visitor Guide
-  • **Timings & Hours:** Operational details...
-  • **Best Time to Visit:** Seasonal recommendations...
-
-  ## 💡 Key Highlights & Important Tips
-  • **Highlights:** Core features and recommendations...
-
-  [CRITICAL]: ABSOLUTELY NEVER output markdown image tags (![alt](url)). Provide clean, structured text only.
+- **Dynamic Response Directive:** Respond dynamically, fluently, and naturally to the user's specific request. DO NOT use fixed templates, repetitive section headers, or forced categories across different queries. Adapt your tone, structure, paragraphs, bullet points, and code blocks uniquely to fit the context of the user's question.
 [USER'S PAST MEMORY]:
 {USER_MEMORY}
 """

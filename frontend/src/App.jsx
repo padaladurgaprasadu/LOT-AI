@@ -891,24 +891,7 @@ function App() {
                 .replace(/\[\d+\]/g, '')
                 .trim();
 
-              const sentences = cleanedText.split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 15);
-              let formattedBody = "";
-
-              if (sentences.length >= 4) {
-                const sec1 = sentences.slice(0, 3).map(s => `• ${s.trim()}`).join('\n');
-                const sec2 = sentences.slice(3, 7).map(s => `• ${s.trim()}`).join('\n');
-                const sec3 = sentences.slice(7, 11).map(s => `• ${s.trim()}`).join('\n');
-                const sec4 = sentences.slice(11, 16).map(s => `• ${s.trim()}`).join('\n');
-
-                formattedBody += `## Overview\n${sec1}\n\n`;
-                if (sec2) formattedBody += `## History & Heritage\n${sec2}\n\n`;
-                if (sec3) formattedBody += `## Key Details & Specifications\n${sec3}\n\n`;
-                if (sec4) formattedBody += `## Visitor Guide & Highlights\n${sec4}\n\n`;
-              } else {
-                formattedBody = `## Overview\n${cleanedText}`;
-              }
-              
-              fallbackResponse = `${imgUrl ? `![${topTitle}](${imgUrl})\n\n` : ''}# ${topTitle}\n\n${formattedBody}`;
+              fallbackResponse = `${imgUrl ? `![${topTitle}](${imgUrl})\n\n` : ''}# ${topTitle}\n\n${cleanedText}`;
             }
           }
         } catch (wikiErr) {
