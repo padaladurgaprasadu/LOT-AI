@@ -35,53 +35,51 @@ NVIDIA_BASE_URL = "https://integrate.api.nvidia.com/v1"
 # Every agent role maps to a purpose-built frontier model.
 # ═══════════════════════════════════════════════════════════════
 NVIDIA_MODEL_TIERS = {
-    # ⚡ INSTANT — Sub-100ms, lightweight, chat + intent classification
+    # 👑 1. Nemotron 3 Ultra 550B (1M Context Hybrid Mamba-Transformer MoE)
+    "nemotron_ultra": "nvidia/nemotron-3-ultra-550b-a55b",
+
+    # 🌐 2. GLM-5.2 (Flagship Agentic & Long-Horizon Reasoning)
+    "glm_5_2": "z-ai/glm-5.2",
+
+    # 🖼️ 3. MiniMax M3 Preview (Multimodal MoE Vision-Language)
+    "minimax_m3": "minimaxai/minimax-m3",
+
+    # ⚡ 4. Nemotron 4 340B Instruct (Enterprise Agentic Reasoning)
+    "nemotron_4_340b": "nvidia/nemotron-4-340b-instruct",
+
+    # 🏎️ 5. Mistral Medium 3.5 128B (128K Context Fast Reasoning)
+    "mistral_medium": "mistralai/mistral-medium-3.5-128b",
+
+    # 🔬 6. DeepSeek V4 Coder (1M Context MoE Coder Engine)
+    "deepseek_v4_coder": "deepseek-ai/deepseek-v4-pro",
+
+    # 💻 7. DeepSeek V4 Flash (1M Context MoE Agentic Coder)
+    "deepseek_v4_flash": "deepseek-ai/deepseek-v4-flash",
+
+    # 💬 8. Nemotron Ultra 253B (253B Parameter MoE Reasoning)
+    "nemotron_253b": "nvidia/llama-3.1-nemotron-ultra-253b-v1",
+
+    # 👁️ 9. Qwen 3.5 VLM 400B MoE (Advanced Vision & Agentic RAG)
+    "qwen_vlm": "meta/llama-3.2-90b-vision-instruct",
+
+    # 🚀 10. Nemotron Super 49B (Super-Fast Agentic MoE)
+    "nemotron_super": "nvidia/llama-3.3-nemotron-super-49b-v1.5",
+
+    # 📚 11. Gemma 4 31B IT (Dense 31B Frontier Reasoning)
+    "gemma_4": "google/gemma-4-31b-it",
+
+    # Standard Fallback Tiers mapped to NVIDIA NIM API Catalog
     "instant": "meta/llama-3.1-8b-instruct",
-
-    # 🏎️ FAST — Docs, summaries, deployment configs, fast code snippets
     "fast": "meta/llama-3.1-8b-instruct",
-
-    # 💻 CODING — Llama 3.3 70B Instruct
-    "coding": "meta/llama-3.3-70b-instruct",
-
-    # 🏗️ PLANNING — Llama 3.3 70B Instruct
-    "planning": "meta/llama-3.3-70b-instruct",
-
-    # 🧠 REASONING — Llama 3.3 70B Instruct
-    "reasoning": "meta/llama-3.3-70b-instruct",
-
-    # 🔬 RESEARCH — Llama 3.3 70B Instruct
-    "research": "meta/llama-3.3-70b-instruct",
-
-    # 👁️ VISION — Llama 3.2 90B Vision
+    "coding": "deepseek-ai/deepseek-v4-pro",
+    "planning": "nvidia/nemotron-3-ultra-550b-a55b",
+    "reasoning": "nvidia/nemotron-3-ultra-550b-a55b",
+    "research": "z-ai/glm-5.2",
     "vision": "meta/llama-3.2-90b-vision-instruct",
-
-    # 🖼️ MULTIMODAL — Llama 3.2 90B Vision
-    "multimodal": "meta/llama-3.2-90b-vision-instruct",
-
-    # 📜 LONGCTX — Llama 3.3 70B Instruct
-    "longctx": "meta/llama-3.3-70b-instruct",
-
-    # 💬 MOE_CHAT — Llama 3.3 70B Instruct
-    "moe_chat": "meta/llama-3.3-70b-instruct",
-
-    # 👑 FRONTIER — Llama 3.3 70B Instruct
-    "frontier": "meta/llama-3.3-70b-instruct",
-
-    # ⚡ REASONING TIER — Nemotron 70B
-    "gpt7_reasoning": "nvidia/llama-3.1-nemotron-70b-instruct",
-
-    # 📚 LONG CONTEXT TIER — Llama 3.3 70B
-    "kimi_k5_longctx": "meta/llama-3.3-70b-instruct",
-
-    # ⚡ FLASH TIER — Llama 3.1 8B
-    "gemini_flash5": "meta/llama-3.1-8b-instruct",
-
-    # 🌐 GLM TIER — Llama 3.3 70B
-    "glm_5_2": "meta/llama-3.3-70b-instruct",
-
-    # ⚡ MISTRAL TIER — Llama 3.3 70B
-    "mistral_medium": "meta/llama-3.3-70b-instruct"
+    "multimodal": "minimaxai/minimax-m3",
+    "longctx": "google/gemma-4-31b-it",
+    "moe_chat": "nvidia/llama-3.1-nemotron-ultra-253b-v1",
+    "frontier": "nvidia/nemotron-3-ultra-550b-a55b"
 }
 
 # ═══════════════════════════════════════════════════════════════
