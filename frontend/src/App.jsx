@@ -881,13 +881,13 @@ function App() {
     { "id": "cache_layer", "label": "Redis Distributed In-Memory Cache", "type": "cache" }
   ],
   "edges": [
-    { "from": "client_app", "to": "api_gateway", "label": "HTTPS / Secure WSS" },
-    { "from": "api_gateway", "to": "auth_service", "label": "Token Validation" },
-    { "from": "api_gateway", "to": "core_service", "label": "REST / gRPC Requests" },
-    { "from": "api_gateway", "to": "analytics_service", "label": "Telemetry Logs" },
-    { "from": "core_service", "to": "primary_db", "label": "Read/Write Queries" },
-    { "from": "core_service", "to": "cache_layer", "label": "In-Memory Caching" },
-    { "from": "core_service", "to": "notification_service", "label": "Async Event Queue" }
+    { "source": "client_app", "target": "api_gateway", "from": "client_app", "to": "api_gateway", "label": "HTTPS / Secure WSS", "type": "sync" },
+    { "source": "api_gateway", "target": "auth_service", "from": "api_gateway", "to": "auth_service", "label": "Token Validation", "type": "grpc" },
+    { "source": "api_gateway", "target": "core_service", "from": "api_gateway", "to": "core_service", "label": "REST / gRPC Requests", "type": "rest" },
+    { "source": "api_gateway", "target": "analytics_service", "from": "api_gateway", "to": "analytics_service", "label": "Telemetry Logs", "type": "async" },
+    { "source": "core_service", "target": "primary_db", "from": "core_service", "to": "primary_db", "label": "Read/Write Queries", "type": "db" },
+    { "source": "core_service", "target": "cache_layer", "from": "core_service", "to": "cache_layer", "label": "In-Memory Caching", "type": "data" },
+    { "source": "core_service", "target": "notification_service", "from": "core_service", "to": "notification_service", "label": "Async Event Queue", "type": "event" }
   ]
 }
 </architecture>`;

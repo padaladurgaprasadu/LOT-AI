@@ -23,7 +23,9 @@ const getLayoutedElements = (nodes, edges, zones = [], direction = 'LR') => {
   });
 
   edges.forEach((edge) => {
-    dagreGraph.setEdge(edge.source, edge.target);
+    const s = edge.source || edge.from;
+    const t = edge.target || edge.to;
+    if (s && t) dagreGraph.setEdge(s, t);
   });
 
   dagre.layout(dagreGraph);
@@ -345,10 +347,13 @@ export default function ArchitectureViewer({ architectureJson, onNodeSelect }) {
             lineStyle.opacity = 0.1;
         }
 
+        const sId = e.source || e.from;
+        const tId = e.target || e.to;
+
         return {
           id: `e-${idx}`,
-          source: e.source,
-          target: e.target,
+          source: sId,
+          target: tId,
           label: e.label,
           type: 'smoothstep',
           animated,
