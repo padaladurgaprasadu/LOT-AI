@@ -69,6 +69,18 @@ def classify_content_type(query: str) -> str:
     if any(k in q for k in recipe_keywords):
         return "Recipe"
 
+    product_keywords = {"iphone", "macbook", "galaxy", "laptop", "phone", "specs", "gadget", "headphone", "smartwatch", "tv", "console", "playstation", "xbox"}
+    if any(k in q for k in product_keywords):
+        return "Product"
+
+    animal_keywords = {"lion", "tiger", "elephant", "dog", "cat", "animal", "wildlife", "habitat", "species", "fauna", "reptile", "bird"}
+    if any(k in q for k in animal_keywords):
+        return "Animal"
+
+    educational_keywords = {"quantum", "physics", "chemistry", "biology", "mathematics", "calculus", "equation", "theory", "science"}
+    if any(k in q for k in educational_keywords):
+        return "Educational"
+
     movie_keywords = {"movie", "film", "cinema", "director", "box office", "imdb"}
     if any(k in q for k in movie_keywords):
         return "Movie"
