@@ -1417,32 +1417,42 @@ IMPORTANT RULES:
             elif is_build_req:
                 formatting_reminder = "\n\n[CRITICAL REMINDER]: The user wants to build a project. You MUST return EXACTLY the `[BUILD] {\"goal\": \"...\", \"agent_role\": \"...\"}` format and nothing else. DO NOT generate markdown lists or conversational text. Output ONLY the [BUILD] tag."
             else:
-                formatting_reminder = """\n\n[CONCISE & SHORT BULLET POINT MANDATE]:
+                formatting_reminder = """\n\n[CONCISE & DISTINCT BULLET POINT MANDATE]:
 Structure your response into clean executive sections. 
-• Every bullet point MUST be 1 SHORT, CRISP line (max 15-20 words per bullet point).
-• ABSOLUTELY NO long run-on paragraphs, walls of text, or academic parenthetical clutter.
-• Make every line punchy, scannable, and executive-grade.
+• Separate EVERY bullet point with a blank line so it renders as a distinct block.
+• ABSOLUTELY NO combining bullet points into a single continuous paragraph.
+• Every bullet point MUST be 1 short, crisp line (max 15-20 words per item).
 
 ![Hero Image](url)
 
 # [Title]
 
 ## Executive Overview
+
 • Short, crisp bullet point 1...
+
 • Short, crisp bullet point 2...
 
 ## History & Sacred Heritage
+
 • Short historical origin detail...
+
 • Short milestone detail...
 
 ## Architectural & Cultural Significance
+
 • Short architectural style detail...
+
 • Short cultural significance detail...
 
 ## Key Information & Visitor Guide
-• **Timings:** Daily opening and closing hours (e.g. 4:00 AM - 9:00 PM).
-• **Activities to Perform:** Sacred darshan, evening Aarti, trekking, and photography.
+
+• **Opening & Closing Timings:** Daily opening (4:00 AM - 9:00 PM).
+
+• **Activities to Perform:** Sacred darshan, evening Aarti, trekking, photography.
+
 • **Best Time to Visit:** Ideal months and seasonal climate guide.
+
 • **Travel & Access:** Transport connectivity and route guidelines.
 """
                         

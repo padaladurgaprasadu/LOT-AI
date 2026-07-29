@@ -904,17 +904,17 @@ function App() {
               let formattedBody = "";
 
               if (sentences.length >= 4) {
-                const sec1 = sentences.slice(0, 3).map(s => `• ${s}`).join('\n');
-                const sec2 = sentences.slice(3, 6).map(s => `• ${s}`).join('\n');
-                const sec3 = sentences.slice(6, 9).map(s => `• ${s}`).join('\n');
-                const sec4 = sentences.slice(9, 13).map(s => `• ${s}`).join('\n');
+                const sec1 = sentences.slice(0, 3).map(s => `• ${s}`).join('\n\n');
+                const sec2 = sentences.slice(3, 6).map(s => `• ${s}`).join('\n\n');
+                const sec3 = sentences.slice(6, 9).map(s => `• ${s}`).join('\n\n');
+                const sec4 = sentences.slice(9, 13).map(s => `• ${s}`).join('\n\n');
 
-                formattedBody += `## Executive Overview\n${sec1}\n\n`;
-                if (sec2) formattedBody += `## History & Sacred Heritage\n${sec2}\n\n`;
-                if (sec3) formattedBody += `## Architectural & Cultural Significance\n${sec3}\n\n`;
-                if (sec4) formattedBody += `## Key Information & Visitor Guide\n• **Opening & Closing Timings:** Daily opening (4:00 AM - 9:00 PM).\n• **Activities to Perform:** Sacred darshan, attending evening Aarti, trekking, and photography.\n${sec4}\n\n`;
+                formattedBody += `## Executive Overview\n\n${sec1}\n\n`;
+                if (sec2) formattedBody += `## History & Sacred Heritage\n\n${sec2}\n\n`;
+                if (sec3) formattedBody += `## Architectural & Cultural Significance\n\n${sec3}\n\n`;
+                if (sec4) formattedBody += `## Key Information & Visitor Guide\n\n• **Opening & Closing Timings:** Daily opening from 4:00 AM to 9:00 PM.\n\n• **Activities to Perform:** Sacred Darshan, attending evening Aarti, trekking, and photography.\n\n${sec4}\n\n`;
               } else {
-                formattedBody = `## Executive Overview\n${sentences.map(s => `• ${s}`).join('\n')}`;
+                formattedBody = `## Executive Overview\n\n${sentences.map(s => `• ${s}`).join('\n\n')}`;
               }
               
               fallbackResponse = `${imgUrl ? `![${topTitle}](${imgUrl})\n\n` : ''}# ${topTitle}\n\n${formattedBody}`;
