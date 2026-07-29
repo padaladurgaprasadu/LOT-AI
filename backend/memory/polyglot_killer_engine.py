@@ -52,3 +52,11 @@ class PolyglotKillerEngine:
             "polyglot_comparison": "35x Faster than Polyglot/Colibri (0.1 tok/s -> 28+ tok/s)",
             "engine": "PrismAI Polyglot-Killer Engine"
         }
+
+    def stream_moe_tokens(self, prompt: str) -> Dict[str, Any]:
+        """
+        Alias method for high-speed streaming inference.
+        """
+        res = self.generate_high_speed_inference(prompt)
+        res["tokens_per_second"] = res["speed_tokens_per_sec"]
+        return res

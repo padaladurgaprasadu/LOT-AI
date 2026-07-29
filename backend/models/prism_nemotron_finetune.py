@@ -24,7 +24,7 @@ class PrismNemotronFinetuner:
         ]
         self.dataset_size = 250000 # 250,000 Sovereign Instruct Pairs
         
-    def generate_training_config(()) -> Dict[str, Any]:
+    def generate_training_config(self) -> Dict[str, Any]:
         """
         Generates DeepSpeed Stage 3 + QLoRA Training Configuration.
         """
