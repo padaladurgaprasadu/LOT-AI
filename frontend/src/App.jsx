@@ -1989,7 +1989,7 @@ function generateClientSideWebAppHTML(goal) {
           <button onClick={() => setShowSidebar(!showSidebar)} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', fontSize: '1.4rem', cursor: 'pointer', padding: '2px 4px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="Toggle Sidebar">
             ☰
           </button>
-          <img src={prismaiLogo} alt="PrismAI Logo" style={{ width: '34px', height: '34px', objectFit: 'contain', display: 'block', marginLeft: '2px' }} />
+          <img src={prismaiLogo} alt="PrismAI Logo" style={{ width: '34px', height: '34px', objectFit: 'contain', display: 'block', marginLeft: '2px', mixBlendMode: 'screen', background: 'transparent' }} />
           <h1 style={{ margin: 0, fontSize: '1.2rem', letterSpacing: '0.5px', fontWeight: '600', marginLeft: '2px' }}>PrismAI</h1>
           <span style={{ 
             fontSize: '0.75rem', 
