@@ -183,6 +183,25 @@ function App() {
   const [session, setSession] = useState(null)
   const [userTier, setUserTier] = useState('free') // 'free' | 'pro' | 'max'
   const [showUpgradeModal, setShowUpgradeModal] = useState(false)
+  const [showShareModal, setShowShareModal] = useState(false)
+  const [shareToastMsg, setShareToastMsg] = useState('')
+
+  const handleShareChat = async () => {
+    if (chatMessages.length <= 1) {
+      alert("Please start a conversation before sharing!");
+      return;
+    }
+    const shareId = currentChatId || `share-${Date.now()}`;
+    const shareUrl = `${window.location.origin}/prismai/?share=${shareId}`;
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setShareToastMsg("Copied shareable link to clipboard! 🔗");
+    } catch(e) {
+      setShareToastMsg("Shareable link generated! 🔗");
+    }
+    setShowShareModal(true);
+    setTimeout(() => setShareToastMsg(''), 3500);
+  };
   
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -1819,6 +1838,27 @@ function generateClientSideWebAppHTML(goal) {
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <button 
+            onClick={handleShareChat} 
+            style={{ 
+              backgroundColor: 'rgba(168, 85, 247, 0.1)', 
+              border: '1px solid rgba(168, 85, 247, 0.3)', 
+              color: '#c084fc', 
+              padding: '6px 14px', 
+              borderRadius: '20px', 
+              fontSize: '0.85rem', 
+              fontWeight: '500', 
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              transition: 'all 0.2s ease',
+              backdropFilter: 'blur(4px)'
+            }}
+            title="Share this Chat Thread"
+          >
+            🔗 Share
+          </button>
+          <button 
             onClick={() => setShowUpgradeModal(true)} 
             style={{ 
               backgroundColor: 'rgba(59, 130, 246, 0.08)', 
@@ -2527,6 +2567,87 @@ function generateClientSideWebAppHTML(goal) {
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
                 <button onClick={() => setShowSettingsModal(false)} style={{ padding: '10px 20px', backgroundColor: 'var(--accent)', color: 'var(--text-primary)', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}>
                   Save & Close
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* SHARE CHAT MODAL */}
+        {showShareModal && (
+          <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.75)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000, backdropFilter: 'blur(8px)' }}>
+            <div style={{ backgroundColor: 'var(--sidebar-bg)', padding: '28px', borderRadius: '18px', width: '90%', maxWidth: '480px', border: '1px solid rgba(168, 85, 247, 0.4)', boxShadow: '0 25px 50px rgba(0,0,0,0.6)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <span style={{ fontSize: '1.4rem' }}>🔗</span>
+                  <h2 style={{ margin: 0, fontSize: '1.4rem', fontWeight: '600', color: 'var(--text-primary)' }}>Share Conversation</h2>
+                </div>
+                <button onClick={() => setShowShareModal(false)} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', fontSize: '1.4rem', cursor: 'pointer' }}>✕</button>
+              </div>
+
+              {shareToastMsg && (
+                <div style={{ backgroundColor: 'rgba(34, 197, 94, 0.15)', border: '1px solid rgba(34, 197, 94, 0.4)', color: '#4ade80', padding: '10px 14px', borderRadius: '8px', marginBottom: '16px', fontSize: '0.88rem', fontWeight: '500', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span>✓</span> {shareToastMsg}
+                </div>
+              )}
+
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '16px', lineHeight: '1.5' }}>
+                Anyone with this link can view this public PrismAI chat thread:
+              </p>
+
+              <div style={{ display: 'flex', gap: '8px', marginBottom: '20px' }}>
+                <input 
+                  type="text" 
+                  readOnly 
+                  value={`${window.location.origin}/prismai/?share=${currentChatId || 'share-live'}`} 
+                  style={{ flex: 1, padding: '10px 12px', backgroundColor: 'var(--input-bg)', border: '1px solid var(--border-color)', borderRadius: '8px', color: 'var(--text-primary)', fontSize: '0.85rem' }} 
+                />
+                <button 
+                  onClick={async () => {
+                    const shareUrl = `${window.location.origin}/prismai/?share=${currentChatId || 'share-live'}`;
+                    await navigator.clipboard.writeText(shareUrl);
+                    setShareToastMsg("Copied shareable link to clipboard! 🔗");
+                    setTimeout(() => setShareToastMsg(''), 3000);
+                  }}
+                  style={{ padding: '10px 16px', backgroundColor: '#a855f7', color: '#fff', border: 'none', borderRadius: '8px', fontWeight: '600', cursor: 'pointer', fontSize: '0.85rem' }}
+                >
+                  Copy Link
+                </button>
+              </div>
+
+              <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '16px', marginTop: '16px' }}>
+                <span style={{ display: 'block', color: 'var(--text-secondary)', fontSize: '0.8rem', marginBottom: '12px', fontWeight: '600' }}>SHARE TO SOCIAL MEDIA</span>
+                <div style={{ display: 'flex', gap: '10px' }}>
+                  <a 
+                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent('Check out this AI conversation on PrismAI!')}&url=${encodeURIComponent(`${window.location.origin}/prismai/?share=${currentChatId || 'share-live'}`)}`} 
+                    target="_blank" 
+                    rel="noreferrer" 
+                    style={{ flex: 1, textDecoration: 'none', padding: '8px', backgroundColor: 'rgba(255,255,255,0.06)', border: '1px solid var(--border-color)', borderRadius: '8px', color: 'var(--text-primary)', textAlign: 'center', fontSize: '0.82rem', fontWeight: '500' }}
+                  >
+                    𝕏 Twitter
+                  </a>
+                  <a 
+                    href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`Check out this PrismAI chat: ${window.location.origin}/prismai/?share=${currentChatId || 'share-live'}`)}`} 
+                    target="_blank" 
+                    rel="noreferrer" 
+                    style={{ flex: 1, textDecoration: 'none', padding: '8px', backgroundColor: 'rgba(34, 197, 94, 0.1)', border: '1px solid rgba(34, 197, 94, 0.3)', borderRadius: '8px', color: '#4ade80', textAlign: 'center', fontSize: '0.82rem', fontWeight: '500' }}
+                  >
+                    💬 WhatsApp
+                  </a>
+                  <a 
+                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`${window.location.origin}/prismai/?share=${currentChatId || 'share-live'}`)}`} 
+                    target="_blank" 
+                    rel="noreferrer" 
+                    style={{ flex: 1, textDecoration: 'none', padding: '8px', backgroundColor: 'rgba(59, 130, 246, 0.1)', border: '1px solid rgba(59, 130, 246, 0.3)', borderRadius: '8px', color: '#60a5fa', textAlign: 'center', fontSize: '0.82rem', fontWeight: '500' }}
+                  >
+                    💼 LinkedIn
+                  </a>
+                </div>
+              </div>
+
+              <div style={{ marginTop: '20px', textAlign: 'right' }}>
+                <button onClick={() => setShowShareModal(false)} style={{ padding: '8px 18px', backgroundColor: 'var(--input-bg)', color: 'var(--text-primary)', border: '1px solid var(--border-color)', borderRadius: '8px', cursor: 'pointer' }}>
+                  Close
                 </button>
               </div>
             </div>
