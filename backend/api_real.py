@@ -1401,6 +1401,7 @@ IMPORTANT RULES:
             from backend.memory.ecc_engine import inject_ecc_prompt
             from backend.memory.grand_unified_engine import inject_grand_unified_prompt
             from backend.memory.kimi_k5_engine import inject_kimi_k5_prompt
+            from backend.agents.nemotron_finetune_engine import inject_nemotron_550b_prompt
 
             system_prompt = inject_impeccable_design_prompt(system_prompt)
             system_prompt = inject_open_design_prompt(system_prompt)
@@ -1416,6 +1417,7 @@ IMPORTANT RULES:
             system_prompt = inject_ecc_prompt(system_prompt)
             system_prompt = inject_grand_unified_prompt(system_prompt)
             system_prompt = inject_kimi_k5_prompt(system_prompt)
+            system_prompt = inject_nemotron_550b_prompt(system_prompt)
 
             messages = [SystemMessage(content=system_prompt)]
             for msg in request_data.history:
