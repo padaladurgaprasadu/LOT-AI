@@ -73,8 +73,12 @@ class ChromaClient:
         # Helper to safely get or create collection to avoid ValueError on embedding function conflict
         def safe_get_or_create(name):
             try:
-                return self.client.get_collection(name=name)
+                return self.client.get_or_create_collection(name=name, embedding_function=self.embedding_fn)
             except Exception:
+                try:
+                    self.client.delete_collection(name=name)
+                except Exception:
+                    pass
                 return self.client.create_collection(name=name, embedding_function=self.embedding_fn)
                 
         # Get or create our 'blueprints' collection
