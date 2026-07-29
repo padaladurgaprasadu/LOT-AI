@@ -38,6 +38,47 @@ INTELLIGENT_UI_MATRIX = {
     "Programming": {"hero_image": False, "gallery": False, "timeline": False, "map": False, "quick_facts": False, "faq": True}
 }
 
+def classify_content_type(query: str) -> str:
+    """
+    Classifies user query into the 12-Class Taxonomy:
+    [Person, Place, Educational, Product, Company, Disease, Movie, Book, News, Recipe, Programming, Generic]
+    """
+    q = query.lower().strip()
+    
+    prog_keywords = {"code", "python", "java", "js", "typescript", "c++", "cpp", "c#", "golang", "rust", "html", "css", "react", "algorithm", "dsa", "oop", "function", "class", "bug", "error", "api", "database", "sql"}
+    if any(k in q.split() for k in prog_keywords) or "how to code" in q or "build a" in q:
+        return "Programming"
+
+    place_keywords = {"temple", "city", "country", "state", "fort", "lake", "mountain", "river", "park", "museum", "airport", "tirupati", "paris", "london", "tokyo", "taj mahal", "kedarnath", "sabarimala", "vijayawada"}
+    if any(k in q for k in place_keywords):
+        return "Place"
+
+    people_keywords = {"who is", "biography", "ceo", "founder", "president", "prime minister", "actor", "scientist", "elon musk", "apj abdul kalam", "steve jobs"}
+    if any(k in q for k in people_keywords):
+        return "Person"
+
+    company_keywords = {"inc", "corp", "ltd", "google", "apple", "microsoft", "nvidia", "amazon", "tesla", "meta", "tcs", "infosys"}
+    if any(k in q for k in company_keywords):
+        return "Company"
+
+    disease_keywords = {"disease", "syndrome", "symptom", "fever", "virus", "infection", "cancer", "diabetes", "treatment"}
+    if any(k in q for k in disease_keywords):
+        return "Disease"
+
+    recipe_keywords = {"recipe", "how to cook", "dish", "curry", "biryani", "ingredients", "baking"}
+    if any(k in q for k in recipe_keywords):
+        return "Recipe"
+
+    movie_keywords = {"movie", "film", "cinema", "director", "box office", "imdb"}
+    if any(k in q for k in movie_keywords):
+        return "Movie"
+
+    book_keywords = {"book", "novel", "author", "publisher", "isbn"}
+    if any(k in q for k in book_keywords):
+        return "Book"
+
+    return "Generic"
+
 def inject_intelligent_ui_rules(system_prompt: str) -> str:
     """
     Injects Intelligent UI Matrix Rules into AI system prompts.
