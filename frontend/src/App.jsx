@@ -904,7 +904,7 @@ function App() {
           fallbackResponse = `# Loop Engineering\n\n## Overview\n\nLoop Engineering is an iterative software development methodology centered on continuous feedback loops, micro-refactoring, and automated testing cycles.\n\n---\n\n## Core Principles & Architecture\n\n• **Continuous Feedback:** Code is written in short iterations, automatically tested via CI/CD pipelines, and refined in real time.\n\n• **Micro-Refactoring:** Code smells and technical debt are addressed continuously during every commit cycle.\n\n• **Test-Driven Design (TDD):** Automated unit and integration tests drive architectural design before implementation.\n\n---\n\n## Key Benefits & Best Practices\n\n• **High Code Reliability:** Minimizes production regressions through continuous automated test coverage.\n\n• **Accelerated Velocity:** Small, frequent git commits replace risky monolithic software releases.`;
         } else {
           try {
-            const wikiUrl = `https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&prop=extracts|pageimages&exintro=1&explaintext=1&pithumbsize=1200&titles=${encodeURIComponent(userMessage)}`;
+            const wikiUrl = `https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&prop=extracts|pageimages&piprop=original|thumbnail&pithumbsize=1200&exintro=1&explaintext=1&titles=${encodeURIComponent(userMessage)}`;
             const wikiRes = await fetch(wikiUrl);
             const wikiData = await wikiRes.json();
             if (wikiData?.query?.pages) {
@@ -915,8 +915,16 @@ function App() {
               
               for (let pid in pages) {
                 if (pages[pid].title) topTitle = pages[pid].title;
-                if (pages[pid].thumbnail?.source) imgUrl = pages[pid].thumbnail.source;
+                if (pages[pid].original?.source) {
+                  imgUrl = pages[pid].original.source;
+                } else if (pages[pid].thumbnail?.source) {
+                  imgUrl = pages[pid].thumbnail.source;
+                }
                 if (pages[pid].extract) extractText = pages[pid].extract;
+              }
+              
+              if (imgUrl) {
+                imgUrl = `https://wsrv.nl/?url=${encodeURIComponent(imgUrl)}&w=1200&output=webp`;
               }
               
               if (imgUrl || extractText) {
