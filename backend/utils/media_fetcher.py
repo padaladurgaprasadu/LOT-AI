@@ -12,42 +12,18 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-CURATED_HIGH_RES_IMAGES = {
-    "vijayawada": "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=1200&auto=format&fit=crop",
-    "vijayawada temple": "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=1200&auto=format&fit=crop",
-    "kanaka durga": "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=1200&auto=format&fit=crop",
-    "kanaka durga temple": "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=1200&auto=format&fit=crop",
-    "tirupati": "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=1200&auto=format&fit=crop",
-    "tirupati temple": "https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=1200&auto=format&fit=crop",
-    "kedarnath": "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=1200&auto=format&fit=crop",
-    "kedarnath temple": "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=1200&auto=format&fit=crop",
-    "taj mahal": "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=1200&auto=format&fit=crop",
-    "varanasi": "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?w=1200&auto=format&fit=crop",
-    "golden temple": "https://images.unsplash.com/photo-1514222134-b57cbb8ce073?w=1200&auto=format&fit=crop",
-    "ayodhya": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&auto=format&fit=crop",
-    "elon musk": "https://wsrv.nl/?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2F5%2F5e%2FElon_Musk_-_54820081119_%2528cropped%2529.jpg%2F1280px-Elon_Musk_-_54820081119_%2528cropped%2529.jpg&w=1200&output=webp"
-}
-
 def fetch_wikimedia_image(query_term: str) -> str:
     """
     Queries Wikipedia Search API + PageImages API for ANY place or person.
-    Falls back to curated high-res Unsplash CDN links.
-    Returns direct 1200px+ CDN image URL.
+    Returns the REAL, ORIGINAL featured image from Wikipedia Commons proxied via wsrv.nl.
     """
     if not query_term or len(query_term.strip()) < 2:
         return None
         
     term = query_term.strip()
-    clean_term = term.lower()
     
-    # 1. Check Curated High-Res Registry First
-    for key, img_url in CURATED_HIGH_RES_IMAGES.items():
-        if key in clean_term or clean_term in key:
-            logger.info(f"[MediaFetcher] Using curated high-res image for '{clean_term}': {img_url}")
-            return img_url
-            
-    # 2. Universal Wikipedia Search API
     try:
+        # 1. Search Wikipedia for exact matching article title
         search_url = f"https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch={urllib.parse.quote(term)}&format=json"
         req = urllib.request.Request(search_url, headers={"User-Agent": "PrismAI/1.0 (https://prismai.ai)"})
         with urllib.request.urlopen(req, timeout=3) as resp:
@@ -56,7 +32,7 @@ def fetch_wikimedia_image(query_term: str) -> str:
             if results:
                 top_title = results[0]["title"]
                 
-                # Fetch featured page image for top title
+                # 2. Fetch featured page image for top title
                 img_url = f"https://en.wikipedia.org/w/api.php?action=query&titles={urllib.parse.quote(top_title)}&prop=pageimages&format=json&pithumbsize=1280"
                 req_img = urllib.request.Request(img_url, headers={"User-Agent": "PrismAI/1.0 (https://prismai.ai)"})
                 with urllib.request.urlopen(req_img, timeout=3) as img_resp:
@@ -65,13 +41,11 @@ def fetch_wikimedia_image(query_term: str) -> str:
                     for pid, pinfo in pages.items():
                         if "thumbnail" in pinfo and "source" in pinfo["thumbnail"]:
                             raw_url = pinfo["thumbnail"]["source"]
-                            # Wrap in wsrv.nl CDN proxy to bypass browser CORS & hotlink blocks on upload.wikimedia.org!
+                            # Wrap in wsrv.nl CDN proxy to guarantee 100% CORS-free rendering in browser
                             proxied_url = f"https://wsrv.nl/?url={urllib.parse.quote(raw_url)}&w=1200&output=webp"
-                            logger.info(f"[MediaFetcher] Universal image found for '{term}' via '{top_title}': {proxied_url}")
+                            logger.info(f"[MediaFetcher] Real original image found for '{term}' via '{top_title}': {proxied_url}")
                             return proxied_url
     except Exception as e:
         logger.warning(f"[MediaFetcher] Wikipedia search failed for '{term}': {e}")
         
-    # 3. Fallback to Unsplash Source CDN
-    clean_slug = urllib.parse.quote(term.replace(" ", "-"))
-    return f"https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=1200&auto=format&fit=crop"
+    return None
