@@ -41,44 +41,41 @@ NVIDIA_MODEL_TIERS = {
     # 🏎️ FAST — Docs, summaries, deployment configs, fast code snippets
     "fast": "meta/llama-3.1-8b-instruct",
 
-    # 💻 CODING — Sub-200ms fast coding model
-    "coding": "meta/llama-3.1-8b-instruct",
+    # 💻 CODING — DeepSeek V4 Flash / Llama 3.3 70B
+    "coding": "deepseek-ai/deepseek-v4-flash",
 
-    # 🏗️ PLANNING — Sub-100ms ultra-fast planning model
-    "planning": "meta/llama-3.1-8b-instruct",
+    # 🏗️ PLANNING — Nemotron Ultra 253B / 550B
+    "planning": "nvidia/llama-3.1-nemotron-ultra-253b-v1",
 
-    # 🧠 REASONING — Sub-200ms reasoning model
-    "reasoning": "meta/llama-3.1-8b-instruct",
+    # 🧠 REASONING — Nemotron 550B Hybrid Mamba-MoE
+    "reasoning": "nvidia/nemotron-3-ultra-550b-a55b",
 
-    # 🔬 RESEARCH — Fast world knowledge model
-    "research": "meta/llama-3.1-8b-instruct",
+    # 🔬 RESEARCH — DeepSeek V4 Pro (1M Context)
+    "research": "deepseek-ai/deepseek-v4-pro",
 
-    # 👁️ VISION — Qwen VLM 400B MoE, UI critique, screenshot analysis
-    "vision": "qwen/qwen3-235b-a22b",
+    # 👁️ VISION — Llama 3.2 90B Vision
+    "vision": "meta/llama-3.2-90b-vision-instruct",
 
-    # 🖼️ MULTIMODAL — Image-to-code, visual QA, mixed media
-    "multimodal": "nvidia/llama-3.2-90b-vision-instruct",
+    # 🖼️ MULTIMODAL — MiniMax M3 Vision-Language Flagship
+    "multimodal": "minimaxai/minimax-m3",
 
-    # 📚 LONGCTX — 1M+ token context, Gemma 31B dense, agentic fine-tuning friendly
+    # 📚 LONGCTX — Gemma 4 31B IT
     "longctx": "google/gemma-4-31b-it",
 
-    # ⚙️ MOE_CHAT — MiniMax M2.7 230B, coding + reasoning + office tasks
-    "moe_chat": "minimax/minimax-m2.7-230b",
+    # ⚙️ MOE_CHAT — Mistral Medium 3.5 128B
+    "moe_chat": "mistralai/mistral-medium-3.5-128b",
 
-    # 🚀 FRONTIER — MiniMax M3 Preview, multimodal flagship, tool-calling
-    "frontier": "minimax/minimax-m3-preview",
+    # 🚀 FRONTIER — Z-AI GLM 5.2 Flagship Agentic LLM
+    "frontier": "z-ai/glm-5.2",
 
-    # ⚡ GPT-7 REASONING ENGINE — Extended Thinking 561B Hybrid Mamba-MoE (16,384 Reasoning Budget)
+    # ⚡ GPT-7 REASONING ENGINE — Extended Thinking 550B Hybrid Mamba-MoE
     "gpt7_reasoning": "nvidia/nemotron-3-ultra-550b-a55b",
 
-    # 📚 KIMI K5 ULTRA-LONG CONTEXT ENGINE — Mamba State Space 1M-10M CAG Retrieval
-    "kimi_k5_longctx": "deepseek-ai/deepseek-v4",
+    # 📚 KIMI K5 ULTRA-LONG CONTEXT ENGINE — DeepSeek V4 Pro 1M Context
+    "kimi_k5_longctx": "deepseek-ai/deepseek-v4-pro",
 
-    # ⚡ GEMINI FLASH 5 ENGINE — Ultra-Fast Sub-100ms Multimodal Intelligence Per Dollar & Second
+    # ⚡ GEMINI FLASH 5 ENGINE — Ultra-Fast Llama 3.1 8B
     "gemini_flash5": "meta/llama-3.1-8b-instruct",
-
-    # 🎵 INKLING — Thinky Machines Inkling Native Open-Weights Audio-Multimodal (#1 AudioMultiChallenge Benchmark)
-    "inkling_multimodal": "thinkymachines/inkling-audio-vision-70b",
 
     # 🌐 GLM-5.2 — Z.ai Flagship Agentic LLM for Long-Horizon Coding & Reasoning
     "glm_5_2": "z-ai/glm-5.2",
