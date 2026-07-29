@@ -324,7 +324,7 @@ function App() {
   // Load chat history from localStorage on mount, then sync from Cloud
   useEffect(() => {
     try {
-        const savedHistory = localStorage.getItem('aion_chat_history');
+        const savedHistory = localStorage.getItem('prismai_chat_history');
         if (savedHistory) {
             setChatHistoryList(JSON.parse(savedHistory));
         }
@@ -336,7 +336,7 @@ function App() {
         })
         .then(res => res.json())
         .then(data => {
-            const savedHistoryStr = localStorage.getItem('aion_chat_history');
+            const savedHistoryStr = localStorage.getItem('prismai_chat_history');
             let localData = savedHistoryStr ? JSON.parse(savedHistoryStr) : [];
             
             if (data && data.history && data.history.length > 0) {
@@ -360,7 +360,7 @@ function App() {
                 merged.sort((a, b) => b.timestamp - a.timestamp);
                 
                 setChatHistoryList(merged);
-                localStorage.setItem('aion_chat_history', JSON.stringify(merged));
+                localStorage.setItem('prismai_chat_history', JSON.stringify(merged));
                 
                 // Sync back to cloud if we merged local data
                 if (hasLocalChanges) {
@@ -424,7 +424,7 @@ function App() {
           }
           
           try {
-              localStorage.setItem('aion_chat_history', JSON.stringify(newList));
+              localStorage.setItem('prismai_chat_history', JSON.stringify(newList));
           } catch (e) {}
           
           syncToCloud(newList);
@@ -443,7 +443,7 @@ function App() {
         const newList = chatHistoryList.map(c => c.id === chatId ? { ...c, title: newTitle.trim() } : c);
         setChatHistoryList(newList);
         try {
-            localStorage.setItem('aion_chat_history', JSON.stringify(newList));
+            localStorage.setItem('prismai_chat_history', JSON.stringify(newList));
         } catch (err) {}
         syncToCloud(newList);
     }
@@ -455,7 +455,7 @@ function App() {
         const newList = chatHistoryList.filter(c => c.id !== chatId);
         setChatHistoryList(newList);
         try {
-            localStorage.setItem('aion_chat_history', JSON.stringify(newList));
+            localStorage.setItem('prismai_chat_history', JSON.stringify(newList));
         } catch (err) {}
         syncToCloud(newList);
         

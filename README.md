@@ -1,6 +1,6 @@
-# 🧠 AiON: The Complete End-to-End Workflow
+# 💎 PrismAI: Sovereign AI Engineering Platform & Silicon Ecosystem
 
-This is the **full, unfiltered** walkthrough of what happens when a user interacts with AiON—from the moment they type a message to the moment they receive a running application or a structured explanation.
+This is the **full, unfiltered** walkthrough of what happens when a user interacts with PrismAI—from the moment they type a message to the moment they receive a running application, McKinsey presentation deck, or custom silicon IP.
 
 ---
 

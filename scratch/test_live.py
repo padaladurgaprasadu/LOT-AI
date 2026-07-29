@@ -2,7 +2,7 @@ import requests
 import json
 
 def test_live():
-    url = "https://aion-v1-beta.onrender.com/api/chat"
+    url = "http://localhost:8000/api/chat"
     payload = {
         "message": "Explain WebSockets",
         "history": [],
