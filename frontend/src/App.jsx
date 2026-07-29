@@ -117,63 +117,31 @@ const ImageBlock = ({ node, ...props }) => {
   const altText = props.alt || "Featured Image";
 
   return (
-    <div className="chatgpt-hero-image-card" style={{ 
+    <div style={{ 
       margin: '0 0 20px 0', 
       width: '100%', 
       borderRadius: '16px', 
       overflow: 'hidden', 
       border: '1px solid rgba(255, 255, 255, 0.12)', 
       backgroundColor: '#18181b',
-      boxShadow: '0 12px 32px rgba(0, 0, 0, 0.4)',
-      position: 'relative'
+      boxShadow: '0 12px 32px rgba(0, 0, 0, 0.4)'
     }}>
-      <div style={{ position: 'relative', width: '100%', maxHeight: '360px', overflow: 'hidden' }}>
-        <img 
-          {...props} 
-          src={finalSrc}
-          alt={altText}
-          referrerPolicy="no-referrer"
-          onLoad={() => setIsLoaded(true)}
-          onError={() => setHasError(true)} 
-          style={{ 
-            width: '100%', 
-            maxHeight: '360px', 
-            objectFit: 'cover',
-            display: 'block',
-            opacity: isLoaded ? 1 : 0,
-            transition: 'opacity 0.3s ease'
-          }} 
-        />
-        <div style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: '60px',
-          background: 'linear-gradient(to top, rgba(0,0,0,0.7), transparent)',
-          pointerEvents: 'none'
-        }} />
-        <div style={{
-          position: 'absolute',
-          bottom: '10px',
-          right: '12px',
-          backgroundColor: 'rgba(0, 0, 0, 0.65)',
-          backdropFilter: 'blur(8px)',
-          border: '1px solid rgba(255, 255, 255, 0.15)',
-          borderRadius: '6px',
-          padding: '4px 10px',
-          fontSize: '11px',
-          color: '#e4e4e7',
-          fontWeight: '500',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '6px',
-          letterSpacing: '0.3px'
-        }}>
-          <span>📷</span>
-          <span>{altText}</span>
-        </div>
-      </div>
+      <img 
+        {...props} 
+        src={finalSrc}
+        alt={altText}
+        referrerPolicy="no-referrer"
+        onLoad={() => setIsLoaded(true)}
+        onError={() => setHasError(true)} 
+        style={{ 
+          width: '100%', 
+          maxHeight: '420px', 
+          objectFit: 'cover',
+          display: 'block',
+          opacity: isLoaded ? 1 : 0,
+          transition: 'opacity 0.3s ease'
+        }} 
+      />
     </div>
   );
 };
@@ -888,7 +856,7 @@ function App() {
           
           if (results.length > 0) {
             const topTitle = results[0].title;
-            const imgRes = await fetch(`https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(topTitle)}&prop=pageimages|extracts&exintro=1&explaintext=1&format=json&pithumbsize=1280&origin=*`);
+            const imgRes = await fetch(`https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(topTitle)}&prop=pageimages|extracts&explaintext=1&format=json&pithumbsize=1280&origin=*`);
             const imgData = await imgRes.json();
             const pages = imgData?.query?.pages || {};
             let imgUrl = "";
@@ -900,7 +868,24 @@ function App() {
             }
             
             if (imgUrl || extractText) {
-              fallbackResponse = `${imgUrl ? `![${topTitle}](${imgUrl})\n\n` : ''}# ${topTitle}\n\n${extractText || `Informative summary regarding **${query}**.`}`;
+              const paragraphs = (extractText || "").split('\n\n').filter(p => p.trim().length > 20);
+              let formattedBody = "";
+              if (paragraphs.length > 0) {
+                formattedBody += `## Executive Overview\n${paragraphs[0]}\n\n`;
+                if (paragraphs.length > 1) {
+                  formattedBody += `## History & Sacred Heritage\n${paragraphs[1]}\n\n`;
+                }
+                if (paragraphs.length > 2) {
+                  formattedBody += `## Architectural & Cultural Significance\n${paragraphs[2]}\n\n`;
+                }
+                if (paragraphs.length > 3) {
+                  formattedBody += `## Key Information & Visitor Guide\n${paragraphs.slice(3, 8).join('\n\n')}\n\n`;
+                }
+              } else {
+                formattedBody = extractText || `Comprehensive guide regarding **${query}**.`;
+              }
+              
+              fallbackResponse = `${imgUrl ? `![${topTitle}](${imgUrl})\n\n` : ''}# ${topTitle}\n\n${formattedBody}`;
             }
           }
         } catch (wikiErr) {
