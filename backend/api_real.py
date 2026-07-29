@@ -1412,10 +1412,14 @@ IMPORTANT RULES:
                 elif role == "ai" and not content.startswith("[BUILD]"):
                     messages.append(AIMessage(content=content))
                     
+            is_identity_query = any(k in sanitized_message.lower() for k in ["who are you", "what is your name", "who made you", "what is prismai", "what can you do", "who created you"])
+
             if is_architecture_req:
                 formatting_reminder = "\n\n[CRITICAL REMINDER]: You MUST output EXACTLY the `<architecture>` JSON block. DO NOT write any markdown text. DO NOT generate ASCII art. ONLY output the `<architecture>` tags containing the JSON payload."
             elif is_build_req:
                 formatting_reminder = "\n\n[CRITICAL REMINDER]: The user wants to build a project. You MUST return EXACTLY the `[BUILD] {\"goal\": \"...\", \"agent_role\": \"...\"}` format and nothing else. DO NOT generate markdown lists or conversational text. Output ONLY the [BUILD] tag."
+            elif is_identity_query:
+                formatting_reminder = "\n\n[SHORT & CLEAN IDENTITY DIRECTIVE]: Provide a SHORT, CRISP, CLEAN 1-section summary with MAX 3-4 bullet points. DO NOT generate multiple sections or dump internal tech stack modules!"
             else:
                 formatting_reminder = """\n\n[CONCISE & DISTINCT BULLET POINT MANDATE]:
 Structure your response into clean executive sections. 
