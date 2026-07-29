@@ -1817,12 +1817,12 @@ function generateClientSideWebAppHTML(goal) {
       
       {/* TOP NAV BAR */}
       <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 24px', backgroundColor: 'var(--sidebar-bg)', borderBottom: '1px solid var(--border-color)', zIndex: 10 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-          <button onClick={() => setShowSidebar(!showSidebar)} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', fontSize: '1.5rem', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="Toggle Sidebar">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <button onClick={() => setShowSidebar(!showSidebar)} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', fontSize: '1.4rem', cursor: 'pointer', padding: '2px 4px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="Toggle Sidebar">
             ☰
           </button>
-          <img src={prismaiLogo} alt="PrismAI Logo" style={{ width: '44px', height: '44px', objectFit: 'contain', display: 'block' }} />
-          <h1 style={{ margin: 0, fontSize: '1.2rem', letterSpacing: '1px', fontWeight: '600' }}>PrismAI</h1>
+          <img src={prismaiLogo} alt="PrismAI Logo" style={{ width: '34px', height: '34px', objectFit: 'contain', display: 'block', marginLeft: '2px' }} />
+          <h1 style={{ margin: 0, fontSize: '1.2rem', letterSpacing: '0.5px', fontWeight: '600', marginLeft: '2px' }}>PrismAI</h1>
           <span style={{ 
             fontSize: '0.75rem', 
             fontWeight: 'bold', 
