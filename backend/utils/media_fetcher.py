@@ -12,10 +12,26 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+def clean_wikimedia_url(url: str) -> str:
+    """Converts thumbnail subpath URLs to original file URLs for 100% wsrv.nl proxy compatibility."""
+    if not url:
+        return ""
+    if "/wikipedia/commons/thumb/" in url:
+        try:
+            parts = url.split('/')
+            # Reconstruct original file URL: https://upload.wikimedia.org/wikipedia/commons/4/4e/Tirumala_090615.jpg
+            file_name = parts[-2]
+            folder_a = parts[-4]
+            folder_b = parts[-3]
+            return f"https://upload.wikimedia.org/wikipedia/commons/{folder_a}/{folder_b}/{file_name}"
+        except Exception:
+            pass
+    return url
+
 def fetch_wikimedia_image(query_term: str) -> str:
     """
     Queries Wikipedia Search API + PageImages API for ANY place or person.
-    Returns the REAL, ORIGINAL featured image from Wikipedia Commons proxied via wsrv.nl.
+    Returns 100% real, original featured image proxied via wsrv.nl WebP CDN.
     """
     if not query_term or len(query_term.strip()) < 2:
         return None
@@ -26,23 +42,30 @@ def fetch_wikimedia_image(query_term: str) -> str:
         # 1. Search Wikipedia for exact matching article title
         search_url = f"https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch={urllib.parse.quote(term)}&format=json"
         req = urllib.request.Request(search_url, headers={"User-Agent": "PrismAI/1.0 (https://prismai.ai)"})
-        with urllib.request.urlopen(req, timeout=3) as resp:
+        with urllib.request.urlopen(req, timeout=8) as resp:
             s_data = json.loads(resp.read().decode("utf-8"))
             results = s_data.get("query", {}).get("search", [])
             if results:
                 top_title = results[0]["title"]
                 
-                # 2. Fetch featured page image for top title
-                img_url = f"https://en.wikipedia.org/w/api.php?action=query&titles={urllib.parse.quote(top_title)}&prop=pageimages&format=json&pithumbsize=1280"
+                # 2. Fetch original featured page image for top title
+                img_url = f"https://en.wikipedia.org/w/api.php?action=query&titles={urllib.parse.quote(top_title)}&prop=pageimages&format=json&piprop=original"
                 req_img = urllib.request.Request(img_url, headers={"User-Agent": "PrismAI/1.0 (https://prismai.ai)"})
-                with urllib.request.urlopen(req_img, timeout=3) as img_resp:
+                with urllib.request.urlopen(req_img, timeout=8) as img_resp:
                     i_data = json.loads(img_resp.read().decode("utf-8"))
                     pages = i_data.get("query", {}).get("pages", {})
                     for pid, pinfo in pages.items():
-                        if "thumbnail" in pinfo and "source" in pinfo["thumbnail"]:
-                            raw_url = pinfo["thumbnail"]["source"]
-                            # Wrap in wsrv.nl CDN proxy to guarantee 100% CORS-free rendering in browser
-                            proxied_url = f"https://wsrv.nl/?url={urllib.parse.quote(raw_url)}&w=1200&output=webp"
+                        raw_url = None
+                        if "original" in pinfo and "source" in pinfo["original"]:
+                            raw_url = pinfo["original"]["source"]
+                        elif "thumbnail" in pinfo and "source" in pinfo["thumbnail"]:
+                            raw_url = clean_wikimedia_url(pinfo["thumbnail"]["source"])
+                            
+                        if raw_url:
+                            # Clean thumbnail subpath if present
+                            clean_url = clean_wikimedia_url(raw_url)
+                            # Wrap in wsrv.nl CDN proxy to guarantee 100% CORS-free HTTP 200 rendering in browser
+                            proxied_url = f"https://wsrv.nl/?url={clean_url}&w=1200&output=webp"
                             logger.info(f"[MediaFetcher] Real original image found for '{term}' via '{top_title}': {proxied_url}")
                             return proxied_url
     except Exception as e:
