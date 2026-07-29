@@ -891,7 +891,24 @@ function App() {
                 .replace(/\[\d+\]/g, '')
                 .trim();
 
-              fallbackResponse = `${imgUrl ? `![${topTitle}](${imgUrl})\n\n` : ''}# ${topTitle}\n\n${cleanedText}`;
+              const sentences = cleanedText.split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 15);
+              let formattedBody = "";
+
+              if (sentences.length >= 4) {
+                const sec1 = sentences.slice(0, 3).map(s => `• ${s.trim()}`).join('\n');
+                const sec2 = sentences.slice(3, 7).map(s => `• ${s.trim()}`).join('\n');
+                const sec3 = sentences.slice(7, 11).map(s => `• ${s.trim()}`).join('\n');
+                const sec4 = sentences.slice(11, 16).map(s => `• ${s.trim()}`).join('\n');
+
+                formattedBody += `## Executive Overview\n${sec1}\n\n`;
+                if (sec2) formattedBody += `## History & Sacred Heritage\n${sec2}\n\n`;
+                if (sec3) formattedBody += `## Architectural & Cultural Significance\n${sec3}\n\n`;
+                if (sec4) formattedBody += `## Key Information & Visitor Guide\n${sec4}\n\n`;
+              } else {
+                formattedBody = `## Executive Overview\n${cleanedText}`;
+              }
+              
+              fallbackResponse = `${imgUrl ? `![${topTitle}](${imgUrl})\n\n` : ''}# ${topTitle}\n\n${formattedBody}`;
             }
           }
         } catch (wikiErr) {
