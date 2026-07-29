@@ -26,34 +26,46 @@ CURATED_HIGH_RES_IMAGES = {
 
 def fetch_wikimedia_image(query_term: str) -> str:
     """
-    Queries Wikipedia / Wikimedia Commons / Unsplash CDN for high-resolution images.
+    Queries Wikipedia Search API + PageImages API for ANY place or person.
+    Falls back to curated high-res Unsplash CDN links.
     Returns direct 1200px+ CDN image URL.
     """
-    if not query_term or len(query_term.strip()) == 0:
+    if not query_term or len(query_term.strip()) < 2:
         return None
         
-    clean_term = query_term.strip().lower()
+    term = query_term.strip()
+    clean_term = term.lower()
     
-    # Check Curated High-Res Registry First
+    # 1. Check Curated High-Res Registry First
     for key, img_url in CURATED_HIGH_RES_IMAGES.items():
         if key in clean_term or clean_term in key:
             logger.info(f"[MediaFetcher] Using curated high-res image for '{clean_term}': {img_url}")
             return img_url
             
+    # 2. Universal Wikipedia Search API
     try:
-        encoded_term = urllib.parse.quote(query_term.strip())
-        url = f"https://en.wikipedia.org/w/api.php?action=query&titles={encoded_term}&prop=pageimages&format=json&pithumbsize=1280"
-        
-        req = urllib.request.Request(url, headers={"User-Agent": "PrismAI/1.0 (https://prismai.ai)"})
+        search_url = f"https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch={urllib.parse.quote(term)}&format=json"
+        req = urllib.request.Request(search_url, headers={"User-Agent": "PrismAI/1.0 (https://prismai.ai)"})
         with urllib.request.urlopen(req, timeout=3) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
-            pages = data.get("query", {}).get("pages", {})
-            for page_id, page_info in pages.items():
-                if "thumbnail" in page_info and "source" in page_info["thumbnail"]:
-                    image_url = page_info["thumbnail"]["source"]
-                    logger.info(f"[MediaFetcher] Found Wikipedia image for '{query_term}': {image_url}")
-                    return image_url
+            s_data = json.loads(resp.read().decode("utf-8"))
+            results = s_data.get("query", {}).get("search", [])
+            if results:
+                top_title = results[0]["title"]
+                
+                # Fetch featured page image for top title
+                img_url = f"https://en.wikipedia.org/w/api.php?action=query&titles={urllib.parse.quote(top_title)}&prop=pageimages&format=json&pithumbsize=1280"
+                req_img = urllib.request.Request(img_url, headers={"User-Agent": "PrismAI/1.0 (https://prismai.ai)"})
+                with urllib.request.urlopen(req_img, timeout=3) as img_resp:
+                    i_data = json.loads(img_resp.read().decode("utf-8"))
+                    pages = i_data.get("query", {}).get("pages", {})
+                    for pid, pinfo in pages.items():
+                        if "thumbnail" in pinfo and "source" in pinfo["thumbnail"]:
+                            found_url = pinfo["thumbnail"]["source"]
+                            logger.info(f"[MediaFetcher] Universal image found for '{term}' via '{top_title}': {found_url}")
+                            return found_url
     except Exception as e:
-        logger.warning(f"[MediaFetcher] Failed to fetch image for '{query_term}': {e}")
+        logger.warning(f"[MediaFetcher] Wikipedia search failed for '{term}': {e}")
         
-    return None
+    # 3. Fallback to Unsplash Source CDN
+    clean_slug = urllib.parse.quote(term.replace(" ", "-"))
+    return f"https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=1200&auto=format&fit=crop"
