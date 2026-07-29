@@ -926,7 +926,7 @@ function App() {
       }
 
       if (!fallbackResponse) {
-        fallbackResponse = `## 🌟 Welcome to PrismAI\n\n• **Identity:** PrismAI — Sovereign AI Engineering Assistant & Fullstack Platform engineered by Google DeepMind team.\n\n• **Architecture:** Powered by an 11-Model NVIDIA Liquid Router and 1,000-Agent Swarm Matrix.\n\n• **Capabilities:** Autonomous fullstack application generation, 78 design systems, and high-speed hardware optimization. How can I assist your project today?`;
+        fallbackResponse = `## 🌟 Welcome to PrismAI\n\n• **Identity:** PrismAI — Sovereign AI Engineering Assistant & Fullstack Platform.\n\n• **Capabilities:** Autonomous fullstack application generation, intelligent design systems, and enterprise code synthesis.\n\n• **Goal:** Empowering developers to build, debug, and scale production software effortlessly. How can I assist your project today?`;
       }
 
       setIsChatLoading(false);
