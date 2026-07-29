@@ -1232,82 +1232,9 @@ IMPORTANT RULES:
                 yield f"data: {json.dumps({'type': 'telemetry', 'metrics': telemetry.get_metrics()})}\n\n"
                 return
 
-            # --- NON-BLOCKING VISUAL ENGINE ---
+            # Visual image streaming disabled per user preference for clean text responses
             visual_queue = None
             visual_task = None
-            entity_det = intent_data.get("entity_detection", {})
-            visual_query_val = entity_det.get("search_query", "")
-            # Visual engine relies strictly on intelligent entity detection
-
-            if entity_det.get("requires_visuals") and visual_query_val and visual_query_val.lower() not in ["null", "none"]:
-                visual_queue = asyncio.Queue()
-                yield f"data: {json.dumps({'type': 'status', 'message': '📸 Fetching Visuals (Background)...'})}\n\n"
-                async def fetch_visuals():
-                    from backend.utils.visuals import get_generative_image, get_real_world_image, get_pencil_sketch_image
-                    try:
-                        v_count = 1
-                        img_urls = []
-                        
-                        # Try real world first (highest quality for places, people, objects)
-                        res = await asyncio.to_thread(get_real_world_image, visual_query_val, v_count)
-                        img_urls = res if isinstance(res, list) else ([res] if res else [])
-                        
-                        # Fallback to generative for abstract concepts or if real-world fails
-                        if not img_urls:
-                            url = await asyncio.to_thread(get_generative_image, visual_query_val)
-                            if url: img_urls.append(url)
-                        
-                        for img_url in img_urls:
-                            await visual_queue.put({
-                                "type": "visual",
-                                "media_type": "image",
-                                "url": img_url,
-                                "alt": visual_query_val
-                            })
-                    except Exception as e:
-                        api_logger.warning(f"Error fetching visuals: {e}")
-                    finally:
-                        await visual_queue.put(None) # EOF marker
-                
-                visual_task = asyncio.create_task(fetch_visuals())
-            elif not is_complex and len(sanitized_message.split()) <= 3:
-                tech_blacklist = {
-                    "dsa", "algo", "algorithm", "data structure", "data structures", "code", "coding", 
-                    "python", "java", "javascript", "js", "ts", "typescript", "c++", "cpp", "c#", "golang", 
-                    "rust", "html", "css", "react", "vue", "angular", "node", "express", "fastapi", "django", 
-                    "flask", "sql", "nosql", "mongodb", "postgres", "mysql", "redis", "docker", "k8s", 
-                    "kubernetes", "aws", "azure", "gcp", "git", "github", "api", "rest", "graphql", "oop", 
-                    "dbms", "os", "operating system", "linux", "windows", "array", "string", "linked list", 
-                    "stack", "queue", "hashmap", "tree", "graph", "heap", "trie", "sorting", "searching", 
-                    "recursion", "dp", "dynamic programming", "greedy", "backtracking", "bit manipulation",
-                    "hello", "hi", "hey", "test", "help", "thanks", "thank you", "bye", "who are you", "what is this"
-                }
-                import re
-                msg_clean = re.sub(r'[^\w\s]', '', sanitized_message).lower().strip()
-                question_words = {"who", "what", "where", "why", "how", "when", "can", "could", "would", "is", "are", "am", "do", "does", "did", "tell", "explain", "describe", "write", "build"}
-                is_question_or_greeting = msg_clean in tech_blacklist or any(w in msg_clean.split() for w in question_words) or any(w in msg_clean.split() for w in ["dsa", "code", "function", "class", "method", "algorithm", "variable", "bug", "error", "syntax", "compiler"])
-                
-                if not is_question_or_greeting and (sanitized_message[0].isupper() or len(sanitized_message.split()) >= 1):
-                    # Speculative visual fetching ONLY for genuine proper nouns / places (e.g., "Sabarimala", "Paris")
-                    visual_queue = asyncio.Queue()
-                    async def fetch_visuals_speculative():
-                        from backend.utils.visuals import get_real_world_image
-                        try:
-                            res = await asyncio.to_thread(get_real_world_image, sanitized_message, 1)
-                            if res:
-                                img_urls = res if isinstance(res, list) else [res]
-                                for img_url in img_urls:
-                                    await visual_queue.put({
-                                        "type": "visual",
-                                        "media_type": "image",
-                                        "url": img_url,
-                                        "alt": sanitized_message
-                                    })
-                        except Exception:
-                            pass
-                        finally:
-                            await visual_queue.put(None)
-                    visual_task = asyncio.create_task(fetch_visuals_speculative())
 
             msg_lower = sanitized_message.lower()
             primary_intent = str(intent_data.get("primary_intent", "General Chat"))
@@ -1454,12 +1381,22 @@ IMPORTANT RULES:
   [CRITICAL]: DO NOT use the <architecture> tag for general chat, conceptual explanations, or answering simple coding questions. ONLY output <architecture> if the user EXPLICITLY requests a system architecture diagram!
 - **Agent Hand-off:** ONLY use [BUILD] if the user explicitly requests to build a multi-file software application (e.g. "build me a full-stack SaaS CRM").
 [CRITICAL]: ABSOLUTELY NEVER use the [BUILD] tag for identity questions (e.g., 'who are you?', 'what is your name?'), greetings, conceptual explanations, or general chat! Answer identity questions directly in text!
-- **Location / Travel Queries:** If the user asks about a specific place, temple, city, or tourist destination (e.g. Sabarimala, Paris), you MUST structure your response with: 
-  1. Overview
-  2. Best time to visit and Activities to perform
-  3. Opening and closing timings
-  4. Summary/Conclusion
-  5. 3 Follow-up Questions at the end.
+- **Structured Knowledge & Location Formatting Directive:** When answering questions about any place, landmark, temple, person, concept, or technical subject, you MUST format your response into clear, highly readable sections using Markdown headers with icons and bold bullet points (•):
+  ## 📌 Executive Summary
+  • **Overview:** Concise summary...
+  • **Location & Identity:** Key details...
+
+  ## 🏛️ History & Heritage
+  • **Historical Background:** Rich historical context...
+
+  ## 🧭 Key Information & Visitor Guide
+  • **Timings & Hours:** Operational details...
+  • **Best Time to Visit:** Seasonal recommendations...
+
+  ## 💡 Key Highlights & Important Tips
+  • **Highlights:** Core features and recommendations...
+
+  [CRITICAL]: ABSOLUTELY NEVER output markdown image tags (![alt](url)). Provide clean, structured text only.
 [USER'S PAST MEMORY]:
 {USER_MEMORY}
 """
