@@ -106,23 +106,33 @@ const CodeBlock = ({ node, className, children, ...props }) => {
 
 const ImageBlock = ({ node, ...props }) => {
   return (
-    <img 
-      {...props} 
-      onError={(e) => { e.currentTarget.style.display = 'none'; }} 
-      style={{ maxWidth: '100%', maxHeight: '400px', borderRadius: '12px', margin: '12px 0', objectFit: 'cover' }} 
-    />
+    <div style={{ margin: '16px 0' }}>
+      <img 
+        {...props} 
+        onError={(e) => { 
+          if (e.currentTarget.parentElement) e.currentTarget.parentElement.style.display = 'none';
+          e.currentTarget.style.display = 'none'; 
+        }} 
+        style={{ 
+          maxWidth: '100%', 
+          maxHeight: '450px', 
+          borderRadius: '16px', 
+          border: '1px solid rgba(255, 255, 255, 0.1)', 
+          boxShadow: '0 12px 30px rgba(0,0,0,0.5)', 
+          objectFit: 'cover',
+          display: 'block'
+        }} 
+      />
+    </div>
   );
 };
 
 const renderMessageContent = (content, onOpenArchitecture) => {
-  // Strip all markdown image tags (![alt](url)) to guarantee clean professional text responses
-  const cleanContent = (content || "").replace(/!\[.*?\]\(.*?\)/g, '').trim();
-
-  if (!cleanContent.includes('<architecture>')) {
+  if (!content.includes('<architecture>')) {
       return (
           <div className="markdown-body" onClick={handleMarkdownClick}>
-              <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={{ code: CodeBlock }}>
-                  {cleanContent}
+              <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={{ code: CodeBlock, img: ImageBlock }}>
+                  {content}
               </ReactMarkdown>
           </div>
       );

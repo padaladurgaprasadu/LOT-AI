@@ -1483,6 +1483,17 @@ IMPORTANT RULES:
             
             # Clear status indicator
             yield f"data: {json.dumps({'type': 'status', 'message': ''})}\n\n"
+
+            # 🖼️ SMART MEDIA EMBEDDER: Fetch official Wikimedia/Wikipedia image for places & people queries
+            if not is_build_req and not is_architecture_req and len(sanitized_message.strip()) > 2:
+                try:
+                    from backend.utils.media_fetcher import fetch_wikimedia_image
+                    wiki_img = fetch_wikimedia_image(sanitized_message.strip())
+                    if wiki_img:
+                        img_token = f"![{sanitized_message.strip()}]({wiki_img})\n\n"
+                        yield f"data: {json.dumps({'token': img_token})}\n\n"
+                except Exception as img_err:
+                    api_logger.warning(f"Media fetcher skipped: {img_err}")
             
             global global_base_agent
             if global_base_agent is None:
