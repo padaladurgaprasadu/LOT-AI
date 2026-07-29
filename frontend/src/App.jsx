@@ -104,11 +104,21 @@ const CodeBlock = ({ node, className, children, ...props }) => {
   );
 };
 
+const ImageBlock = ({ node, ...props }) => {
+  return (
+    <img 
+      {...props} 
+      onError={(e) => { e.currentTarget.style.display = 'none'; }} 
+      style={{ maxWidth: '100%', maxHeight: '400px', borderRadius: '12px', margin: '12px 0', objectFit: 'cover' }} 
+    />
+  );
+};
+
 const renderMessageContent = (content, onOpenArchitecture) => {
   if (!content.includes('<architecture>')) {
       return (
           <div className="markdown-body" onClick={handleMarkdownClick}>
-              <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={{ code: CodeBlock }}>
+              <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={{ code: CodeBlock, img: ImageBlock }}>
                   {content}
               </ReactMarkdown>
           </div>
@@ -159,7 +169,7 @@ const renderMessageContent = (content, onOpenArchitecture) => {
       if (!part.trim()) return null;
       return (
           <div key={i} className="markdown-body" onClick={handleMarkdownClick}>
-              <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={{ code: CodeBlock }}>
+              <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={{ code: CodeBlock, img: ImageBlock }}>
                   {part}
               </ReactMarkdown>
           </div>
