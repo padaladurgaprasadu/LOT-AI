@@ -160,8 +160,12 @@ const ImageBlock = ({ node, ...props }) => {
 };
 
 const renderMessageContent = (content, onOpenArchitecture) => {
-  // Strip all markdown image tags (![alt](url)) to guarantee clean text-only responses
-  const sanitizedContent = (content || "").replace(/!\[.*?\]\(.*?\)/g, '').trim();
+  // Strip all markdown image tags (![alt](url)) including multiline & trailing incomplete tags
+  const sanitizedContent = (content || "")
+    .replace(/!\[[\s\S]*?\]\([\s\S]*?\)/g, '')
+    .replace(/!\[[\s\S]*?\]\([^\)]*$/g, '')
+    .replace(/!\[[^\n]*$/g, '')
+    .trim();
 
   if (!sanitizedContent.includes('<architecture>')) {
       return (
