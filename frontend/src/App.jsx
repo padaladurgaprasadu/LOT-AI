@@ -912,7 +912,7 @@ function App() {
                 formattedBody += `## Executive Overview\n${sec1}\n\n`;
                 if (sec2) formattedBody += `## History & Sacred Heritage\n${sec2}\n\n`;
                 if (sec3) formattedBody += `## Architectural & Cultural Significance\n${sec3}\n\n`;
-                if (sec4) formattedBody += `## Key Information & Visitor Guide\n${sec4}\n\n`;
+                if (sec4) formattedBody += `## Key Information & Visitor Guide\n• **Opening & Closing Timings:** Daily opening (4:00 AM - 9:00 PM).\n• **Activities to Perform:** Sacred darshan, attending evening Aarti, trekking, and photography.\n${sec4}\n\n`;
               } else {
                 formattedBody = `## Executive Overview\n${sentences.map(s => `• ${s}`).join('\n')}`;
               }

@@ -1440,8 +1440,10 @@ Structure your response into clean executive sections.
 • Short cultural significance detail...
 
 ## Key Information & Visitor Guide
-• Short timing / operational detail...
-• Short travel / highlight detail...
+• **Timings:** Daily opening and closing hours (e.g. 4:00 AM - 9:00 PM).
+• **Activities to Perform:** Sacred darshan, evening Aarti, trekking, and photography.
+• **Best Time to Visit:** Ideal months and seasonal climate guide.
+• **Travel & Access:** Transport connectivity and route guidelines.
 """
                         
             if request_data.image:
