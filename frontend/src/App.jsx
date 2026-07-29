@@ -2294,7 +2294,7 @@ function generateClientSideWebAppHTML(goal) {
                     display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '14px',
                     textTransform: 'uppercase'
                   }}>
-                    {msg.role === 'user' ? (session?.user?.email?.[0] || 'U') : 'A'}
+                    {msg.role === 'user' ? (session?.user?.email?.[0] || 'U') : 'P'}
                   </div>
                   <div style={{ 
                     backgroundColor: msg.role === 'user' ? 'var(--border-color)' : 'transparent',
@@ -2375,7 +2375,7 @@ function generateClientSideWebAppHTML(goal) {
               
               {isChatLoading && (
                 <div style={{ display: 'flex', gap: '16px', alignSelf: 'flex-start' }}>
-                   <div style={{ width: '32px', height: '32px', borderRadius: '50%', backgroundColor: 'var(--accent)', display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#fff', fontWeight: 'bold' }}>A</div>
+                   <div style={{ width: '32px', height: '32px', borderRadius: '50%', backgroundColor: 'var(--accent)', display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#fff', fontWeight: 'bold' }}>P</div>
                    <div style={{ padding: '6px 0', display: 'flex', alignItems: 'center', gap: '12px' }}>
                      <div className="spinner" style={{ width: '18px', height: '18px' }}></div>
                      {chatStatus && (
