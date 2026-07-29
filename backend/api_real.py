@@ -1450,11 +1450,10 @@ IMPORTANT RULES:
   • **Tip 1:** Best practice point 1...
   • **Tip 2:** Best practice point 2...
 """
-            else:
-                formatting_reminder = """\n\n[CONCISE & DISTINCT BULLET POINT MANDATE]:
-Structure your response into clean executive sections. 
+            elif content_type == "Place":
+                formatting_reminder = """\n\n[VISITOR GUIDE DIRECTIVE FOR PLACES & LANDMARKS]:
+Structure your response into clean executive sections:
 • Separate EVERY bullet point with a blank line so it renders as a distinct block.
-• ABSOLUTELY NO combining bullet points into a single continuous paragraph.
 • Every bullet point MUST be 1 short, crisp line (max 15-20 words per item).
 
 # [Title]
@@ -1480,6 +1479,31 @@ Structure your response into clean executive sections.
 • **Best Time to Visit:** Ideal months and seasonal climate guide.
 
 • **Travel & Access:** Transport connectivity and route guidelines.
+"""
+            else:
+                formatting_reminder = """\n\n[EXECUTIVE TECHNICAL & CONCEPTUAL MANDATE]:
+• ABSOLUTELY DO NOT output temple headers, sacred heritage, opening/closing timings, or visitor guide text on technical, conceptual, or general topics!
+• Structure your response into clean, professional executive sections:
+
+# [Title]
+
+## Executive Overview
+
+• Short, crisp bullet point 1...
+
+• Short, crisp bullet point 2...
+
+## Core Principles & Architecture
+
+• Key technical or conceptual detail 1...
+
+• Key technical or conceptual detail 2...
+
+## Key Benefits & Best Practices
+
+• **Benefit 1:** Short explanation...
+
+• **Benefit 2:** Short explanation...
 """
                         
             if request_data.image:
