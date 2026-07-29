@@ -109,7 +109,12 @@ const ImageBlock = ({ node, ...props }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   if (hasError || !props.src) return null;
 
-  let finalSrc = props.src;
+  const srcStr = String(props.src).trim();
+  // 🛡️ REJECT INCOMPLETE OR TRUNCATED STREAMING URLS
+  if (!srcStr.startsWith('http://') && !srcStr.startsWith('https://')) return null;
+  if (srcStr.length < 25 || !srcStr.includes('.')) return null;
+
+  let finalSrc = srcStr;
   if (finalSrc.startsWith('http') && !finalSrc.includes('wsrv.nl') && !finalSrc.includes('unsplash.com')) {
     finalSrc = `https://wsrv.nl/?url=${encodeURIComponent(finalSrc)}&w=1200&output=webp`;
   }
@@ -155,17 +160,20 @@ const ImageBlock = ({ node, ...props }) => {
 };
 
 const renderMessageContent = (content, onOpenArchitecture) => {
-  if (!content.includes('<architecture>')) {
+  // 🛡️ STREAM SANITIZER: Hide trailing incomplete image tags (![alt](https://...) until closing ')' arrives
+  const sanitizedContent = (content || "").replace(/!\[[^\]]*\]\((?:https?:\/\/[^\s)]*)?$/g, '').trim();
+
+  if (!sanitizedContent.includes('<architecture>')) {
       return (
           <div className="markdown-body" onClick={handleMarkdownClick}>
               <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={{ code: CodeBlock, img: ImageBlock }}>
-                  {content}
+                  {sanitizedContent}
               </ReactMarkdown>
           </div>
       );
   }
   
-  const parts = cleanContent.split(/(<architecture>[\s\S]*?(?:<\/architecture>|$))/);
+  const parts = sanitizedContent.split(/(<architecture>[\s\S]*?(?:<\/architecture>|$))/);
   return parts.map((part, i) => {
       if (part.startsWith('<architecture>')) {
           if (part.endsWith('</architecture>')) {
