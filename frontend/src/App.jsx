@@ -106,31 +106,74 @@ const CodeBlock = ({ node, className, children, ...props }) => {
 
 const ImageBlock = ({ node, ...props }) => {
   const [hasError, setHasError] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   if (hasError || !props.src) return null;
 
-  // Wrap external Wikipedia/Wikimedia images in global wsrv CDN proxy to bypass browser hotlink/CORS blocks
   let finalSrc = props.src;
   if (finalSrc.startsWith('http') && !finalSrc.includes('wsrv.nl') && !finalSrc.includes('unsplash.com')) {
     finalSrc = `https://wsrv.nl/?url=${encodeURIComponent(finalSrc)}&w=1200&output=webp`;
   }
 
+  const altText = props.alt || "Featured Image";
+
   return (
-    <div style={{ margin: '16px 0', display: 'flex', justifyContent: 'center', width: '100%' }}>
-      <img 
-        {...props} 
-        src={finalSrc}
-        referrerPolicy="no-referrer"
-        onError={() => setHasError(true)} 
-        style={{ 
-          width: '100%', 
-          maxHeight: '450px', 
-          borderRadius: '16px', 
-          border: '1px solid rgba(255, 255, 255, 0.15)', 
-          boxShadow: '0 12px 30px rgba(0,0,0,0.6)', 
-          objectFit: 'cover',
-          display: 'block'
-        }} 
-      />
+    <div className="chatgpt-hero-image-card" style={{ 
+      margin: '0 0 20px 0', 
+      width: '100%', 
+      borderRadius: '16px', 
+      overflow: 'hidden', 
+      border: '1px solid rgba(255, 255, 255, 0.12)', 
+      backgroundColor: '#18181b',
+      boxShadow: '0 12px 32px rgba(0, 0, 0, 0.4)',
+      position: 'relative'
+    }}>
+      <div style={{ position: 'relative', width: '100%', maxHeight: '360px', overflow: 'hidden' }}>
+        <img 
+          {...props} 
+          src={finalSrc}
+          alt={altText}
+          referrerPolicy="no-referrer"
+          onLoad={() => setIsLoaded(true)}
+          onError={() => setHasError(true)} 
+          style={{ 
+            width: '100%', 
+            maxHeight: '360px', 
+            objectFit: 'cover',
+            display: 'block',
+            opacity: isLoaded ? 1 : 0,
+            transition: 'opacity 0.3s ease'
+          }} 
+        />
+        <div style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: '60px',
+          background: 'linear-gradient(to top, rgba(0,0,0,0.7), transparent)',
+          pointerEvents: 'none'
+        }} />
+        <div style={{
+          position: 'absolute',
+          bottom: '10px',
+          right: '12px',
+          backgroundColor: 'rgba(0, 0, 0, 0.65)',
+          backdropFilter: 'blur(8px)',
+          border: '1px solid rgba(255, 255, 255, 0.15)',
+          borderRadius: '6px',
+          padding: '4px 10px',
+          fontSize: '11px',
+          color: '#e4e4e7',
+          fontWeight: '500',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '6px',
+          letterSpacing: '0.3px'
+        }}>
+          <span>📷</span>
+          <span>{altText}</span>
+        </div>
+      </div>
     </div>
   );
 };
