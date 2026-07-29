@@ -1469,12 +1469,14 @@ IMPORTANT RULES:
             from backend.memory.grok_build_engine import inject_grok_build_prompt
             from backend.memory.chrome_quality_engine import inject_chrome_quality_prompt
             from backend.memory.awesome_llm_apps_engine import inject_awesome_llm_apps_prompt
+            from backend.memory.cuda_agentic_rl_engine import inject_cuda_agent_prompt
 
             system_prompt = inject_impeccable_design_prompt(system_prompt)
             system_prompt = inject_open_design_prompt(system_prompt)
             system_prompt = inject_grok_build_prompt(system_prompt)
             system_prompt = inject_chrome_quality_prompt(system_prompt)
             system_prompt = inject_awesome_llm_apps_prompt(system_prompt)
+            system_prompt = inject_cuda_agent_prompt(system_prompt)
 
             messages = [SystemMessage(content=system_prompt)]
             for msg in request_data.history:
