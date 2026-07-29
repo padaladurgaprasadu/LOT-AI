@@ -1431,12 +1431,16 @@ IMPORTANT RULES:
             from backend.memory.intelligent_ui_rules import classify_content_type
             content_type = classify_content_type(sanitized_message)
 
+            is_greeting = bool(re.search(r"^(hello|hi|hey|greetings|good morning|good afternoon|good evening|howdy|sup|thanks|thank you)\b", sanitized_message.lower().strip()))
+
             if is_architecture_req:
                 formatting_reminder = "\n\n[CRITICAL REMINDER]: You MUST output EXACTLY the `<architecture>` JSON block. DO NOT write any markdown text. DO NOT generate ASCII art. ONLY output the `<architecture>` tags containing the JSON payload."
             elif is_build_req:
                 formatting_reminder = "\n\n[CRITICAL REMINDER]: The user wants to build a project. You MUST return EXACTLY the `[BUILD] {\"goal\": \"...\", \"agent_role\": \"...\"}` format and nothing else. DO NOT generate markdown lists or conversational text. Output ONLY the [BUILD] tag."
             elif is_identity_query:
                 formatting_reminder = "\n\n[SHORT & CLEAN IDENTITY DIRECTIVE]: Provide a SHORT, CRISP, CLEAN 1-section summary with MAX 3-4 bullet points. DO NOT generate multiple sections or dump internal tech stack modules!"
+            elif is_greeting:
+                formatting_reminder = "\n\n[SHORT CONVERSATIONAL GREETING DIRECTIVE]: Respond naturally with a friendly, short 1-2 sentence greeting. DO NOT generate multi-section headers, executive overviews, or long bullet lists on simple greetings!"
             elif content_type == "Programming":
                 formatting_reminder = """\n\n[PROGRAMMING & CODE EXECUTION DIRECTIVE]:
 • DO NOT output hero images, image tags (![alt](url)), or non-technical headers (like Sacred Heritage or Visitor Guide).
