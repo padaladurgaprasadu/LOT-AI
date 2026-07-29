@@ -105,19 +105,40 @@ const CodeBlock = ({ node, className, children, ...props }) => {
 };
 
 const ImageBlock = ({ node, ...props }) => {
+  const rawSrc = String(props.src || "").trim();
+  const [currentSrc, setCurrentSrc] = useState(() => {
+    if (rawSrc.startsWith("http") && !rawSrc.includes("wsrv.nl") && !rawSrc.includes("unsplash.com")) {
+      const cleanUrl = rawSrc.replace(/^https?:\/\//, '');
+      return `https://wsrv.nl/?url=${encodeURIComponent(cleanUrl)}&w=1200&output=webp`;
+    }
+    return rawSrc;
+  });
   const [hasError, setHasError] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  if (hasError || !props.src) return null;
 
-  const srcStr = String(props.src).trim();
-  // 🛡️ REJECT INCOMPLETE OR TRUNCATED STREAMING URLS
-  if (!srcStr.startsWith('http://') && !srcStr.startsWith('https://')) return null;
-  if (srcStr.length < 25 || !srcStr.includes('.')) return null;
+  useEffect(() => {
+    const s = String(props.src || "").trim();
+    if (s.startsWith("http") && !s.includes("wsrv.nl") && !s.includes("unsplash.com")) {
+      const cleanUrl = s.replace(/^https?:\/\//, '');
+      setCurrentSrc(`https://wsrv.nl/?url=${encodeURIComponent(cleanUrl)}&w=1200&output=webp`);
+    } else {
+      setCurrentSrc(s);
+    }
+    setHasError(false);
+    setIsLoaded(false);
+  }, [props.src]);
 
-  let finalSrc = srcStr;
-  if (finalSrc.startsWith('http') && !finalSrc.includes('wsrv.nl') && !finalSrc.includes('unsplash.com')) {
-    finalSrc = `https://wsrv.nl/?url=${encodeURIComponent(finalSrc)}&w=1200&output=webp`;
-  }
+  if (hasError || !rawSrc) return null;
+  if (!rawSrc.startsWith('http://') && !rawSrc.startsWith('https://')) return null;
+
+  const handleImgError = () => {
+    if (currentSrc.includes('wsrv.nl') && rawSrc && currentSrc !== rawSrc) {
+      console.warn("wsrv.nl failed, falling back to direct image URL:", rawSrc);
+      setCurrentSrc(rawSrc);
+    } else {
+      setHasError(true);
+    }
+  };
 
   return (
     <div style={{ 
@@ -143,17 +164,17 @@ const ImageBlock = ({ node, ...props }) => {
         </div>
       )}
       <img 
-        src={finalSrc}
+        src={currentSrc}
         alt=""
         referrerPolicy="no-referrer"
         onLoad={() => setIsLoaded(true)}
-        onError={() => setHasError(true)} 
+        onError={handleImgError}
         style={{ 
           width: '100%', 
           maxHeight: '420px', 
           objectFit: 'cover',
           display: isLoaded ? 'block' : 'none'
-        }} 
+        }}
       />
     </div>
   );
