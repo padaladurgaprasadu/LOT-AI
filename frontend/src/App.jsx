@@ -822,23 +822,46 @@ function App() {
       setChatStatus("");
 
     } catch (err) {
-      console.warn("Backend connection offline, using PrismAI Zero-Downtime Engine:", err);
-      const p = userMessage.toLowerCase();
+      console.warn("Backend connection offline, using PrismAI Dynamic Client Engine:", err);
+      const query = userMessage.trim();
+      const p = query.toLowerCase();
       let fallbackResponse = "";
+
       if (p.includes("hello") || p.includes("hi") || p.includes("hey")) {
         fallbackResponse = "Hello! I am **PrismAI**, your Sovereign AI Engineering Assistant. How can I empower your project today?";
-      } else if (p.includes("tirupati")) {
-        fallbackResponse = "![Tirupati Temple](https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=1200&auto=format&fit=crop)\n\n# Tirupati: The Sacred Abode of Lord Venkateswara\n\n## Overview\nTirupati, located in the Chittoor district of Andhra Pradesh, India, is a revered global pilgrimage destination. It is home to the world-famous **Tirumala Venkateswara Temple**, situated atop the Seshachalam Hills at an elevation of 853 meters.\n\n### Key Highlights:\n- **Location:** Chittoor District, Andhra Pradesh, India\n- **Primary Temple:** Tirumala Venkateswara Temple\n- **Architecture:** Ancient Dravidian Temple Architecture\n- **Global Distinction:** One of the most visited and sacred religious centers on Earth.";
-      } else if (p.includes("taj mahal")) {
-        fallbackResponse = "![Taj Mahal](https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Taj_Mahal_%28Edited%29.jpeg/1280px-Taj_Mahal_%28Edited%29.jpeg)\n\n# Taj Mahal: An Eternal Monument of Love\n\n## Overview\nThe Taj Mahal is an ivory-white marble mausoleum on the bank of the Yamuna river in Agra, India. It was commissioned in 1631 by Mughal emperor Shah Jahan.\n\n### Key Details:\n- **Location:** Agra, Uttar Pradesh, India\n- **Designation:** UNESCO World Heritage Site & 7 Wonders of the World.";
-      } else if (p.includes("elon musk")) {
-        fallbackResponse = "![Elon Musk](https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Elon_Musk_-_54820081119_%28cropped%29.jpg/1280px-Elon_Musk_-_54820081119_%28cropped%29.jpg)\n\n# Elon Musk: Visionary Technology Entrepreneur\n\n## Overview\nElon Musk is a prominent business magnate and technology pioneer, serving as CEO of **Tesla**, founder of **SpaceX**, owner of **X (Twitter)**, and founder of **xAI** & **Neuralink**.";
-      } else if (p.includes("tpu") || p.includes("gpu") || p.includes("hardware") || p.includes("architecture")) {
-        fallbackResponse = "### 💎 PrismAI Sovereign Silicon Architecture\nPrismAI features synthesizable SystemVerilog IP Cores:\n- **Prism-TPU v1:** 256x256 DB-LPSP Zero-Bubble Systolic Array (65,536 PEs) delivering 100+ TFLOPS at <15W.\n- **Prism-GPU v1:** 64-Core RISC-V SIMD Shader Processor with Photonic UMA Interconnects.";
       } else {
+        try {
+          // Direct Client-Side Wikipedia Search for ANY Place, Person, or Landmark
+          const sRes = await fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&format=json&origin=*`);
+          const sData = await sRes.json();
+          const results = sData?.query?.search || [];
+          
+          if (results.length > 0) {
+            const topTitle = results[0].title;
+            const imgRes = await fetch(`https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(topTitle)}&prop=pageimages|extracts&exintro=1&explaintext=1&format=json&pithumbsize=1280&origin=*`);
+            const imgData = await imgRes.json();
+            const pages = imgData?.query?.pages || {};
+            let imgUrl = "";
+            let extractText = "";
+            
+            for (let pid in pages) {
+              if (pages[pid].thumbnail?.source) imgUrl = pages[pid].thumbnail.source;
+              if (pages[pid].extract) extractText = pages[pid].extract;
+            }
+            
+            if (imgUrl || extractText) {
+              fallbackResponse = `${imgUrl ? `![${topTitle}](${imgUrl})\n\n` : ''}# ${topTitle}\n\n${extractText || `Informative summary regarding **${query}**.`}`;
+            }
+          }
+        } catch (wikiErr) {
+          console.warn("Client wiki search exception:", wikiErr);
+        }
+      }
+
+      if (!fallbackResponse) {
         fallbackResponse = `### 💎 PrismAI Executive Intelligence\n\nI have processed your query regarding: **"${userMessage}"**.\n\nPrismAI operates on an **11-Model NVIDIA Liquid Router** and **1,000-Agent Swarm Matrix** engineered to outperform market tools across speed, privacy, document synthesis, and open-source hardware silicon.`;
       }
-      
+
       setIsChatLoading(false);
       setChatStatus("");
       setChatMessages(prev => {
