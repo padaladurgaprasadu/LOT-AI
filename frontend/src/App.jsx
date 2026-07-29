@@ -108,10 +108,17 @@ const ImageBlock = ({ node, ...props }) => {
   const [hasError, setHasError] = useState(false);
   if (hasError || !props.src) return null;
 
+  // Wrap external Wikipedia/Wikimedia images in global wsrv CDN proxy to bypass browser hotlink/CORS blocks
+  let finalSrc = props.src;
+  if (finalSrc.startsWith('http') && !finalSrc.includes('wsrv.nl') && !finalSrc.includes('unsplash.com')) {
+    finalSrc = `https://wsrv.nl/?url=${encodeURIComponent(finalSrc)}&w=1200&output=webp`;
+  }
+
   return (
     <div style={{ margin: '16px 0', display: 'flex', justifyContent: 'center', width: '100%' }}>
       <img 
         {...props} 
+        src={finalSrc}
         referrerPolicy="no-referrer"
         onError={() => setHasError(true)} 
         style={{ 
