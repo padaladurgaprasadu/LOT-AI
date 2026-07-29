@@ -160,13 +160,13 @@ const ImageBlock = ({ node, ...props }) => {
 };
 
 const renderMessageContent = (content, onOpenArchitecture) => {
-  // 🛡️ STREAM SANITIZER: Hide trailing incomplete image tags (![alt](https://...) until closing ')' arrives
-  const sanitizedContent = (content || "").replace(/!\[[^\]]*\]\((?:https?:\/\/[^\s)]*)?$/g, '').trim();
+  // Strip all markdown image tags (![alt](url)) to guarantee clean text-only responses
+  const sanitizedContent = (content || "").replace(/!\[.*?\]\(.*?\)/g, '').trim();
 
   if (!sanitizedContent.includes('<architecture>')) {
       return (
           <div className="markdown-body" onClick={handleMarkdownClick}>
-              <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={{ code: CodeBlock, img: ImageBlock }}>
+              <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={{ code: CodeBlock }}>
                   {sanitizedContent}
               </ReactMarkdown>
           </div>
@@ -906,7 +906,7 @@ function App() {
                 formattedBody = `## Executive Overview\n${cleanedText}`;
               }
               
-              fallbackResponse = `${imgUrl ? `![${topTitle}](${imgUrl})\n\n` : ''}# ${topTitle}\n\n${formattedBody}`;
+              fallbackResponse = `# ${topTitle}\n\n${formattedBody}`;
             }
           }
         } catch (wikiErr) {
