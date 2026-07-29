@@ -958,6 +958,19 @@ function App() {
         }
       }
 
+      // 🔒 UNIVERSAL TEMPLE TEXT SANITIZER: Purge all stray temple headers & timings
+      if (fallbackResponse) {
+        fallbackResponse = fallbackResponse
+          .replace(/• \*\*Opening & Closing Timings:\*\*.*?\n\n/gi, '')
+          .replace(/• \*\*Activities to Perform:\*\*.*?\n\n/gi, '')
+          .replace(/• \*\*Best Time to Visit:\*\*.*?\n\n/gi, '')
+          .replace(/• \*\*Travel & Access:\*\*.*?\n\n/gi, '')
+          .replace(/• Sacred darshan\n?/gi, '')
+          .replace(/• Evening Aarti\n?/gi, '')
+          .replace(/• Trekking\n?/gi, '')
+          .replace(/• Photography\n?/gi, '');
+      }
+
       if (!fallbackResponse) {
         fallbackResponse = `## 🌟 Welcome to PrismAI\n\n• **Identity:** PrismAI — Sovereign AI Engineering Assistant & Fullstack Platform.\n\n• **Capabilities:** Autonomous fullstack application generation, intelligent design systems, and enterprise code synthesis.\n\n• **Goal:** Empowering developers to build, debug, and scale production software effortlessly. How can I assist your project today?`;
       }
