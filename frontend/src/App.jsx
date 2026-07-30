@@ -180,9 +180,14 @@ const ImageBlock = ({ node, ...props }) => {
   );
 };
 
-const renderMessageContent = (content, onOpenArchitecture, onTriggerBuild) => {
+const renderMessageContent = (content, onOpenArchitecture, onTriggerBuild, hasVisuals = false) => {
   // 🛡️ STREAM SANITIZER: Hide ONLY incomplete trailing image tags (e.g. ![alt](https://... without closing ')')
   let sanitizedContent = (content || "").replace(/!\[[^\]]*\]\([^)]*$/g, '').trim();
+
+  // 🛡️ DEDUPLICATE HERO IMAGES: If visual card exists, strip leading markdown image tag
+  if (hasVisuals) {
+      sanitizedContent = sanitizedContent.replace(/^!\[[^\]]*\]\([^)]*\)\n*/gi, '').trim();
+  }
 
   // 🛡️ GREETING IMAGE PURGER: Strip markdown images from greetings
   if (/^!\[(hello|hi|hey|greetings|good morning|good afternoon|good evening|howdy|sup|thanks|thank you)\b/i.test(sanitizedContent)) {
@@ -2597,7 +2602,8 @@ Autonomously synthesized full-stack application built by **PrismAI** using a 37-
                     {renderMessageContent(
                       msg.content + (idx === chatMessages.length - 1 && isChatLoading && msg.role === 'ai' ? ' ▋' : ''), 
                       (jsonStr) => { setActiveArchitecture(jsonStr); setStep(4); setActiveWorkspaceTab('architecture'); },
-                      (goal) => { setGoal(goal); setAgentRole("Fullstack Web Developer"); handlePlan(goal, "Fullstack Web Developer"); }
+                      (goal) => { setGoal(goal); setAgentRole("Fullstack Web Developer"); handlePlan(goal, "Fullstack Web Developer"); },
+                      Boolean(msg.visuals && msg.visuals.length > 0)
                     )}
                     {msg.role === 'ai' && (
                       <div style={{ display: 'flex', gap: '12px', marginTop: '12px' }}>

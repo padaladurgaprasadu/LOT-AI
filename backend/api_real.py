@@ -1519,11 +1519,8 @@ IMPORTANT RULES:
                     from backend.utils.media_fetcher import fetch_wikimedia_image
                     wiki_img = fetch_wikimedia_image(sanitized_message.strip())
                     if wiki_img:
-                        # Yield type visual for hero card at top of context
+                        # 🖼️ EXACTLY 1 HERO IMAGE GUARANTEE: Yield type visual card ONLY (No duplicate markdown image tag)
                         yield f"data: {json.dumps({'type': 'visual', 'url': wiki_img, 'alt': sanitized_message.strip(), 'media_type': 'image'})}\n\n"
-                        # Yield type chat for markdown image tag at top of text response
-                        img_markdown = f"![{sanitized_message.strip()}]({wiki_img})\n\n"
-                        yield f"data: {json.dumps({'type': 'chat', 'token': img_markdown})}\n\n"
                 except Exception as img_err:
                     api_logger.warning(f"Media fetcher skipped: {img_err}")
             
