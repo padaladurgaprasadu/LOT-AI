@@ -1758,7 +1758,8 @@ app.listen(PORT, () => console.log(\`🚀 PrismAI ${cleanGoal} Server running on
             "react": "^18.2.0",
             "react-dom": "^18.2.0",
             "express": "^4.18.2",
-            "cors": "^2.8.5"
+            "cors": "^2.8.5",
+            "vite": "^4.3.9"
           }
         }, null, 2),
         "README.md": `# 🚀 PrismAI ${cleanGoal}

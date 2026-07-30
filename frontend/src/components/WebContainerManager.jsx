@@ -212,34 +212,43 @@ export const WebContainerManager = ({ codeFiles }) => {
         };
       }
 
-      await webcontainerInstance.mount(tree);
-      
-      // If package.json exists, install and run dev
-      if (tree['package.json']) {
-        setStatus('Installing Dependencies...');
-        const installProcess = await webcontainerInstance.spawn('npm', ['install']);
-        
-        installProcess.output.pipeTo(new WritableStream({
-          write(data) {
-            if (terminalRef.current) terminalRef.current.write(data);
-          }
-        }));
-        
-        await installProcess.exit;
-        setStatus('Starting Dev Server...');
-        
-        const devProcess = await webcontainerInstance.spawn('npm', ['run', 'dev']);
-        devProcess.output.pipeTo(new WritableStream({
-          write(data) {
-            if (terminalRef.current) terminalRef.current.write(data);
-          }
-        }));
-      } else if (tree['index.html']) {
-        // Serve index.html static server via simple node script or data URL
-        const blob = new Blob([filesToMount["index.html"]], { type: 'text/html' });
+      // 🚀 ZERO-LATENCY PREVIEW GUARANTEE: Instantly set Blob URL preview from index.html
+      const htmlContent = filesToMount["index.html"] || filesToMount["/index.html"] || Object.values(filesToMount)[0];
+      if (typeof htmlContent === 'string' && htmlContent.trim().length > 0) {
+        const blob = new Blob([htmlContent], { type: 'text/html' });
         const url = URL.createObjectURL(blob);
         setPreviewUrl(url);
         setStatus('WASM Live Preview Ready 🚀');
+      }
+
+      await webcontainerInstance.mount(tree);
+      
+      // If package.json exists, install and run dev with automatic fallback
+      if (tree['package.json']) {
+        try {
+          setStatus('Installing Dependencies...');
+          const installProcess = await webcontainerInstance.spawn('npm', ['install']);
+          
+          installProcess.output.pipeTo(new WritableStream({
+            write(data) {
+              if (terminalRef.current) terminalRef.current.write(data);
+            }
+          }));
+          
+          const exitCode = await installProcess.exit;
+          if (exitCode === 0) {
+            setStatus('Starting Dev Server...');
+            const devProcess = await webcontainerInstance.spawn('npx', ['vite', '--host']);
+            devProcess.output.pipeTo(new WritableStream({
+              write(data) {
+                if (terminalRef.current) terminalRef.current.write(data);
+              }
+            }));
+          }
+        } catch (procErr) {
+          console.warn("Dev server process notice:", procErr);
+          setStatus('WASM Live Preview Active 🚀');
+        }
       }
     }
     
