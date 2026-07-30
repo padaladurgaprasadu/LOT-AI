@@ -182,7 +182,12 @@ const ImageBlock = ({ node, ...props }) => {
 
 const renderMessageContent = (content, onOpenArchitecture, onTriggerBuild) => {
   // 🛡️ STREAM SANITIZER: Hide ONLY incomplete trailing image tags (e.g. ![alt](https://... without closing ')')
-  const sanitizedContent = (content || "").replace(/!\[[^\]]*\]\([^)]*$/g, '').trim();
+  let sanitizedContent = (content || "").replace(/!\[[^\]]*\]\([^)]*$/g, '').trim();
+
+  // 🛡️ GREETING IMAGE PURGER: Strip markdown images from greetings
+  if (/^!\[(hello|hi|hey|greetings|good morning|good afternoon|good evening|howdy|sup|thanks|thank you)\b/i.test(sanitizedContent)) {
+      sanitizedContent = sanitizedContent.replace(/!\[[^\]]*\]\([^)]*\)\n*/gi, '').trim();
+  }
 
   // 🚀 BUILD TAG CARD RENDERER
   if (sanitizedContent.includes('[BUILD]')) {

@@ -30,13 +30,20 @@ def clean_wikimedia_url(url: str) -> str:
 
 def fetch_wikimedia_image(query_term: str) -> str:
     """
-    Queries Wikipedia Search API + PageImages API for ANY place or person.
+    Queries Wikipedia Search API + PageImages API for places, landmarks & public figures.
     Returns 100% real, original featured image proxied via wsrv.nl WebP CDN.
     """
+    GREETINGS_SET = {"hello", "hi", "hey", "greetings", "good morning", "good afternoon", "good evening", "howdy", "sup", "thanks", "thank you", "welcome"}
+    
     if not query_term or len(query_term.strip()) < 2:
-        return None
+        return ""
         
     term = query_term.strip()
+    term_lower = term.lower()
+    
+    # 🛡️ GREETING GUARD: Immediately reject greetings and conversational phrases
+    if term_lower in GREETINGS_SET or any(term_lower == g or term_lower.startswith(g + " ") for g in GREETINGS_SET):
+        return ""
     
     try:
         # 1. Search Wikipedia for exact matching article title
