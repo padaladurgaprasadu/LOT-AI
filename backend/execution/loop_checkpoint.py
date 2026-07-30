@@ -1,52 +1,41 @@
-"""
-Crash-safe loop state persistence.
-Saves and loads state checkpoints in JSON format.
-"""
-
-import json
 import os
-import time
-from typing import Optional
+import json
+import hashlib
+from typing import Optional, Dict, List, Any
 
-CHECKPOINT_DIR = os.path.join(os.path.dirname(__file__), "checkpoints")
-
-def _ensure_dir():
-    if not os.path.exists(CHECKPOINT_DIR):
-        os.makedirs(CHECKPOINT_DIR)
-
-def save_checkpoint(task_id: str, state: dict) -> None:
-    """Saves loop state as JSON."""
-    _ensure_dir()
-    filepath = os.path.join(CHECKPOINT_DIR, f"{task_id}.json")
-    
-    state['last_checkpoint_at'] = time.time()
-    
-    # Write to a temporary file first for crash safety
-    temp_filepath = f"{filepath}.tmp"
-    with open(temp_filepath, 'w', encoding='utf-8') as f:
-        json.dump(state, f, indent=4)
+class LoopCheckpoint:
+    def __init__(self, base_dir: str = 'backend/execution/checkpoints'):
+        self.base_dir = base_dir
+        if not os.path.exists(self.base_dir):
+            os.makedirs(self.base_dir, exist_ok=True)
+            
+    def _get_path(self, task_id: str) -> str:
+        return os.path.join(self.base_dir, f"{task_id}.json")
         
-    os.replace(temp_filepath, filepath)
+    @staticmethod
+    def generate_task_id(task: str) -> str:
+        return hashlib.sha256(task.encode('utf-8')).hexdigest()[:16]
 
-def load_checkpoint(task_id: str) -> Optional[dict]:
-    """Loads loop state from JSON."""
-    filepath = os.path.join(CHECKPOINT_DIR, f"{task_id}.json")
-    if not os.path.exists(filepath):
+    def save(self, task_id: str, stage_id: str, state: Dict[str, Any]) -> None:
+        data = {
+            'task_id': task_id,
+            'stage_id': stage_id,
+            'state': state
+        }
+        with open(self._get_path(task_id), 'w') as f:
+            json.dump(data, f, indent=4)
+            
+    def load(self, task_id: str) -> Optional[Dict[str, Any]]:
+        path = self._get_path(task_id)
+        if os.path.exists(path):
+            with open(path, 'r') as f:
+                return json.load(f)
         return None
         
-    try:
-        with open(filepath, 'r', encoding='utf-8') as f:
-            return json.load(f)
-    except json.JSONDecodeError:
-        return None
-
-def clear_checkpoint(task_id: str) -> None:
-    """Clears the checkpoint for a task."""
-    filepath = os.path.join(CHECKPOINT_DIR, f"{task_id}.json")
-    if os.path.exists(filepath):
-        os.remove(filepath)
-
-def inject_checkpoint_prompt(system_prompt: str) -> str:
-    """Injects checkpoint directive into the system prompt."""
-    directive = "\n[CHECKPOINT DIRECTIVE]: The execution loop is persistent. State is saved automatically.\n"
-    return system_prompt + directive
+    def list_all(self) -> List[str]:
+        return [f.replace('.json', '') for f in os.listdir(self.base_dir) if f.endswith('.json')]
+        
+    def delete(self, task_id: str) -> None:
+        path = self._get_path(task_id)
+        if os.path.exists(path):
+            os.remove(path)

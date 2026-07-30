@@ -1,97 +1,122 @@
-"""
-Hierarchical goal DAG planner.
-Decomposes high-level goals into parallelizable sub-goals.
-"""
-from typing import List, Dict, Any
+import uuid
+from typing import List, Dict, Optional, Set
 
-class Goal:
-    def __init__(self, goal_id: str, description: str, dependencies: List[str], success_criteria: str, estimated_complexity: int):
-        self.id = goal_id
+class SubGoal:
+    def __init__(self, title: str, description: str, preconditions: List[str] = None, expected_output: str = "", success_criteria: str = "", assigned_agent: str = "default", estimated_minutes: int = 0):
+        self.id = str(uuid.uuid4())
+        self.title = title
         self.description = description
-        self.dependencies = dependencies
+        self.preconditions = preconditions or []
+        self.expected_output = expected_output
         self.success_criteria = success_criteria
-        self.estimated_complexity = estimated_complexity
-        self.status = "PENDING"
+        self.assigned_agent = assigned_agent
+        self.estimated_minutes = estimated_minutes
 
-class GoalDAG:
+class DAG:
     def __init__(self):
-        self.goals: Dict[str, Goal] = {}
+        self.nodes: Dict[str, SubGoal] = {}
+
+    def add_node(self, node: SubGoal):
+        self.nodes[node.id] = node
+
+class GoalDecompositionEngine:
+    
+    def decompose(self, goal: str) -> DAG:
+        dag = DAG()
+        goal_lower = goal.lower()
         
-    def add_goal(self, goal: Goal):
-        self.goals[goal.id] = goal
+        if "login" in goal_lower:
+            tasks = ["auth", "password hashing", "JWT", "rate limiting", "email verification", "account lockout", "GDPR deletion endpoint"]
+        elif "rest api" in goal_lower:
+            tasks = ["models", "routes", "validation", "auth middleware", "error handling", "pagination", "tests", "docs", "docker"]
+        elif "deploy" in goal_lower:
+            tasks = ["dockerize", "CI/CD", "env secrets", "health check", "monitoring", "rollback plan"]
+        else:
+            tasks = ["analyze requirement", "implement", "test"]
+
+        prev_id = None
+        for t in tasks:
+            sg = SubGoal(title=t, description=f"Implement {t}")
+            if prev_id:
+                sg.preconditions.append(prev_id)
+            dag.add_node(sg)
+            prev_id = sg.id
+            
+        if self._has_cycle(dag):
+            raise ValueError("Cycle detected in goal decomposition")
+            
+        return dag
+
+    def _has_cycle(self, dag: DAG) -> bool:
+        visited = set()
+        rec_stack = set()
         
-    def add_dependency(self, goal_id: str, depends_on_id: str):
-        if goal_id in self.goals and depends_on_id in self.goals:
-            if depends_on_id not in self.goals[goal_id].dependencies:
-                self.goals[goal_id].dependencies.append(depends_on_id)
-                
-    def topological_sort(self) -> List[str]:
-        in_degree = {g_id: len(g.dependencies) for g_id, g in self.goals.items()}
-        queue = [g_id for g_id, deg in in_degree.items() if deg == 0]
-        sorted_goals = []
+        def dfs(node_id):
+            visited.add(node_id)
+            rec_stack.add(node_id)
+            
+            node = dag.nodes.get(node_id)
+            if node:
+                for pre in node.preconditions:
+                    if pre not in visited:
+                        if dfs(pre):
+                            return True
+                    elif pre in rec_stack:
+                        return True
+            rec_stack.remove(node_id)
+            return False
+
+        for node_id in dag.nodes:
+            if node_id not in visited:
+                if dfs(node_id):
+                    return True
+        return False
+
+    def get_execution_order(self, dag: DAG) -> List[SubGoal]:
+        # Topological sort
+        in_degree = {n_id: 0 for n_id in dag.nodes}
+        for node in dag.nodes.values():
+            for pre in node.preconditions:
+                if pre in in_degree:
+                    in_degree[node.id] += 1
+                    
+        queue = [n_id for n_id, deg in in_degree.items() if deg == 0]
+        order = []
         
         while queue:
             curr = queue.pop(0)
-            sorted_goals.append(curr)
-            
-            for g_id, g in self.goals.items():
-                if curr in g.dependencies:
-                    in_degree[g_id] -= 1
-                    if in_degree[g_id] == 0:
-                        queue.append(g_id)
-                        
-        return sorted_goals
+            order.append(dag.nodes[curr])
+            for node in dag.nodes.values():
+                if curr in node.preconditions:
+                    in_degree[node.id] -= 1
+                    if in_degree[node.id] == 0:
+                        queue.append(node.id)
+        return order
 
-    def get_parallel_groups(self) -> List[List[str]]:
+    def get_parallel_groups(self, dag: DAG) -> List[List[SubGoal]]:
+        in_degree = {n_id: 0 for n_id in dag.nodes}
+        for node in dag.nodes.values():
+            for pre in node.preconditions:
+                if pre in in_degree:
+                    in_degree[node.id] += 1
+                    
+        queue = [n_id for n_id, deg in in_degree.items() if deg == 0]
         groups = []
-        in_degree = {g_id: len(g.dependencies) for g_id, g in self.goals.items()}
         
-        while True:
-            current_group = [g_id for g_id, deg in in_degree.items() if deg == 0]
-            if not current_group:
-                break
-                
-            groups.append(current_group)
+        while queue:
+            group = [dag.nodes[n_id] for n_id in queue]
+            groups.append(group)
             
-            for node in current_group:
-                del in_degree[node]
-                
-            for g_id in in_degree.keys():
-                in_degree[g_id] = sum(1 for dep in self.goals[g_id].dependencies if dep in in_degree)
-                
+            next_queue = []
+            for curr in queue:
+                for node in dag.nodes.values():
+                    if curr in node.preconditions:
+                        in_degree[node.id] -= 1
+                        if in_degree[node.id] == 0:
+                            next_queue.append(node.id)
+            queue = next_queue
+            
         return groups
 
-def decompose_goal(high_level_goal: str) -> GoalDAG:
-    dag = GoalDAG()
-    goal_lower = high_level_goal.lower()
-    
-    subgoals = []
-    if 'login system' in goal_lower:
-        subgoals = ['hash passwords', 'add rate limiting', 'JWT tokens', 'email verification', 'account lockout', 'GDPR deletion endpoint']
-    elif 'rest api' in goal_lower:
-        subgoals = ['add input validation', 'add error handling', 'add OpenAPI docs', 'add authentication', 'add rate limiting', 'add logging']
-    elif 'deploy to production' in goal_lower:
-        subgoals = ['write Dockerfile', 'add health check', 'create K8s manifests', 'set up CI/CD', 'configure monitoring', 'write runbook']
-    else:
-        subgoals = ['analyze requirements', 'design architecture', 'implement', 'test', 'deploy']
-        
-    for i, sg in enumerate(subgoals):
-        dag.add_goal(Goal(
-            goal_id=f"goal_{i}",
-            description=sg,
-            dependencies=[],
-            success_criteria="Completed successfully",
-            estimated_complexity=3
-        ))
-        
-    return dag
-
-def get_execution_plan(dag: GoalDAG) -> List[List[str]]:
-    return dag.get_parallel_groups()
-
-def inject_goal_decomposition_prompt(system_prompt: str, task: str = '') -> str:
-    directive = (
-        f"\n\n[GOAL DECOMPOSITION DIRECTIVE]\n"
-        f"Break down the task '{task}' into a DAG of parallelizable sub-goals."
-    )
-    return system_prompt + directive
+def inject_goal_decomposition_prompt(system_prompt: str, task: str) -> str:
+    return system_prompt + "\\n[GOAL DECOMPOSITION] Break tasks into independent, parallelizable sub-goals.\\n"

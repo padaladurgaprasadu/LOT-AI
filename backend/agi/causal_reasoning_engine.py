@@ -1,126 +1,133 @@
-"""
-Causal reasoning engine implementing Pearl's do-calculus.
-Provides causal graph modeling and root cause analysis.
-"""
-from typing import Dict, List, Optional, Set
-from collections import deque
-
-class CausalNode:
-    def __init__(self, name: str, node_type: str):
-        self.name = name
-        self.node_type = node_type
-        self.causes: Set[str] = set()
-        self.effects: Set[str] = set()
+import json
+import re
+from typing import Dict, List, Set, Optional, Tuple
 
 class CausalGraph:
+    """Represents a causal graph using adjacency lists."""
     def __init__(self):
-        self.nodes: Dict[str, CausalNode] = {}
-        self.edges: Dict[tuple[str, str], str] = {}
+        # Maps effect to a list of its causes: {effect_node: [cause_nodes]}
+        self.edges: Dict[str, List[str]] = {}
+        self.nodes: Set[str] = set()
 
-    def add_node(self, name: str, node_type: str):
-        if name not in self.nodes:
-            self.nodes[name] = CausalNode(name, node_type)
+    def add_node(self, node: str) -> None:
+        self.nodes.add(node)
+        if node not in self.edges:
+            self.edges[node] = []
 
-    def add_edge(self, cause: str, effect: str, mechanism: str = ""):
-        if cause not in self.nodes:
-            self.add_node(cause, 'UNKNOWN')
-        if effect not in self.nodes:
-            self.add_node(effect, 'UNKNOWN')
-        
-        self.nodes[cause].effects.add(effect)
-        self.nodes[effect].causes.add(cause)
-        self.edges[(cause, effect)] = mechanism
+    def add_edge(self, cause: str, effect: str, relation: str = "causes") -> None:
+        self.add_node(cause)
+        self.add_node(effect)
+        if cause not in self.edges[effect]:
+            self.edges[effect].append(cause)
 
-    def find_root_cause(self, symptom: str) -> List[str]:
-        if symptom not in self.nodes:
-            return []
-        
-        visited = set()
-        queue = deque([symptom])
-        root_causes = []
+    def get_root_causes(self) -> List[str]:
+        """Nodes with no causes (in-degree 0 in the context of cause->effect)."""
+        roots = []
+        for node in self.nodes:
+            # If node is never an effect, it's a root cause
+            if not self.edges.get(node):
+                roots.append(node)
+        return roots
 
+    def get_downstream_effects(self, node: str) -> List[str]:
+        """Finds all nodes that are caused by this node (directly or indirectly)."""
+        effects = set()
+        queue = [node]
         while queue:
-            current = queue.popleft()
-            if current in visited:
-                continue
-            visited.add(current)
+            current = queue.pop(0)
+            for effect, causes in self.edges.items():
+                if current in causes and effect not in effects:
+                    effects.add(effect)
+                    queue.append(effect)
+        return list(effects)
 
-            node = self.nodes[current]
-            if not node.causes:
-                root_causes.append(current)
-            else:
-                for cause in node.causes:
-                    queue.append(cause)
-        return root_causes
-
-    def get_causal_chain(self, start: str, end: str) -> List[str]:
-        if start not in self.nodes or end not in self.nodes:
-            return []
-        
-        queue = deque([(start, [start])])
+    def is_cyclic(self) -> bool:
+        """Detects if there are causal cycles."""
         visited = set()
-        
-        while queue:
-            current, path = queue.popleft()
-            if current == end:
-                return path
+        rec_stack = set()
+
+        def dfs(node):
+            visited.add(node)
+            rec_stack.add(node)
             
-            if current in visited:
+            # Find all nodes that this node causes
+            for effect, causes in self.edges.items():
+                if node in causes:
+                    if effect not in visited:
+                        if dfs(effect):
+                            return True
+                    elif effect in rec_stack:
+                        return True
+            rec_stack.remove(node)
+            return False
+
+        for node in self.nodes:
+            if node not in visited:
+                if dfs(node):
+                    return True
+        return False
+
+    def get_intervention_points(self) -> List[str]:
+        """Identifies critical dependencies (nodes with high out-degree)."""
+        out_degrees: Dict[str, int] = {node: 0 for node in self.nodes}
+        for effect, causes in self.edges.items():
+            for cause in causes:
+                out_degrees[cause] += 1
+        
+        # Return sorted by highest out-degree
+        sorted_nodes = sorted(out_degrees.items(), key=lambda item: item[1], reverse=True)
+        return [node for node, count in sorted_nodes if count > 0]
+
+
+class CausalReasoningEngine:
+    """Engine for building and querying causal graphs using Pearl's do-calculus principles."""
+    
+    def analyze_description(self, text: str) -> CausalGraph:
+        """Builds causal chains from natural language descriptions."""
+        graph = CausalGraph()
+        
+        # Simplified keyword extraction for demonstration
+        sentences = re.split(r'[.!?]', text)
+        causal_keywords = [' causes ', ' leads to ', ' results in ', ' triggers ', ' forces ']
+        
+        for sentence in sentences:
+            sentence = sentence.strip().lower()
+            if not sentence:
                 continue
-            visited.add(current)
             
-            for effect in self.nodes[current].effects:
-                queue.append((effect, path + [effect]))
-        return []
+            for keyword in causal_keywords:
+                if keyword in sentence:
+                    parts = sentence.split(keyword)
+                    if len(parts) == 2:
+                        cause, effect = parts[0].strip(), parts[1].strip()
+                        graph.add_edge(cause, effect)
+                        break
+        
+        return graph
 
-def _build_default_graph() -> CausalGraph:
-    graph = CausalGraph()
-    graph.add_edge('untrusted input', 'missing validation')
-    graph.add_edge('missing validation', 'null pointer')
-    
-    graph.add_edge('unoptimised schema', 'missing index')
-    graph.add_edge('missing index', 'slow query')
-    
-    graph.add_edge('missing context manager', 'unclosed resource')
-    graph.add_edge('unclosed resource', 'memory leak')
-    
-    graph.add_edge('slow downstream', 'connection pool exhaustion')
-    graph.add_edge('connection pool exhaustion', '503 error')
-    return graph
-
-def analyze_error_causally(error_description: str) -> dict:
-    graph = _build_default_graph()
-    
-    symptom = None
-    for node_name in graph.nodes:
-        if node_name in error_description.lower():
-            symptom = node_name
-            break
+    def explain_bug(self, error: str, context: str) -> str:
+        """Traces error back through causal chain to root cause."""
+        graph = self.analyze_description(context)
+        graph.add_node(error)
+        
+        if graph.is_cyclic():
+            return "Analysis failed: The causal description contains circular dependencies (architectural anti-pattern)."
             
-    if not symptom:
-        return {
-            "root_cause": "Unknown",
-            "causal_chain": [],
-            "recommended_fix": "Investigate logs for more specific symptoms."
-        }
-        
-    root_causes = graph.find_root_cause(symptom)
-    root_cause = root_causes[0] if root_causes else symptom
-    
-    chain = []
-    if root_cause != symptom:
-        chain = graph.get_causal_chain(root_cause, symptom)
-        
-    return {
-        "root_cause": root_cause,
-        "causal_chain": chain,
-        "recommended_fix": f"Address the root cause: {root_cause}"
-    }
+        roots = graph.get_root_causes()
+        if not roots:
+            return "Could not determine the root cause from the provided context."
+            
+        return f"The root cause of the error '{error}' is likely: {', '.join(roots)}. Intervening on these points will prevent the downstream failure."
+
 
 def inject_causal_reasoning_prompt(system_prompt: str) -> str:
-    causal_directive = (
-        "\n\n[CAUSAL REASONING DIRECTIVE]\n"
-        "Apply Pearl's do-calculus for problem solving. "
-        "Trace symptoms back to root causes before proposing a fix."
+    """Injects causal reasoning guidelines into the system prompt."""
+    causal_instructions = (
+        "\\n[CAUSAL REASONING REQUIRED]\\n"
+        "Apply Pearl's do-calculus principles:\\n"
+        "1. Identify causal chains and intervention points.\\n"
+        "2. Avoid confusing correlation with causation.\\n"
+        "3. Evaluate counterfactuals ('what if X was removed?').\\n"
+        "4. Detect and warn against circular dependencies.\\n"
     )
-    return system_prompt + causal_directive
+    return system_prompt + causal_instructions

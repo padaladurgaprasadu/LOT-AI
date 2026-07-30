@@ -1,10 +1,10 @@
 {
   "user_id": "default",
   "created_at": "2026-07-30T03:25:24.768740+00:00",
-  "last_seen": "2026-07-30T03:25:53.275949+00:00",
-  "session_count": 2,
+  "last_seen": "2026-07-30T08:46:07.645666+00:00",
+  "session_count": 3,
   "expertise": {
-    "python": 3.2,
+    "python": 3.3000000000000003,
     "javascript": 3,
     "typescript": 3,
     "rust": 3,
@@ -126,9 +126,9 @@
   "learned_concepts": {
     "kubernetes_orchestration": {
       "first_seen": 1785381924.769834,
-      "last_seen": 1785381953.2759492,
-      "review_count": 2,
-      "mastery_score": 0.4,
+      "last_seen": 1785401167.6456666,
+      "review_count": 3,
+      "mastery_score": 0.5,
       "interval_index": 0,
       "next_review": 1785385524.769834
     }

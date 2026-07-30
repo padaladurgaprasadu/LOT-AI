@@ -1,0 +1,13 @@
+{
+    "test_prompt": [
+        {
+            "variant_id": "f7658c05-9986-4a18-b114-9025f6b05e4d",
+            "content": "You are a helpful AI assistant.",
+            "scores": [
+                8.5
+            ],
+            "eval_count": 1,
+            "active": true
+        }
+    ]
+}

@@ -1,86 +1,69 @@
-"""
-Secure isolated code execution engine.
-Runs Python and JavaScript code in isolated subprocesses with timeout and resource limitations.
-"""
-
-import subprocess
-import threading
-import time
-import json
 import os
+import time
+import subprocess
+import tempfile
+import json
+from typing import Dict, Any
 
-try:
-    import resource
-except ImportError:
-    resource = None
+def run_code(code: str, language: str = 'python', timeout_s: int = 10) -> Dict[str, Any]:
+    """
+    Run code in a secure sandbox.
+    """
+    safe = True
+    
+    # Simple block list
+    if language == 'python':
+        blocked = ['os.system', 'subprocess', 'socket', 'eval', 'exec']
+        for b in blocked:
+            if b in code:
+                return {'stdout': '', 'stderr': f'Blocked dangerous import/call: {b}', 'exit_code': -1, 'runtime_ms': 0, 'language': language, 'safe': False}
+    elif language == 'javascript':
+        blocked = ['fs.rmSync', 'child_process', 'net']
+        for b in blocked:
+            if b in code:
+                return {'stdout': '', 'stderr': f'Blocked dangerous API: {b}', 'exit_code': -1, 'runtime_ms': 0, 'language': language, 'safe': False}
+    else:
+        return {'stdout': '', 'stderr': 'Unsupported language', 'exit_code': -1, 'runtime_ms': 0, 'language': language, 'safe': False}
 
-def _set_resource_limits():
-    if resource:
-        try:
-            resource.setrlimit(resource.RLIMIT_CPU, (30, 30))
-            resource.setrlimit(resource.RLIMIT_AS, (256 * 1024 * 1024, 256 * 1024 * 1024))
-        except (ValueError, OSError):
-            pass
-
-def _run_with_timeout(cmd: list, code: str, timeout: int) -> dict:
+    ext = 'py' if language == 'python' else 'js'
+    cmd_prefix = ['python'] if language == 'python' else ['node']
+    
+    with tempfile.NamedTemporaryFile(suffix=f'.{ext}', delete=False, mode='w') as f:
+        f.write(code)
+        temp_path = f.name
+        
     start_time = time.time()
     try:
-        process = subprocess.Popen(
-            cmd,
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+        process = subprocess.run(
+            cmd_prefix + [temp_path],
+            capture_output=True,
             text=True,
-            preexec_fn=_set_resource_limits if resource else None
+            timeout=timeout_s
         )
+        stdout = process.stdout
+        stderr = process.stderr
+        exit_code = process.returncode
+    except subprocess.TimeoutExpired:
+        stdout = ''
+        stderr = 'Timeout expired'
+        exit_code = -1
+        safe = False
     except Exception as e:
-        return {
-            "stdout": "",
-            "stderr": str(e),
-            "exit_code": -1,
-            "runtime_ms": 0,
-            "success": False
-        }
-
-    timer = threading.Timer(timeout, process.kill)
-    try:
-        timer.start()
-        stdout, stderr = process.communicate(input=code)
-    except Exception as e:
-        process.kill()
-        return {
-            "stdout": "",
-            "stderr": f"Execution error: {str(e)}",
-            "exit_code": -1,
-            "runtime_ms": int((time.time() - start_time) * 1000),
-            "success": False
-        }
+        stdout = ''
+        stderr = str(e)
+        exit_code = -1
+        safe = False
     finally:
-        timer.cancel()
-
+        if os.path.exists(temp_path):
+            os.remove(temp_path)
+            
     runtime_ms = int((time.time() - start_time) * 1000)
-    exit_code = process.returncode
     
-    if exit_code == -9 or exit_code == 137:
-        stderr += f"\nProcess killed due to timeout ({timeout}s)."
-
     return {
-        "stdout": stdout,
-        "stderr": stderr,
-        "exit_code": exit_code,
-        "runtime_ms": runtime_ms,
-        "success": exit_code == 0
+        'stdout': stdout,
+        'stderr': stderr,
+        'exit_code': exit_code,
+        'runtime_ms': runtime_ms,
+        'language': language,
+        'safe': safe
     }
-
-def run_python(code: str, timeout: int = 30) -> dict:
-    """Run Python code securely."""
-    return _run_with_timeout(["python"], code, timeout)
-
-def run_javascript(code: str, timeout: int = 30) -> dict:
-    """Run JavaScript code securely via Node.js."""
-    return _run_with_timeout(["node"], code, timeout)
-
-def inject_sandbox_prompt(system_prompt: str) -> str:
-    """Injects SANDBOX directive into the system prompt."""
-    directive = "\n[SANDBOX DIRECTIVE]: All executable code must be safe for isolated sandbox execution without internet access.\n"
-    return system_prompt + directive

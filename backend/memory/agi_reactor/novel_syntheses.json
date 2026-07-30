@@ -1,0 +1,60 @@
+[
+  {
+    "d1": "control_theory",
+    "d2": "react_animations",
+    "synthesis": "PID-controlled spring animations using cubic B\u00e9zier curves derived from PID tuning formulas (Kp, Ki, Kd \u2192 damping, stiffness, mass)"
+  },
+  {
+    "d1": "epidemiology",
+    "d2": "caching",
+    "synthesis": "Viral spread modelling (SIR) applied to cache invalidation: model how stale data propagates through distributed cache nodes"
+  },
+  {
+    "d1": "evolutionary_bio",
+    "d2": "prompt_engineering",
+    "synthesis": "Genetic algorithm for prompt optimisation: mutation (word swap), crossover (sentence merge), selection (quality score)"
+  },
+  {
+    "d1": "game_theory",
+    "d2": "api_rate_limiting",
+    "synthesis": "Nash equilibrium-based rate limiting: allocate bandwidth using a cooperative game where each client's optimal strategy is fair use"
+  },
+  {
+    "d1": "fluid_dynamics",
+    "d2": "traffic_management",
+    "synthesis": "Laminar/turbulent flow model for API gateway: predict bottlenecks using Reynolds number analogue (req_rate \u00d7 payload / viscosity)"
+  },
+  {
+    "d1": "information_theory",
+    "d2": "compression",
+    "synthesis": "Shannon entropy minimisation applied to code golf: measure code complexity in bits, optimise toward minimum entropy representation"
+  },
+  {
+    "d1": "neuroscience",
+    "d2": "microservices",
+    "synthesis": "Hebbian learning ('neurons that fire together wire together') applied to service mesh: services that co-communicate form affinity groups \u2192 co-locate them"
+  },
+  {
+    "d1": "topology",
+    "d2": "ui_layout",
+    "synthesis": "Topological invariants (Euler characteristic) for UI component hierarchies: detect loops and holes in component dependency graphs"
+  },
+  {
+    "d1": "cryptography",
+    "d2": "logging",
+    "synthesis": "Merkle tree-based tamper-evident audit logs: each log entry commits to all prior entries, making retrospective modification detectable"
+  },
+  {
+    "d1": "queuing_theory",
+    "d2": "ci_cd",
+    "synthesis": "M/M/k queue model for CI pipeline: optimise worker count using Little's Law (L = \u03bbW) to minimise queue wait time"
+  },
+  {
+    "d1": "control_theory",
+    "d2": "react_animations",
+    "synthesis": "Applying control theory principles to react animations engineering: smooth UI springs",
+    "novelty_score": 0.96,
+    "problem": "smooth UI springs",
+    "timestamp": "2026-07-30T08:46:07Z"
+  }
+]

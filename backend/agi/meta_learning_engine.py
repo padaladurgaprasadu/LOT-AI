@@ -1,63 +1,54 @@
-"""
-Few-shot learning accelerator and learning strategy optimiser.
-Extracts patterns from examples and tracks user learning velocity.
-"""
+import json
+import os
 from typing import List, Dict, Any
 
-class FewShotLearner:
+class MetaLearningEngine:
     def __init__(self):
-        self.examples: List[Dict[str, Any]] = []
-        
-    def add_example(self, context: str, input_data: str, output_data: str):
-        self.examples.append({
-            "context": context,
-            "input": input_data,
-            "output": output_data
-        })
-        
-    def predict(self, new_input: str) -> str:
-        if not self.examples:
-            return "No examples to learn from."
-        return f"Predicted based on '{self.examples[0]['input']}': {self.examples[0]['output']}"
+        self.concepts: Dict[str, Dict[str, Any]] = {}
+        self.storage_path = os.path.join(os.path.dirname(__file__), 'learned_concepts.json')
+        self._load()
 
-class LearningVelocityTracker:
-    def __init__(self):
-        self.sessions: Dict[str, List[bool]] = {}
-        
-    def track_session(self, user_id: str, concept: str, understood: bool):
-        if user_id not in self.sessions:
-            self.sessions[user_id] = []
-        self.sessions[user_id].append(understood)
-        
-    def get_velocity(self, user_id: str) -> float:
-        if user_id not in self.sessions or not self.sessions[user_id]:
-            return 0.0
-        history = self.sessions[user_id]
-        return sum(history) / len(history)
+    def _load(self):
+        if os.path.exists(self.storage_path):
+            with open(self.storage_path, 'r', encoding='utf-8') as f:
+                self.concepts = json.load(f)
 
-def bootstrap_library_knowledge(examples: List[str], library_name: str) -> dict:
-    patterns = []
-    if any("import" in ex for ex in examples):
-        patterns.append("Standard import pattern detected")
+    def _save(self):
+        os.makedirs(os.path.dirname(self.storage_path), exist_ok=True)
+        with open(self.storage_path, 'w', encoding='utf-8') as f:
+            json.dump(self.concepts, f, indent=2)
+
+    def learn_concept(self, name: str, examples: List[str], domain: str):
+        times_seen = len(examples)
+        confidence = min(1.0, 0.6 + (times_seen - 1) * 0.04) # grows to ~1.0 at 10 examples
         
-    return {
-        "library_name": library_name,
-        "api_patterns": patterns,
-        "common_idioms": ["Initialization before use", "Error catching block"],
-        "gotchas": ["Watch out for async resolution", "Check null values"]
-    }
+        # Mock bootstrap using transfer learning logic
+        if domain in ["Transferable"]:
+            confidence = max(confidence, 0.8)
 
-def get_optimal_explanation_strategy(user_level: str, concept: str) -> str:
-    if user_level.lower() == 'beginner':
-        return f"Explain {concept} using analogies and avoid jargon."
-    elif user_level.lower() == 'intermediate':
-        return f"Explain {concept} with code examples and standard patterns."
-    else:
-        return f"Explain {concept} diving deep into internals, performance, and edge cases."
+        self.concepts[name] = {
+            "name": name,
+            "domain": domain,
+            "examples": examples,
+            "generalisation": f"Generalized rule for {name}",
+            "confidence": confidence,
+            "times_seen": times_seen
+        }
+        self._save()
 
-def inject_meta_learning_prompt(system_prompt: str) -> str:
-    directive = (
-        "\n\n[META LEARNING DIRECTIVE]\n"
-        "Adapt your response based on few-shot examples and user learning velocity."
-    )
-    return system_prompt + directive
+    def apply_concept(self, name: str, new_context: str) -> str:
+        if name in self.concepts:
+            return f"Applying {name} to {new_context} based on {self.concepts[name]['generalisation']}"
+        return f"Concept {name} not found."
+
+    def get_confidence(self, name: str) -> float:
+        return self.concepts.get(name, {}).get("confidence", 0.0)
+
+    def get_stats(self) -> Dict:
+        return {
+            "total_concepts": len(self.concepts),
+            "average_confidence": sum(c["confidence"] for c in self.concepts.values()) / max(1, len(self.concepts))
+        }
+
+def inject_meta_learning_prompt(system_prompt: str, task: str) -> str:
+    return system_prompt + "\\n[META LEARNING] Use past concept generalizations to accelerate task completion.\\n"
