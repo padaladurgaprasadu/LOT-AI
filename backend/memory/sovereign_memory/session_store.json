@@ -1,0 +1,56 @@
+{
+  "test_user_phase2": [
+    {
+      "id": "acf87bce29855f6f",
+      "content": "Building a SaaS CRM with React and FastAPI",
+      "category": "development",
+      "tags": [
+        "react",
+        "fastapi"
+      ],
+      "timestamp": "2026-07-30T03:13:30.017193+00:00",
+      "user_id": "test_user_phase2"
+    },
+    {
+      "id": "dff8927b809ee81a",
+      "content": "Deployed microservices on Kubernetes with Helm charts",
+      "category": "devops",
+      "tags": [
+        "kubernetes"
+      ],
+      "timestamp": "2026-07-30T03:13:30.020197+00:00",
+      "user_id": "test_user_phase2"
+    },
+    {
+      "id": "5818e40117981b69",
+      "content": "Chose PostgreSQL over MongoDB for ACID compliance",
+      "category": "architecture",
+      "tags": [
+        "postgresql"
+      ],
+      "timestamp": "2026-07-30T03:13:30.021380+00:00",
+      "user_id": "test_user_phase2"
+    },
+    {
+      "id": "d6ca9cb699a594ab",
+      "content": "How should I structure my React FastAPI app?",
+      "category": "general",
+      "tags": [
+        "react",
+        "fastapi"
+      ],
+      "timestamp": "2026-07-30T03:13:30.107708+00:00",
+      "user_id": "test_user_phase2"
+    },
+    {
+      "id": "df5e60d464b3558a",
+      "content": "build a kubernetes deployment",
+      "category": "development",
+      "tags": [
+        "kubernetes"
+      ],
+      "timestamp": "2026-07-30T03:13:30.146094+00:00",
+      "user_id": "test_user_phase2"
+    }
+  ]
+}

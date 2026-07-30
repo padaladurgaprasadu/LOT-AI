@@ -1,0 +1,57 @@
+{
+  "test_user_phase2": {
+    "nodes": {
+      "8de8241dbb4e616f": {
+        "id": "8de8241dbb4e616f",
+        "name": "CRM Platform",
+        "type": "project",
+        "description": "Enterprise CRM system",
+        "tech_stack": [
+          "React",
+          "FastAPI",
+          "PostgreSQL"
+        ],
+        "last_seen": "2026-07-30T03:13:30.022389+00:00"
+      },
+      "776fe04cd67c09a5": {
+        "id": "776fe04cd67c09a5",
+        "name": "Auth Service",
+        "type": "service",
+        "description": "OAuth2 JWT authentication",
+        "tech_stack": [
+          "FastAPI",
+          "Redis"
+        ],
+        "last_seen": "2026-07-30T03:13:30.023390+00:00"
+      },
+      "105844c9c7e70c01": {
+        "id": "105844c9c7e70c01",
+        "name": "React Fastapi",
+        "type": "project",
+        "description": "How should I structure my React FastAPI app?",
+        "tech_stack": [
+          "React",
+          "FastAPI"
+        ],
+        "last_seen": "2026-07-30T03:13:30.109709+00:00"
+      },
+      "0de1337afcfdfb3a": {
+        "id": "0de1337afcfdfb3a",
+        "name": "Kubernetes Deployment",
+        "type": "project",
+        "description": "build a kubernetes deployment",
+        "tech_stack": [
+          "Kubernetes"
+        ],
+        "last_seen": "2026-07-30T03:13:30.146943+00:00"
+      }
+    },
+    "edges": [
+      {
+        "source": "8de8241dbb4e616f",
+        "target": "776fe04cd67c09a5",
+        "relation": "uses"
+      }
+    ]
+  }
+}

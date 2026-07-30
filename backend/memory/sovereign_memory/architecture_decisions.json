@@ -1,0 +1,13 @@
+{
+  "test_user_phase2": [
+    {
+      "id": "c8fcaf4dd2b70dc5",
+      "title": "Use PostgreSQL over MongoDB",
+      "context": "Need ACID compliance for financial transactions",
+      "decision": "PostgreSQL with read replicas for scalability",
+      "consequences": "Stronger consistency, slightly more complex schema management",
+      "project": "CRM Platform",
+      "created_at": "2026-07-30T03:13:30.027698+00:00"
+    }
+  ]
+}
