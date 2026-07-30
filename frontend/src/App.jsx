@@ -1251,7 +1251,7 @@ function generateClientSideWebAppHTML(goal) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>yAI Library Management System — Enterprise Catalog</title>
+  <title>PrismAI Library Management System — Enterprise Catalog</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', system-ui, sans-serif; }
     html { scroll-behavior: smooth; }
@@ -1281,7 +1281,7 @@ function generateClientSideWebAppHTML(goal) {
   <div class="glow-cyan"></div>
   <div class="glow-indigo"></div>
   <div class="nav">
-    <div class="brand">yAI Library Management System 📚</div>
+    <div class="brand">PrismAI Library Management System 📚</div>
     <button class="btn-add" onclick="addNewBookPrompt()">+ Add New Book</button>
   </div>
   <div class="stats-grid">

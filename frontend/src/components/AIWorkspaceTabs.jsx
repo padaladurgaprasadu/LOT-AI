@@ -27,10 +27,10 @@ const AIWorkspaceTabs = ({
 }) => {
   
   const tabs = [
-    { id: 'files', label: '📂 Files', hidden: false },
-    { id: 'canvas_pro', label: '🎨 Canvas Pro', hidden: false },
+    { id: 'files', label: '💻 Code', hidden: false, isPill: true },
+    { id: 'preview', label: '👁️ Preview', hidden: false, isPill: true },
     { id: 'architecture', label: '📐 Architecture', hidden: false },
-    { id: 'preview', label: '👁️ Preview', hidden: false },
+    { id: 'canvas_pro', label: '🎨 Canvas Pro', hidden: false },
     { id: 'logs', label: '📋 Logs', hidden: false },
     { id: 'tasks', label: '📝 Tasks', hidden: false },
     { id: 'memory', label: '🧠 Memory', hidden: false },
@@ -43,8 +43,9 @@ const AIWorkspaceTabs = ({
       {/* Workspace Tab Bar */}
       <div style={{ 
         display: 'flex', 
-        gap: '8px', 
-        padding: '12px 16px 0 16px', 
+        alignItems: 'center',
+        gap: '10px', 
+        padding: '10px 16px', 
         borderBottom: '1px solid var(--border-color)',
         backgroundColor: 'var(--sidebar-bg)',
         overflowX: 'auto',
@@ -55,18 +56,20 @@ const AIWorkspaceTabs = ({
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             style={{
-              padding: '10px 16px',
-              backgroundColor: activeTab === tab.id ? 'var(--app-bg)' : 'transparent',
-              color: activeTab === tab.id ? 'var(--text-primary)' : 'var(--text-secondary)',
-              border: '1px solid',
-              borderColor: activeTab === tab.id ? 'var(--border-color)' : 'transparent',
-              borderBottom: activeTab === tab.id ? '1px solid var(--app-bg)' : '1px solid transparent',
-              borderTopLeftRadius: '8px',
-              borderTopRightRadius: '8px',
+              padding: tab.isPill ? '8px 18px' : '8px 14px',
+              backgroundColor: activeTab === tab.id 
+                ? (tab.isPill ? '#3b82f6' : 'var(--app-bg)') 
+                : (tab.isPill ? '#1e2330' : 'transparent'),
+              color: activeTab === tab.id 
+                ? '#ffffff' 
+                : (tab.isPill ? '#60a5fa' : 'var(--text-secondary)'),
+              border: tab.isPill ? '1px solid #3b82f6' : '1px solid transparent',
+              borderRadius: tab.isPill ? '20px' : '8px 8px 0 0',
               cursor: 'pointer',
-              fontWeight: activeTab === tab.id ? '600' : '400',
-              marginBottom: '-1px',
+              fontWeight: tab.isPill ? '700' : '600',
+              fontSize: tab.isPill ? '0.9rem' : '0.85rem',
               whiteSpace: 'nowrap',
+              boxShadow: activeTab === tab.id && tab.isPill ? '0 4px 16px rgba(59, 130, 246, 0.45)' : 'none',
               transition: 'all 0.2s'
             }}
           >
