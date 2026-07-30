@@ -1413,6 +1413,7 @@ IMPORTANT RULES:
 
             from backend.memory.loop_engineering_matrix import inject_loop_engineering_prompt
             from backend.memory.mcp_orchestrator_engine import inject_mcp_orchestrator_prompt
+            from backend.memory.agent_skills_engine import inject_agent_skills_prompt
 
             system_prompt = inject_impeccable_design_prompt(system_prompt)
             system_prompt = inject_open_design_prompt(system_prompt)
@@ -1433,6 +1434,7 @@ IMPORTANT RULES:
             system_prompt = inject_addictive_performance_prompt(system_prompt)
             system_prompt = inject_loop_engineering_prompt(system_prompt)
             system_prompt = inject_mcp_orchestrator_prompt(system_prompt)
+            system_prompt = inject_agent_skills_prompt(system_prompt)
 
             messages = [SystemMessage(content=system_prompt)]
             for msg in request_data.history:
