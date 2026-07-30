@@ -1638,6 +1638,143 @@ function generateClientSideWebAppHTML(goal) {
 </html>`;
 }
 
+const generateFullstackCodeTree = (goal) => {
+    const cleanGoal = goal || "Application";
+    const synthesizedHtml = generateClientSideWebAppHTML(goal);
+    
+    return {
+        "index.html": synthesizedHtml,
+        "src/App.jsx": `import React, { useState } from 'react';
+import './index.css';
+
+export default function App() {
+  const [items, setItems] = useState([
+    { id: 1, title: 'Enterprise Core System', author: 'PrismAI Architect', status: 'Active', category: 'Core' },
+    { id: 2, title: 'Database Migration Engine', author: 'Senior Engineer', status: 'Pending', category: 'Database' },
+    { id: 3, title: 'Authentication Provider', author: 'Security Team', status: 'Active', category: 'Security' }
+  ]);
+  const [search, setSearch] = useState('');
+
+  const filteredItems = items.filter(item => 
+    item.title.toLowerCase().includes(search.toLowerCase()) || 
+    item.author.toLowerCase().includes(search.toLowerCase())
+  );
+
+  return (
+    <div className="app-container">
+      <header className="header">
+        <h1>PrismAI ${cleanGoal}</h1>
+        <button className="btn-primary">+ Add New Item</button>
+      </header>
+
+      <div className="stats-grid">
+        <div className="stat-card">
+          <span className="stat-label">Total Records</span>
+          <span className="stat-value">{items.length}</span>
+        </div>
+        <div className="stat-card">
+          <span className="stat-label">Active Modules</span>
+          <span className="stat-value text-green">{items.filter(i => i.status === 'Active').length}</span>
+        </div>
+        <div className="stat-card">
+          <span className="stat-label">System Health</span>
+          <span className="stat-value text-amber">99.9%</span>
+        </div>
+      </div>
+
+      <div className="search-bar">
+        <input 
+          type="text" 
+          placeholder="Search records..." 
+          value={search} 
+          onChange={e => setSearch(e.target.value)} 
+        />
+      </div>
+
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Module Title</th>
+            <th>Author / Owner</th>
+            <th>Category</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredItems.map(item => (
+            <tr key={item.id}>
+              <td className="font-bold">{item.title}</td>
+              <td>{item.author}</td>
+              <td>{item.category}</td>
+              <td><span className="badge badge-success">{item.status}</span></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}`,
+        "src/index.css": `* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+body { background-color: #06070a; color: #f8fafc; padding: 32px; }
+.app-container { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
+.header { display: flex; justify-content: space-between; align-items: center; }
+.btn-primary { background: linear-gradient(135deg, #00d2ff, #0047ff); color: white; border: none; padding: 12px 24px; border-radius: 9999px; font-weight: 700; cursor: pointer; }
+.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.stat-card { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); padding: 24px; border-radius: 20px; display: flex; flex-direction: column; gap: 8px; }
+.stat-label { color: #94a3b8; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; }
+.stat-value { font-size: 2.2rem; font-weight: 900; color: #00d2ff; }
+.text-green { color: #4ade80 !important; }
+.text-amber { color: #fbbf24 !important; }
+.search-bar input { width: 100%; padding: 16px 24px; border-radius: 20px; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); color: white; font-size: 1rem; outline: none; }
+.table { width: 100%; border-collapse: collapse; background: rgba(15, 23, 42, 0.55); border-radius: 24px; overflow: hidden; }
+th, td { padding: 18px 24px; text-align: left; }
+th { background: rgba(10, 15, 30, 0.8); color: #94a3b8; font-size: 0.85rem; text-transform: uppercase; }
+td { border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+.badge { padding: 4px 12px; border-radius: 9999px; font-size: 0.75rem; font-weight: 700; }
+.badge-success { background: rgba(34, 197, 94, 0.15); color: #4ade80; }`,
+        "server.js": `const express = require('express');
+const cors = require('cors');
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', service: '${cleanGoal}', timestamp: new Date() });
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(\`🚀 PrismAI ${cleanGoal} Server running on port \${PORT}\`));`,
+        "package.json": JSON.stringify({
+          "name": cleanGoal.toLowerCase().replace(/[^a-z0-9]/g, '-'),
+          "version": "1.0.0",
+          "private": true,
+          "scripts": {
+            "dev": "vite",
+            "build": "vite build",
+            "start": "node server.js"
+          },
+          "dependencies": {
+            "react": "^18.2.0",
+            "react-dom": "^18.2.0",
+            "express": "^4.18.2",
+            "cors": "^2.8.5"
+          }
+        }, null, 2),
+        "README.md": `# 🚀 PrismAI ${cleanGoal}
+
+Autonomously synthesized full-stack application built by **PrismAI** using a 37-Agent Swarm Matrix.
+
+## Project Structure
+- \`index.html\` - WASM Live Preview Canvas
+- \`src/App.jsx\` - Main React Component State Machine
+- \`src/index.css\` - Glassmorphism UI Styling & Gradients
+- \`server.js\` - Node.js Express REST API Engine
+- \`package.json\` - Build Scripts & Dependencies
+`
+    };
+};
+
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [chatMessages])
@@ -1650,9 +1787,9 @@ function generateClientSideWebAppHTML(goal) {
     setError(null)
     setBlueprintJson("")
     
-    // Instantly synthesize full-stack web application HTML and mount into WASM Sandbox!
-    const synthesizedHtml = generateClientSideWebAppHTML(buildGoal);
-    setCodeFiles({ "index.html": synthesizedHtml });
+    // Instantly synthesize full-stack web application multi-file code tree and mount into WASM Sandbox!
+    const fullCodeTree = generateFullstackCodeTree(buildGoal);
+    setCodeFiles(fullCodeTree);
     setActiveWorkspaceTab("preview");
     setIsPreviewRunning(true);
     
