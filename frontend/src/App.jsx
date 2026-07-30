@@ -180,9 +180,60 @@ const ImageBlock = ({ node, ...props }) => {
   );
 };
 
-const renderMessageContent = (content, onOpenArchitecture) => {
+const renderMessageContent = (content, onOpenArchitecture, onTriggerBuild) => {
   // 🛡️ STREAM SANITIZER: Hide ONLY incomplete trailing image tags (e.g. ![alt](https://... without closing ')')
   const sanitizedContent = (content || "").replace(/!\[[^\]]*\]\([^)]*$/g, '').trim();
+
+  // 🚀 BUILD TAG CARD RENDERER
+  if (sanitizedContent.includes('[BUILD]')) {
+      let goal = "Fullstack Application";
+      try {
+          const buildMatch = sanitizedContent.match(/\[BUILD\]\s*(\{[\s\S]*?\})/);
+          if (buildMatch) {
+              const parsed = JSON.parse(buildMatch[1]);
+              goal = parsed.goal || goal;
+          }
+      } catch(e) {}
+      
+      return (
+          <div style={{
+              margin: '16px 0',
+              padding: '20px',
+              borderRadius: '16px',
+              backgroundColor: '#131e33',
+              border: '1px solid #3b82f6',
+              boxShadow: '0 8px 24px rgba(59, 130, 246, 0.25)'
+          }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
+                  <span style={{ fontSize: '1.5rem' }}>🚀</span>
+                  <div>
+                      <h4 style={{ margin: 0, color: '#60a5fa', fontSize: '1.1rem', fontWeight: 'bold' }}>Autonomous Web Application Builder</h4>
+                      <p style={{ margin: 0, color: '#94a3b8', fontSize: '0.85rem' }}>Target: {goal}</p>
+                  </div>
+              </div>
+              <p style={{ color: '#cbd5e1', fontSize: '0.9rem', marginBottom: '16px' }}>
+                  PrismAI has initialized the WebContainer WASM Sandbox and 37-Agent Swarm Pod Matrix to build your application zero-shot.
+              </p>
+              <button 
+                  onClick={() => onTriggerBuild && onTriggerBuild(goal)}
+                  style={{
+                      backgroundColor: '#3b82f6',
+                      color: 'white',
+                      border: 'none',
+                      padding: '10px 20px',
+                      borderRadius: '8px',
+                      fontWeight: 'bold',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px'
+                  }}
+              >
+                  ⚡ Open Interactive App Workspace & Preview
+              </button>
+          </div>
+      );
+  }
 
   if (!sanitizedContent.includes('<architecture>')) {
       return (
@@ -2393,8 +2444,11 @@ function generateClientSideWebAppHTML(goal) {
                         ))}
                       </div>
                     )}
-                    {console.log("RENDERING MSG CONTENT:", msg.content)}
-                    {renderMessageContent(msg.content + (idx === chatMessages.length - 1 && isChatLoading && msg.role === 'ai' ? ' ▋' : ''), (jsonStr) => { setActiveArchitecture(jsonStr); setStep(4); setActiveWorkspaceTab('architecture'); })}
+                    {renderMessageContent(
+                      msg.content + (idx === chatMessages.length - 1 && isChatLoading && msg.role === 'ai' ? ' ▋' : ''), 
+                      (jsonStr) => { setActiveArchitecture(jsonStr); setStep(4); setActiveWorkspaceTab('architecture'); },
+                      (goal) => { setGoal(goal); setAgentRole("Fullstack Web Developer"); handlePlan(goal, "Fullstack Web Developer"); }
+                    )}
                     {msg.role === 'ai' && (
                       <div style={{ display: 'flex', gap: '12px', marginTop: '12px' }}>
                         <button 
