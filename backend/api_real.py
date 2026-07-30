@@ -1514,7 +1514,7 @@ IMPORTANT RULES:
             yield f"data: {json.dumps({'type': 'status', 'message': ''})}\n\n"
 
             # 🖼️ SMART MEDIA EMBEDDER: Fetch official Wikimedia/Wikipedia image for places, landmarks, people & subjects
-            if content_type != "Programming" and not is_identity_query and not is_build_req and not is_architecture_req and len(sanitized_message.strip()) > 2:
+            if content_type != "Programming" and not is_greeting and not is_identity_query and not is_build_req and not is_architecture_req and len(sanitized_message.strip()) > 2:
                 try:
                     from backend.utils.media_fetcher import fetch_wikimedia_image
                     wiki_img = fetch_wikimedia_image(sanitized_message.strip())
