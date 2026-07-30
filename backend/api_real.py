@@ -1411,6 +1411,8 @@ IMPORTANT RULES:
             from backend.memory.unique_response_engine import inject_unique_response_prompt
             from backend.memory.addictive_performance_engine import inject_addictive_performance_prompt
 
+            from backend.memory.loop_engineering_matrix import inject_loop_engineering_prompt
+
             system_prompt = inject_impeccable_design_prompt(system_prompt)
             system_prompt = inject_open_design_prompt(system_prompt)
             system_prompt = inject_grok_build_prompt(system_prompt)
@@ -1428,6 +1430,7 @@ IMPORTANT RULES:
             system_prompt = inject_nemotron_550b_prompt(system_prompt)
             system_prompt = inject_unique_response_prompt(system_prompt)
             system_prompt = inject_addictive_performance_prompt(system_prompt)
+            system_prompt = inject_loop_engineering_prompt(system_prompt)
 
             messages = [SystemMessage(content=system_prompt)]
             for msg in request_data.history:
