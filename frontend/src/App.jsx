@@ -838,17 +838,20 @@ function App() {
                     } else if (data.type === 'status') {
                         setChatStatus(data.message);
                     } else if (data.type === 'visual') {
-                        // Use the beautiful dedicated visual card renderer (supports multiple images)
-                        setChatMessages(prev => {
-                            const newMsgs = [...prev];
-                            const lastMsg = newMsgs[newMsgs.length - 1];
-                            const existingVisuals = lastMsg.visuals || [];
-                            newMsgs[newMsgs.length - 1] = {
-                                ...lastMsg,
-                                visuals: [...existingVisuals, data]
-                            };
-                            return newMsgs;
-                        });
+                        // 🛡️ Suppress visual image cards on simple greetings (hello, hi, hey)
+                        const isGreetingMsg = /^(hello|hi|hey|greetings|good morning|good afternoon|good evening|howdy|sup|thanks|thank you)\b/i.test((userMessage || '').trim());
+                        if (!isGreetingMsg) {
+                            setChatMessages(prev => {
+                                const newMsgs = [...prev];
+                                const lastMsg = newMsgs[newMsgs.length - 1];
+                                const existingVisuals = lastMsg.visuals || [];
+                                newMsgs[newMsgs.length - 1] = {
+                                    ...lastMsg,
+                                    visuals: [...existingVisuals, data]
+                                };
+                                return newMsgs;
+                            });
+                        }
                     } else if (data.type === 'fast_build') {
                         setChatMessages(prev => {
                             const newMsgs = [...prev];
