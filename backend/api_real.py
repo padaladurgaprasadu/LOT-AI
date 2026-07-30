@@ -1253,12 +1253,18 @@ IMPORTANT RULES:
                 "full app", "full stack", "web app", "mobile app", "saas",
                 "dashboard app", "build me a", "build a website", "create a website",
                 "create an app", "build an app", "develop a platform", "entire application",
-                "e-commerce site", "scaffold a project"
+                "e-commerce site", "scaffold a project", "management system", "portal",
+                "system", "application", "platform", "dashboard", "tool", "website"
             ]
             explicit_full_app = any(sig in msg_lower for sig in full_app_signals)
+            
+            # Check if prompt begins with action verbs (build, create, develop, make, generate) for systems/apps
+            is_build_action = bool(re.search(r"^(build|create|develop|make|generate)\b", msg_lower)) and not any(k in msg_lower for k in ["who", "what is", "why", "how to", "explain", "meaning"])
+
             is_build_req = (
                 (primary_intent in build_intents and complexity in ["Large", "Enterprise"]) or
-                explicit_full_app
+                explicit_full_app or
+                (is_build_action and len(sanitized_message.split()) >= 2)
             )
             
             is_domain_expert_req = (complexity in ["Large", "Enterprise"] and not is_build_req and not is_architecture_req) or primary_intent in ["Research", "Security"]
@@ -1439,10 +1445,16 @@ IMPORTANT RULES:
 
             is_greeting = bool(re.search(r"^(hello|hi|hey|greetings|good morning|good afternoon|good evening|howdy|sup|thanks|thank you)\b", sanitized_message.lower().strip()))
 
+            if is_build_req:
+                # 🚀 HARD INTERCEPT FOR AUTONOMOUS FULLSTACK APP BUILDER (100% RELIABILITY GUARANTEE)
+                clean_goal = sanitized_message.replace('"', '').replace('\n', ' ').strip()
+                build_payload = f'[BUILD] {{"goal": "{clean_goal}", "agent_role": "Fullstack Web Developer"}}'
+                yield f"data: {json.dumps({'type': 'chat', 'token': build_payload})}\n\n"
+                yield f"data: {json.dumps({'type': 'status', 'message': ''})}\n\n"
+                return
+
             if is_architecture_req:
                 formatting_reminder = "\n\n[CRITICAL REMINDER]: You MUST output EXACTLY the `<architecture>` JSON block. DO NOT write any markdown text. DO NOT generate ASCII art. ONLY output the `<architecture>` tags containing the JSON payload."
-            elif is_build_req:
-                formatting_reminder = "\n\n[CRITICAL REMINDER]: The user wants to build a project. You MUST return EXACTLY the `[BUILD] {\"goal\": \"...\", \"agent_role\": \"...\"}` format and nothing else. DO NOT generate markdown lists or conversational text. Output ONLY the [BUILD] tag."
             elif is_identity_query:
                 formatting_reminder = "\n\n[SHORT & CLEAN IDENTITY DIRECTIVE]: Provide a SHORT, CRISP, CLEAN 1-section summary with MAX 3-4 bullet points. DO NOT generate multiple sections or dump internal tech stack modules!"
             elif is_greeting:
@@ -1473,60 +1485,18 @@ IMPORTANT RULES:
   • **Tip 2:** Best practice point 2...
 """
             elif content_type == "Place":
-                formatting_reminder = """\n\n[VISITOR GUIDE DIRECTIVE FOR PLACES & LANDMARKS]:
-Structure your response into clean executive sections:
-• Separate EVERY bullet point with a blank line so it renders as a distinct block.
-• Every bullet point MUST be 1 short, crisp line (max 15-20 words per item).
-
-# [Title]
-
-## Executive Overview
-
-• Short, crisp bullet point 1...
-
-• Short, crisp bullet point 2...
-
-## History & Sacred Heritage
-
-• Short historical origin detail...
-
-• Short milestone detail...
-
-## Key Information & Visitor Guide
-
-• **Opening & Closing Timings:** Daily opening (4:00 AM - 9:00 PM).
-
-• **Activities to Perform:** Sacred darshan, evening Aarti, trekking, photography.
-
-• **Best Time to Visit:** Ideal months and seasonal climate guide.
-
-• **Travel & Access:** Transport connectivity and route guidelines.
-"""
+                formatting_reminder = """\n\n[DYNAMIC EXCELLENCE DIRECTIVE FOR PLACES & LANDMARKS]:
+• Start with the 1200px hero image at Line 1 if available.
+• Provide a high-density Executive Summary box (`> **Executive Summary:** ...`).
+• Use natural, topic-tailored headers that fit the specific location.
+• Include a structured Data Table for key facts, elevation, location, and access details.
+• Use clean 1-line bullet points with double spacing for maximum readability."""
             else:
-                formatting_reminder = """\n\n[EXECUTIVE TECHNICAL & CONCEPTUAL MANDATE]:
-• ABSOLUTELY DO NOT output temple headers, sacred heritage, opening/closing timings, or visitor guide text on technical, conceptual, or general topics!
-• Structure your response into clean, professional executive sections:
-
-# [Title]
-
-## Executive Overview
-
-• Short, crisp bullet point 1...
-
-• Short, crisp bullet point 2...
-
-## Core Principles & Architecture
-
-• Key technical or conceptual detail 1...
-
-• Key technical or conceptual detail 2...
-
-## Key Benefits & Best Practices
-
-• **Benefit 1:** Short explanation...
-
-• **Benefit 2:** Short explanation...
-"""
+                formatting_reminder = """\n\n[NATURAL INTELLIGENT DIRECTIVE]:
+• Provide direct, authoritative, highly informative, and dynamic responses tailored specifically to the user's prompt.
+• Avoid rigid, repetitive boilerplate headings. Use topic-tailored markdown section headers (`##`).
+• Include clean markdown tables, fenced code blocks with expected outputs (` ```text `), and scannable bullet points (`•`).
+• Start immediately with the core takeaway or code—zero intro fluff."""
                         
             if request_data.image:
                 human_content = [{"type": "text", "text": sanitized_message + formatting_reminder}]

@@ -760,9 +760,27 @@ function App() {
                         // Append token to the last AI message
                         setChatMessages(prev => {
                             const newMsgs = [...prev];
+                            const currentContent = newMsgs[newMsgs.length - 1].content || '';
+                            const newContent = currentContent + data.token;
+                            
+                            // 🚀 INSTANT CLIENT INTERCEPTOR FOR [BUILD] TAG
+                            if (newContent.includes('[BUILD]')) {
+                                const buildMatch = newContent.match(/\[BUILD\]\s*(\{[\s\S]*?\})/);
+                                if (buildMatch) {
+                                    try {
+                                        const buildJson = JSON.parse(buildMatch[1]);
+                                        setGoal(buildJson.goal || userMessage);
+                                        setAgentRole(buildJson.agent_role || "Fullstack Web Developer");
+                                        setTimeout(() => handlePlan(buildJson.goal || userMessage, buildJson.agent_role || "Fullstack Web Developer"), 50);
+                                    } catch (e) {
+                                        console.warn("Parsing [BUILD] tag:", e);
+                                    }
+                                }
+                            }
+
                             newMsgs[newMsgs.length - 1] = {
                                 ...newMsgs[newMsgs.length - 1],
-                                content: newMsgs[newMsgs.length - 1].content + data.token
+                                content: newContent
                             };
                             return newMsgs;
                         });
@@ -881,6 +899,15 @@ function App() {
       const query = userMessage.trim();
       const p = query.toLowerCase();
       let fallbackResponse = "";
+
+      if (p.startsWith("build") || p.startsWith("create") || p.startsWith("develop") || p.includes("management system") || p.includes("web app") || p.includes("website")) {
+        setGoal(userMessage);
+        setAgentRole("Fullstack Web Developer");
+        handlePlan(userMessage, "Fullstack Web Developer");
+        setIsChatLoading(false);
+        setChatStatus("");
+        return;
+      }
 
       if (p.includes("architecture") || p.includes("system design") || p.includes("draw an architecture") || p.includes("diagram")) {
         const topicRaw = userMessage.replace(/draw|an|architecture|diagram|to|build|system|for|management/gi, '').trim() || "Restaurant Management";
