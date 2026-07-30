@@ -1436,6 +1436,42 @@ IMPORTANT RULES:
             # v6.0 Cybersecurity (817 Anthropic skills — MITRE ATT&CK + NIST)
             from backend.security.cybersecurity_skills_engine import inject_cybersecurity_skills_prompt
             from backend.security.prismai_threat_shield import shield_message
+            # v7.0 PILLAR 1: Real Docker VM Execution
+            from backend.execution.docker_vm_engine import inject_docker_vm_prompt
+            from backend.execution.real_terminal import inject_terminal_prompt
+            from backend.execution.package_manager import inject_package_manager_prompt
+            from backend.execution.real_test_runner import inject_test_runner_prompt
+            # v7.0 PILLAR 2: Autonomous Browser + Visual Debugger
+            from backend.browser.playwright_agent import inject_browser_prompt
+            from backend.browser.web_scraper import inject_scraper_prompt
+            from backend.browser.visual_debugger import inject_visual_debug_prompt
+            # v7.0 PILLAR 3: Universal API Integrations
+            from backend.integrations.github_agent import inject_github_prompt
+            from backend.integrations.deployment_agent import inject_deployment_prompt
+            from backend.integrations.universal_api_caller import inject_api_caller_prompt
+            # v7.0 PILLAR 4: Multi-Modal Intelligence
+            from backend.multimodal.vision_engine import inject_vision_prompt
+            from backend.multimodal.document_processor import inject_document_prompt
+            from backend.multimodal.voice_pipeline import inject_voice_prompt
+            # v7.0 PILLAR 5: Autonomous DevOps
+            from backend.devops.docker_engine import inject_docker_engine_prompt
+            from backend.devops.cicd_generator import inject_cicd_prompt
+            # v7.0 PILLAR 6: Real-Time Web Intelligence
+            from backend.web.search_engine import inject_search_prompt
+            from backend.web.competitive_intelligence import inject_competitive_prompt
+            # v7.0 PILLAR 7: Autonomous Project Manager
+            from backend.pm.project_manager_agent import inject_pm_prompt
+            from backend.pm.multi_agent_coordinator import inject_multi_agent_prompt
+            # v7.0 PILLAR 8: Business Intelligence
+            from backend.business.market_analyser import inject_market_prompt
+            from backend.business.financial_modeller import inject_financial_prompt
+            # v7.0 PILLAR 9: Knowledge Reactor (Daily Learning)
+            from backend.learning.knowledge_reactor import inject_knowledge_reactor_prompt
+            # v7.0 PILLAR 10: Computer Use — OS Control
+            from backend.computer_use.screen_agent import inject_screen_agent_prompt
+            from backend.computer_use.task_recorder import inject_recorder_prompt
+            # v7.0 MASTER: Autonomy Orchestrator (competitive superiority)
+            from backend.prismai_autonomy_engine import inject_master_autonomy_prompt
 
             # === THREAT SHIELD: scan before processing ===
             try:
@@ -1446,6 +1482,7 @@ IMPORTANT RULES:
             except Exception:
                 pass  # Non-fatal — never block legitimate requests due to shield errors
 
+            # ── Foundation Layer ──────────────────────────────────────────────
             system_prompt = inject_impeccable_design_prompt(system_prompt)
             system_prompt = inject_open_design_prompt(system_prompt)
             system_prompt = inject_grok_build_prompt(system_prompt)
@@ -1466,29 +1503,61 @@ IMPORTANT RULES:
             system_prompt = inject_loop_engineering_prompt(system_prompt)
             system_prompt = inject_mcp_orchestrator_prompt(system_prompt)
             system_prompt = inject_agent_skills_prompt(system_prompt)
-            # PHASE 3: Parallel Multi-Agent Swarm Orchestrator
+            # ── Swarm + Phases ────────────────────────────────────────────────
             system_prompt = inject_swarm_orchestrator_prompt(system_prompt, sanitized_message)
-            # PHASE 4-7: Browser Intelligence + Voice + CLI + 3D Visual Studio
             system_prompt = inject_all_remaining_phases(system_prompt, sanitized_message)
-            # PHASE 8: Self-Evolving AGI Reactor
             system_prompt = inject_agi_reactor_prompt(system_prompt, sanitized_message)
-            # v6.0 AGI-Class: Causal Reasoning + Transfer Learning + Goal Decomposition + Meta-Learning
+            # ── v6.0 AGI-Class Engines ────────────────────────────────────────
             system_prompt = inject_causal_reasoning_prompt(system_prompt)
             system_prompt = inject_transfer_learning_prompt(system_prompt, sanitized_message)
             system_prompt = inject_goal_decomposition_prompt(system_prompt, sanitized_message)
             system_prompt = inject_meta_learning_prompt(system_prompt, sanitized_message)
-            # v6.0 ASI-Direction: Constitutional AI + Novel Synthesis
+            # ── v6.0 ASI-Direction ────────────────────────────────────────────
             system_prompt = inject_constitutional_prompt(system_prompt)
             system_prompt = inject_novel_synthesis_prompt(system_prompt, sanitized_message)
-            # v6.0 Cybersecurity: 817 Anthropic skills mapped to MITRE ATT&CK + NIST CSF 2.0
+            # ── v6.0 Cybersecurity: 817 Skills ───────────────────────────────
             system_prompt = inject_cybersecurity_skills_prompt(system_prompt, sanitized_message)
-            # AGENTIC LOOP SUPREME: 23-Stage Autonomous Mastery
+            # ── v7.0 PILLAR 1: Real Execution ────────────────────────────────
+            system_prompt = inject_docker_vm_prompt(system_prompt)
+            system_prompt = inject_terminal_prompt(system_prompt)
+            system_prompt = inject_package_manager_prompt(system_prompt)
+            system_prompt = inject_test_runner_prompt(system_prompt)
+            # ── v7.0 PILLAR 2: Browser Autonomy ──────────────────────────────
+            system_prompt = inject_browser_prompt(system_prompt, sanitized_message)
+            system_prompt = inject_scraper_prompt(system_prompt, sanitized_message)
+            system_prompt = inject_visual_debug_prompt(system_prompt)
+            # ── v7.0 PILLAR 3: API Integrations ──────────────────────────────
+            system_prompt = inject_github_prompt(system_prompt, sanitized_message)
+            system_prompt = inject_deployment_prompt(system_prompt, sanitized_message)
+            system_prompt = inject_api_caller_prompt(system_prompt, sanitized_message)
+            # ── v7.0 PILLAR 4: Multi-Modal ───────────────────────────────────
+            system_prompt = inject_vision_prompt(system_prompt, sanitized_message)
+            system_prompt = inject_document_prompt(system_prompt, sanitized_message)
+            system_prompt = inject_voice_prompt(system_prompt)
+            # ── v7.0 PILLAR 5: Autonomous DevOps ─────────────────────────────
+            system_prompt = inject_docker_engine_prompt(system_prompt)
+            system_prompt = inject_cicd_prompt(system_prompt)
+            # ── v7.0 PILLAR 6: Web Intelligence ──────────────────────────────
+            system_prompt = inject_search_prompt(system_prompt, sanitized_message)
+            system_prompt = inject_competitive_prompt(system_prompt, sanitized_message)
+            # ── v7.0 PILLAR 7: Project Manager ───────────────────────────────
+            system_prompt = inject_pm_prompt(system_prompt, sanitized_message)
+            system_prompt = inject_multi_agent_prompt(system_prompt)
+            # ── v7.0 PILLAR 8: Business Intelligence ─────────────────────────
+            system_prompt = inject_market_prompt(system_prompt, sanitized_message)
+            system_prompt = inject_financial_prompt(system_prompt, sanitized_message)
+            # ── v7.0 PILLAR 9: Knowledge Reactor ─────────────────────────────
+            system_prompt = inject_knowledge_reactor_prompt(system_prompt)
+            # ── v7.0 PILLAR 10: Computer Use ─────────────────────────────────
+            system_prompt = inject_screen_agent_prompt(system_prompt)
+            system_prompt = inject_recorder_prompt(system_prompt)
+            # ── AGENTIC LOOP: 23-Stage + 51-Stage ────────────────────────────
             system_prompt = inject_agentic_loop_supreme(system_prompt)
-            # EXTENDED LOOP: Stages 24-51 Production Hardening + Launch Certification
             system_prompt = inject_extended_loop_prompt(system_prompt)
-            # PHASE 2: Sovereign Memory — inject context before adaptive routing
+            # ── MASTER AUTONOMY ORCHESTRATOR (competitive superiority — LAST) ─
+            system_prompt = inject_master_autonomy_prompt(system_prompt, sanitized_message)
+            # ── Memory + Personalisation (always last) ────────────────────────
             system_prompt = inject_sovereign_memory_prompt(system_prompt, sanitized_message, user_id="default")
-            # PHASE 1: Adaptive Learning — inject last to personalise all prior directives
             system_prompt = inject_adaptive_learning_prompt(system_prompt, sanitized_message, user_id="default")
 
 
