@@ -1421,9 +1421,35 @@ IMPORTANT RULES:
             from backend.agents.phases_4567_engine import inject_all_remaining_phases
             # Phase 8: Self-Evolving AGI Reactor
             from backend.agents.self_evolving_agi_reactor import inject_agi_reactor_prompt
-            # Agentic Loop Supreme Engine
+            # Agentic Loop Supreme Engine (23-Stage + 51-Stage Extended)
             from backend.agents.agentic_loop_supreme_engine import inject_agentic_loop_supreme
+            from backend.agents.extended_loop_engine import inject_extended_loop_prompt
+            # AGI-Class Engines (Pillar 2)
+            from backend.agi.causal_reasoning_engine import inject_causal_reasoning_prompt
+            from backend.agi.world_model_engine import inject_world_model_prompt
+            from backend.agi.transfer_learning_engine import inject_transfer_learning_prompt
+            from backend.agi.meta_learning_engine import inject_meta_learning_prompt
+            from backend.agi.goal_decomposition_engine import inject_goal_decomposition_prompt
+            # ASI-Direction Engines (Pillar 3) — Constitutional first, always
+            from backend.asi.constitutional_ai_engine import inject_constitutional_ai_prompt
+            from backend.asi.recursive_improvement_engine import inject_recursive_improvement_prompt
+            from backend.asi.novel_synthesis_engine import inject_novel_synthesis_prompt
+            # Execution Engines (Pillar 1) — Sandbox, AST, Self-Healing
+            from backend.execution.sandbox_engine import inject_sandbox_prompt
+            from backend.execution.ast_analyzer import inject_ast_analysis_prompt
+            from backend.execution.security_scanner import inject_security_scanner_prompt
+            from backend.execution.self_healing_patcher import inject_self_healing_prompt
+            # NVIDIA Nemotron Fine-Tuning Awareness
+            from backend.finetune.nemotron_finetune_pipeline import inject_nemotron_finetune_prompt
 
+            # ═══════════════════════════════════════════════════════════════
+            # PRISMAI v6.0 — COMPLETE SOVEREIGN ASI-OS INJECTION PIPELINE
+            # ═══════════════════════════════════════════════════════════════
+
+            # LAYER 0: Constitutional AI Safety Gate (ALWAYS FIRST)
+            system_prompt = inject_constitutional_ai_prompt(system_prompt)
+
+            # LAYER 1: Foundation prompt engines (35 repositories + design systems)
             system_prompt = inject_impeccable_design_prompt(system_prompt)
             system_prompt = inject_open_design_prompt(system_prompt)
             system_prompt = inject_grok_build_prompt(system_prompt)
@@ -1444,17 +1470,44 @@ IMPORTANT RULES:
             system_prompt = inject_loop_engineering_prompt(system_prompt)
             system_prompt = inject_mcp_orchestrator_prompt(system_prompt)
             system_prompt = inject_agent_skills_prompt(system_prompt)
-            # PHASE 3: Parallel Multi-Agent Swarm Orchestrator
+
+            # LAYER 2: Pillar 1 — Real Execution Engine awareness
+            system_prompt = inject_sandbox_prompt(system_prompt)
+            system_prompt = inject_ast_analysis_prompt(system_prompt)
+            system_prompt = inject_security_scanner_prompt(system_prompt)
+            system_prompt = inject_self_healing_prompt(system_prompt)
+
+            # LAYER 3: Pillar 2 — AGI-Class Intelligence
+            system_prompt = inject_causal_reasoning_prompt(system_prompt)
+            system_prompt = inject_world_model_prompt(system_prompt)
+            system_prompt = inject_transfer_learning_prompt(system_prompt, sanitized_message)
+            system_prompt = inject_meta_learning_prompt(system_prompt)
+            system_prompt = inject_goal_decomposition_prompt(system_prompt, sanitized_message)
+
+            # LAYER 4: Phase 3 — 37-Pod Parallel Swarm Orchestrator
             system_prompt = inject_swarm_orchestrator_prompt(system_prompt, sanitized_message)
-            # PHASE 4-7: Browser Intelligence + Voice + CLI + 3D Visual Studio
+
+            # LAYER 5: Phases 4-7 — Browser + Voice + CLI + 3D Studio
             system_prompt = inject_all_remaining_phases(system_prompt, sanitized_message)
-            # PHASE 8: Self-Evolving AGI Reactor
+
+            # LAYER 6: Phase 8 — Self-Evolving AGI Reactor
             system_prompt = inject_agi_reactor_prompt(system_prompt, sanitized_message)
-            # AGENTIC LOOP SUPREME: 23-Stage Autonomous Mastery (injects last, highest priority)
+
+            # LAYER 7: Pillar 3 — ASI Direction
+            system_prompt = inject_recursive_improvement_prompt(system_prompt)
+            system_prompt = inject_novel_synthesis_prompt(system_prompt, sanitized_message)
+
+            # LAYER 8: Agentic Loop Supreme (23 + 51 stages)
             system_prompt = inject_agentic_loop_supreme(system_prompt)
-            # PHASE 2: Sovereign Memory — inject context before adaptive routing
+            system_prompt = inject_extended_loop_prompt(system_prompt)
+
+            # LAYER 9: Nemotron Fine-Tuned Model awareness
+            system_prompt = inject_nemotron_finetune_prompt(system_prompt)
+
+            # LAYER 10: Phase 2 — Sovereign Memory (past context + project graph + ADRs)
             system_prompt = inject_sovereign_memory_prompt(system_prompt, sanitized_message, user_id="default")
-            # PHASE 1: Adaptive Learning — inject last to personalise all prior directives
+
+            # LAYER 11: Phase 1 — Adaptive Learning (Bloom's personalisation — FINAL LAYER)
             system_prompt = inject_adaptive_learning_prompt(system_prompt, sanitized_message, user_id="default")
 
 

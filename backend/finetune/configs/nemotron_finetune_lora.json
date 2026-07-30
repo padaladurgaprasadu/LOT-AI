@@ -1,0 +1,52 @@
+{
+  "trainer": {
+    "devices": 1,
+    "accelerator": "gpu",
+    "num_nodes": 1,
+    "precision": "bf16-mixed",
+    "max_epochs": 3
+  },
+  "model": {
+    "restore_from_path": "nemo_models/nvidia/nemotron-3-ultra-55b.nemo",
+    "peft": {
+      "peft_scheme": "lora",
+      "lora_tuning": {
+        "method": "lora",
+        "rank": 64,
+        "alpha": 128,
+        "dropout": 0.05,
+        "target_modules": [
+          "q_proj",
+          "k_proj",
+          "v_proj",
+          "o_proj",
+          "gate_proj",
+          "up_proj",
+          "down_proj"
+        ],
+        "bias": "none",
+        "task_type": "CAUSAL_LM"
+      }
+    }
+  },
+  "data": {
+    "train_ds": {
+      "file_names": [
+        "C:\\Users\\DELL\\OneDrive\\Desktop\\Tatvamasi\\yAI\\backend\\finetune\\datasets\\prismai_sft_latest.jsonl"
+      ],
+      "max_seq_length": 8192,
+      "micro_batch_size": 2,
+      "global_batch_size": 32
+    }
+  },
+  "optim": {
+    "name": "distributed_fused_adam",
+    "lr": 0.0002,
+    "weight_decay": 0.001,
+    "sched": {
+      "name": "CosineAnnealing",
+      "warmup_steps": 50,
+      "min_lr": 1e-06
+    }
+  }
+}
