@@ -1410,12 +1410,19 @@ IMPORTANT RULES:
             from backend.agents.nemotron_finetune_engine import inject_nemotron_550b_prompt
             from backend.memory.unique_response_engine import inject_unique_response_prompt
             from backend.memory.addictive_performance_engine import inject_addictive_performance_prompt
-
             from backend.memory.loop_engineering_matrix import inject_loop_engineering_prompt
             from backend.memory.mcp_orchestrator_engine import inject_mcp_orchestrator_prompt
             from backend.memory.agent_skills_engine import inject_agent_skills_prompt
             from backend.memory.adaptive_learning_engine import inject_adaptive_learning_prompt
             from backend.memory.sovereign_memory_engine import inject_sovereign_memory_prompt
+            # Phase 3: Parallel Swarm Orchestrator
+            from backend.agents.parallel_swarm_orchestrator import inject_swarm_orchestrator_prompt
+            # Phase 4-7: Browser Intelligence + Voice + CLI + 3D Studio
+            from backend.agents.phases_4567_engine import inject_all_remaining_phases
+            # Phase 8: Self-Evolving AGI Reactor
+            from backend.agents.self_evolving_agi_reactor import inject_agi_reactor_prompt
+            # Agentic Loop Supreme Engine
+            from backend.agents.agentic_loop_supreme_engine import inject_agentic_loop_supreme
 
             system_prompt = inject_impeccable_design_prompt(system_prompt)
             system_prompt = inject_open_design_prompt(system_prompt)
@@ -1437,10 +1444,19 @@ IMPORTANT RULES:
             system_prompt = inject_loop_engineering_prompt(system_prompt)
             system_prompt = inject_mcp_orchestrator_prompt(system_prompt)
             system_prompt = inject_agent_skills_prompt(system_prompt)
-            # PHASE 2: Sovereign Memory — inject before adaptive so past context feeds Bloom's routing
+            # PHASE 3: Parallel Multi-Agent Swarm Orchestrator
+            system_prompt = inject_swarm_orchestrator_prompt(system_prompt, sanitized_message)
+            # PHASE 4-7: Browser Intelligence + Voice + CLI + 3D Visual Studio
+            system_prompt = inject_all_remaining_phases(system_prompt, sanitized_message)
+            # PHASE 8: Self-Evolving AGI Reactor
+            system_prompt = inject_agi_reactor_prompt(system_prompt, sanitized_message)
+            # AGENTIC LOOP SUPREME: 23-Stage Autonomous Mastery (injects last, highest priority)
+            system_prompt = inject_agentic_loop_supreme(system_prompt)
+            # PHASE 2: Sovereign Memory — inject context before adaptive routing
             system_prompt = inject_sovereign_memory_prompt(system_prompt, sanitized_message, user_id="default")
-            # PHASE 1: Adaptive Learning — inject last to override all other directives
+            # PHASE 1: Adaptive Learning — inject last to personalise all prior directives
             system_prompt = inject_adaptive_learning_prompt(system_prompt, sanitized_message, user_id="default")
+
 
             messages = [SystemMessage(content=system_prompt)]
             for msg in request_data.history:

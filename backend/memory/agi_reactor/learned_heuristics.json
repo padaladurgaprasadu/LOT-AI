@@ -1,0 +1,18 @@
+{
+  "build_me_a": {
+    "successful_approaches": [
+      "Build me a full SaaS CRM platform with React, FastAPI, PostgreSQL, auth, and Kub",
+      "Build me a full SaaS CRM platform with React, FastAPI, PostgreSQL, auth, and Kub",
+      "Build me a full SaaS CRM platform with React, FastAPI, PostgreSQL, auth, and Kub",
+      "Build me a full SaaS CRM platform with React, FastAPI, PostgreSQL, auth, and Kub"
+    ],
+    "avg_score": 8.52,
+    "count": 4
+  },
+  "x_failures": {
+    "failed_approaches": [
+      "Score 7.5",
+      "Score 7.5"
+    ]
+  }
+}

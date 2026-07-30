@@ -52,5 +52,20 @@
       "timestamp": "2026-07-30T03:13:30.146094+00:00",
       "user_id": "test_user_phase2"
     }
+  ],
+  "cert_user": [
+    {
+      "id": "f3a60725a8211376",
+      "content": "Build me a full SaaS CRM platform with React, FastAPI, PostgreSQL, auth, and Kubernetes deployment",
+      "category": "development",
+      "tags": [
+        "react",
+        "fastapi",
+        "postgresql",
+        "kubernetes"
+      ],
+      "timestamp": "2026-07-30T03:25:53.286306+00:00",
+      "user_id": "cert_user"
+    }
   ]
 }
