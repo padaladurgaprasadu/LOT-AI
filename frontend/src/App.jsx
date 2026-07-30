@@ -12,6 +12,7 @@ import remarkGfm from 'remark-gfm'
 import remarkBreaks from 'remark-breaks'
 import PlatformDashboards from './components/PlatformDashboards'
 import AIWorkspaceTabs from './components/AIWorkspaceTabs'
+import AdaptiveLearningPanel from './components/AdaptiveLearningPanel'
 
 const handleMarkdownClick = async (e) => {
   const target = e.target;
@@ -423,6 +424,7 @@ function App() {
   // Phase 3 additions
   const [showDevModal, setShowDevModal] = useState(false)
   const [showSettingsModal, setShowSettingsModal] = useState(false)
+  const [showAdaptiveLearning, setShowAdaptiveLearning] = useState(false)
 
   // Chat state
   const [chatInput, setChatInput] = useState('')
@@ -2805,6 +2807,28 @@ Autonomously synthesized full-stack application built by **PrismAI** using a 37-
                     </div>
                 )}
               </button>
+              {/* 🧠 ADAPTIVE LEARNING BUTTON */}
+              <button
+                type="button"
+                onClick={() => setShowAdaptiveLearning(v => !v)}
+                title="Adaptive Learning — Bloom's Taxonomy & Spaced Repetition"
+                style={{
+                  background: 'none', border: 'none', cursor: 'pointer',
+                  padding: '0 8px', transition: 'all 0.2s',
+                }}
+              >
+                <div style={{
+                  display: 'flex', alignItems: 'center', gap: '6px',
+                  background: showAdaptiveLearning ? 'rgba(139,92,246,0.18)' : 'rgba(139,92,246,0.08)',
+                  padding: '6px 12px', borderRadius: '20px',
+                  border: `1px solid rgba(139,92,246,${showAdaptiveLearning ? '0.5' : '0.25'})`,
+                  boxShadow: showAdaptiveLearning ? '0 0 12px rgba(139,92,246,0.35)' : 'none',
+                  transition: 'all 0.25s ease'
+                }}>
+                  <span style={{ fontSize: '1rem' }}>🧠</span>
+                  <span style={{ fontSize: '0.8rem', fontWeight: '600', color: '#a78bfa', letterSpacing: '0.5px' }}>Adapt</span>
+                </div>
+              </button>
               <button 
                 type="submit" 
                 disabled={isChatLoading || !chatInput.trim()} 
@@ -3099,6 +3123,12 @@ Autonomously synthesized full-stack application built by **PrismAI** using a 37-
       </div>
       
       {/* Tutor Chat Widget Removed per user request */}
+
+      {/* 🧠 ADAPTIVE LEARNING PANEL OVERLAY */}
+      <AdaptiveLearningPanel
+        isOpen={showAdaptiveLearning}
+        onClose={() => setShowAdaptiveLearning(false)}
+      />
     </div>
   )
 }

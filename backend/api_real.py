@@ -1414,6 +1414,7 @@ IMPORTANT RULES:
             from backend.memory.loop_engineering_matrix import inject_loop_engineering_prompt
             from backend.memory.mcp_orchestrator_engine import inject_mcp_orchestrator_prompt
             from backend.memory.agent_skills_engine import inject_agent_skills_prompt
+            from backend.memory.adaptive_learning_engine import inject_adaptive_learning_prompt
 
             system_prompt = inject_impeccable_design_prompt(system_prompt)
             system_prompt = inject_open_design_prompt(system_prompt)
@@ -1435,6 +1436,8 @@ IMPORTANT RULES:
             system_prompt = inject_loop_engineering_prompt(system_prompt)
             system_prompt = inject_mcp_orchestrator_prompt(system_prompt)
             system_prompt = inject_agent_skills_prompt(system_prompt)
+            # ADAPTIVE LEARNING: inject last so it overrides all other directives
+            system_prompt = inject_adaptive_learning_prompt(system_prompt, sanitized_message, user_id="default")
 
             messages = [SystemMessage(content=system_prompt)]
             for msg in request_data.history:
