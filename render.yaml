@@ -2,7 +2,7 @@ services:
   - type: web
     name: lot-ai-backend
     runtime: python
-    env: python
+    plan: free
     buildCommand: "pip install -r backend/requirements.txt"
     startCommand: "uvicorn backend.api_real:app --host 0.0.0.0 --port $PORT"
     envVars:
@@ -16,6 +16,7 @@ services:
   - type: web
     name: lot-ai-frontend
     runtime: static
+    plan: free
     buildCommand: "cd frontend && npm install && npm run build"
     staticPublishPath: "./frontend/dist"
     routes:
