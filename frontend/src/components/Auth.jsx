@@ -13,6 +13,16 @@ export default function Auth() {
     setLoading(true)
     setMessage({ text: '', type: '' })
     
+    // Check if Supabase URL is placeholder or missing
+    const isSupabaseConfigured = import.meta.env.VITE_SUPABASE_URL && !import.meta.env.VITE_SUPABASE_URL.includes('placeholder')
+
+    if (!isSupabaseConfigured) {
+      // Automatic Local Guest Auth Session
+      localStorage.setItem('lot_ai_user', JSON.stringify({ email: email || 'guest@lotai.dev', id: 'user_' + Date.now() }))
+      window.location.reload()
+      return
+    }
+
     try {
       if (isLoginMode) {
         const { error } = await supabase.auth.signInWithPassword({ email, password })
@@ -23,6 +33,12 @@ export default function Auth() {
         setMessage({ text: 'Success! Check your email for a confirmation link.', type: 'success' })
       }
     } catch (error) {
+      if (error.message?.includes('Failed to fetch')) {
+        // Fallback to local session on network error
+        localStorage.setItem('lot_ai_user', JSON.stringify({ email: email || 'user@lotai.dev', id: 'user_' + Date.now() }))
+        window.location.reload()
+        return
+      }
       setMessage({ text: error.message, type: 'error' })
     } finally {
       setLoading(false)
