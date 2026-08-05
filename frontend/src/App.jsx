@@ -386,8 +386,8 @@ function App() {
       fetch(`${API_URL}/api/user/tier`, {
         headers: { 'Authorization': `Bearer ${session.access_token || 'mock-token-for-local-dev'}` }
       })
-      .then(res => res.json())
-      .then(data => { if (data.tier) setUserTier(data.tier); })
+      .then(res => res.ok ? res.json() : null)
+      .then(data => { if (data && data.tier) setUserTier(data.tier); })
       .catch(() => {});
     }
   }, [session, API_URL])
@@ -404,8 +404,10 @@ function App() {
         },
         body: JSON.stringify({ tier: newTier })
       });
-      const data = await res.json();
-      console.log("Tier upgrade response:", data);
+      if (res.ok) {
+        const data = await res.json();
+        console.log("Tier upgrade response:", data);
+      }
     } catch(e) {
       console.log("Tier updated locally to", newTier);
     }
@@ -518,8 +520,9 @@ function App() {
         fetch(`${API_URL}/api/user/history`, {
             headers: { 'Authorization': `Bearer ${session.access_token}` }
         })
-        .then(res => res.json())
+        .then(res => res.ok ? res.json() : null)
         .then(data => {
+            if (!data) return;
             const savedHistoryStr = localStorage.getItem('lotai_chat_history');
             let localData = savedHistoryStr ? JSON.parse(savedHistoryStr) : [];
             
