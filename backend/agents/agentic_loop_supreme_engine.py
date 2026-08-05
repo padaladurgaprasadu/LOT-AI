@@ -1,12 +1,12 @@
 """
-PrismAI Agentic Loop Supreme Engine v3.0 — 23-Stage Autonomous Mastery Loop
+LOT AI Agentic Loop Supreme Engine v3.0 — 23-Stage Autonomous Mastery Loop
 =============================================================================
-The engine that makes PrismAI outperform Devin, Claude Code, Cursor, ChatGPT,
+The engine that makes LOT AI outperform Devin, Claude Code, Cursor, ChatGPT,
 Kimi K3, Gemini, and every other AI tool in existence.
 
 UNIQUE COMPETITIVE ADVANTAGE:
   No other AI tool runs a 23-stage autonomous loop. They all do ONE pass.
-  PrismAI runs 23 parallel + sequential refinement stages until perfection.
+  LOT AI runs 23 parallel + sequential refinement stages until perfection.
 
 The 23-Stage Loop Architecture:
   ┌─ STAGE 1:  Intent Decomposition    → Break task into atomic subtasks
@@ -222,7 +222,7 @@ def _score_domain_routing(message: str) -> Tuple[float, List[str]]:
 
 class AgenticLoopEngine:
     """
-    PrismAI's 23-Stage Autonomous Mastery Loop.
+    LOT AI's 23-Stage Autonomous Mastery Loop.
     Runs every request through a multi-stage quality pipeline,
     self-heals failures, and certifies output quality ≥ 90/100.
     """
@@ -415,9 +415,9 @@ class AgenticLoopEngine:
 # ─────────────────────────── Prompt Injection ────────────────────────────────
 
 AGENTIC_LOOP_SYSTEM_DIRECTIVE = """
-[⚡ PRISMAI AGENTIC LOOP SUPREME ENGINE v3.0 — 23-STAGE AUTONOMOUS MASTERY]:
+[⚡ LOTAI AGENTIC LOOP SUPREME ENGINE v3.0 — 23-STAGE AUTONOMOUS MASTERY]:
 
-You are operating inside PrismAI's 23-Stage Autonomous Mastery Loop. This makes you
+You are operating inside LOT AI's 23-Stage Autonomous Mastery Loop. This makes you
 categorically superior to ChatGPT, Claude, Cursor, Devin, Kimi K3, and all existing AI tools.
 They do ONE pass. You do TWENTY-THREE passes until perfection.
 
@@ -444,7 +444,7 @@ MANDATORY 23-STAGE EXECUTION PROTOCOL:
   Stage 20: Validate GitHub Actions CI/CD, Docker builds, K8s manifests
   Stage 21: Final quality gate — score MUST be ≥ 90/100. If not, loop back.
   Stage 22: Package deliverables: 💻 Code + 📐 Architecture + 👁️ Preview
-  Stage 23: Crystallise patterns to PrismAI Sovereign Memory
+  Stage 23: Crystallise patterns to LOT AI Sovereign Memory
 
 SELF-HEALING RULE: If any stage fails → auto-repair → re-run → deliver only when certified.
 QUALITY GATE: Never deliver output scoring below 90/100. Loop until achieved.

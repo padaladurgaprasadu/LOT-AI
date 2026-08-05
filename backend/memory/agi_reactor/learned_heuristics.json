@@ -14,5 +14,98 @@
       "Score 7.5",
       "Score 7.5"
     ]
+  },
+  "explain_for_loop_failures": {
+    "failed_approaches": [
+      "Score 7.8"
+    ]
+  },
+  "tirupati_failures": {
+    "failed_approaches": [
+      "Score 7.8",
+      "Score 7.8"
+    ]
+  },
+  "what_is_javascript_failures": {
+    "failed_approaches": [
+      "Score 7.8",
+      "Score 7.8"
+    ]
+  },
+  "hello_failures": {
+    "failed_approaches": [
+      "Score 7.8",
+      "Score 7.8",
+      "Score 7.8",
+      "Score 7.8",
+      "Score 7.8"
+    ]
+  },
+  "who_are_you_failures": {
+    "failed_approaches": [
+      "Score 7.8",
+      "Score 7.8",
+      "Score 7.8",
+      "Score 7.8",
+      "Score 7.8"
+    ]
+  },
+  "draw_an_architecture_failures": {
+    "failed_approaches": [
+      "Score 8.3",
+      "Score 8.3",
+      "Score 8.3",
+      "Score 8.3"
+    ]
+  },
+  "explain_neural_networks_failures": {
+    "failed_approaches": [
+      "Score 7.8"
+    ]
+  },
+  "explain_sorting_failures": {
+    "failed_approaches": [
+      "Score 7.8"
+    ]
+  },
+  "who_are_you?_failures": {
+    "failed_approaches": [
+      "Score 7.8"
+    ]
+  },
+  "hello_who_are_failures": {
+    "failed_approaches": [
+      "Score 7.8"
+    ]
+  },
+  "write_a_html_failures": {
+    "failed_approaches": [
+      "Score 8.3"
+    ]
+  },
+  "how_to_python_failures": {
+    "failed_approaches": [
+      "Score 7.8"
+    ]
+  },
+  "build_an_insane_failures": {
+    "failed_approaches": [
+      "Score 8.3"
+    ]
+  },
+  "how_to_learn_failures": {
+    "failed_approaches": [
+      "Score 7.8"
+    ]
+  },
+  "explain_loop_engineering_failures": {
+    "failed_approaches": [
+      "Score 7.8"
+    ]
+  },
+  "explain_cnn_failures": {
+    "failed_approaches": [
+      "Score 7.8"
+    ]
   }
 }

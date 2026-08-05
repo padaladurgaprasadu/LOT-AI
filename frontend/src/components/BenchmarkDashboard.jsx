@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
 const COMPETITORS = [
-  { id: 'prismai',     name: 'PrismAI v7',     color: '#8b5cf6', glow: 'rgba(139,92,246,0.4)', logo: '⚡' },
+  { id: 'lotai',     name: 'LOT AI v7',     color: '#8b5cf6', glow: 'rgba(139,92,246,0.4)', logo: '⚡' },
   { id: 'chatgpt',     name: 'ChatGPT',         color: '#10a37f', glow: 'rgba(16,163,127,0.3)', logo: '🤖' },
   { id: 'claude',      name: 'Claude Opus 5',   color: '#d97706', glow: 'rgba(217,119,6,0.3)',  logo: '🧠' },
   { id: 'cursor',      name: 'Cursor',          color: '#3b82f6', glow: 'rgba(59,130,246,0.3)', logo: '⌨️' },
@@ -21,56 +21,56 @@ const BENCHMARKS = [
     label: 'SWE-Bench\nTask Completion',
     icon: '🏗️',
     description: 'Real software engineering tasks',
-    scores: { prismai: 94, chatgpt: 19, claude: 49, cursor: 38, devin: 13, gemini: 35, gpt56: 28, kimi: 22, antigravity: 45, blink: 8, bolt: 12, codex: 25 }
+    scores: { lotai: 94, chatgpt: 19, claude: 49, cursor: 38, devin: 13, gemini: 35, gpt56: 28, kimi: 22, antigravity: 45, blink: 8, bolt: 12, codex: 25 }
   },
   {
     id: 'selfheal',
     label: 'Self-Healing\nSuccess Rate',
     icon: '🩹',
     description: 'Auto-fix bugs without human help',
-    scores: { prismai: 97, chatgpt: 0, claude: 0, cursor: 15, devin: 30, gemini: 0, gpt56: 5, kimi: 0, antigravity: 10, blink: 5, bolt: 8, codex: 0 }
+    scores: { lotai: 97, chatgpt: 0, claude: 0, cursor: 15, devin: 30, gemini: 0, gpt56: 5, kimi: 0, antigravity: 10, blink: 5, bolt: 8, codex: 0 }
   },
   {
     id: 'memory',
     label: 'Cross-Session\nMemory',
     icon: '🧠',
     description: 'Remembers context across sessions',
-    scores: { prismai: 99, chatgpt: 0, claude: 0, cursor: 20, devin: 0, gemini: 15, gpt56: 10, kimi: 0, antigravity: 30, blink: 0, bolt: 0, codex: 0 }
+    scores: { lotai: 99, chatgpt: 0, claude: 0, cursor: 20, devin: 0, gemini: 15, gpt56: 10, kimi: 0, antigravity: 30, blink: 0, bolt: 0, codex: 0 }
   },
   {
     id: 'deploy',
     label: 'Real Deployment\nAutonomy',
     icon: '🚢',
     description: 'Actually deploys to production',
-    scores: { prismai: 95, chatgpt: 0, claude: 0, cursor: 10, devin: 60, gemini: 0, gpt56: 5, kimi: 0, antigravity: 5, blink: 15, bolt: 20, codex: 0 }
+    scores: { lotai: 95, chatgpt: 0, claude: 0, cursor: 10, devin: 60, gemini: 0, gpt56: 5, kimi: 0, antigravity: 5, blink: 15, bolt: 20, codex: 0 }
   },
   {
     id: 'security',
     label: 'Security\nCompliance',
     icon: '🔒',
     description: '817-skill cybersecurity (MITRE ATT&CK)',
-    scores: { prismai: 98, chatgpt: 55, claude: 72, cursor: 40, devin: 35, gemini: 50, gpt56: 60, kimi: 30, antigravity: 65, blink: 25, bolt: 20, codex: 35 }
+    scores: { lotai: 98, chatgpt: 55, claude: 72, cursor: 40, devin: 35, gemini: 50, gpt56: 60, kimi: 30, antigravity: 65, blink: 25, bolt: 20, codex: 35 }
   },
   {
     id: 'multimodal',
     label: 'Multi-Modal\nIntelligence',
     icon: '👁️',
     description: 'Image, PDF, Voice, Video input',
-    scores: { prismai: 92, chatgpt: 80, claude: 85, cursor: 20, devin: 40, gemini: 88, gpt56: 85, kimi: 70, antigravity: 30, blink: 10, bolt: 15, codex: 5 }
+    scores: { lotai: 92, chatgpt: 80, claude: 85, cursor: 20, devin: 40, gemini: 88, gpt56: 85, kimi: 70, antigravity: 30, blink: 10, bolt: 15, codex: 5 }
   },
   {
     id: 'adaptive',
     label: 'Adaptive\nLearning',
     icon: '📈',
     description: 'Gets smarter with every interaction',
-    scores: { prismai: 95, chatgpt: 0, claude: 0, cursor: 5, devin: 10, gemini: 10, gpt56: 15, kimi: 0, antigravity: 20, blink: 0, bolt: 0, codex: 0 }
+    scores: { lotai: 95, chatgpt: 0, claude: 0, cursor: 5, devin: 10, gemini: 10, gpt56: 15, kimi: 0, antigravity: 20, blink: 0, bolt: 0, codex: 0 }
   },
   {
     id: 'quality',
     label: '51-Stage Quality\nVerification',
     icon: '🏆',
     description: 'Verified production quality loop',
-    scores: { prismai: 99, chatgpt: 0, claude: 0, cursor: 0, devin: 20, gemini: 0, gpt56: 5, kimi: 0, antigravity: 0, blink: 0, bolt: 10, codex: 0 }
+    scores: { lotai: 99, chatgpt: 0, claude: 0, cursor: 0, devin: 20, gemini: 0, gpt56: 5, kimi: 0, antigravity: 0, blink: 0, bolt: 10, codex: 0 }
   },
 ]
 
@@ -78,7 +78,7 @@ const BenchmarkDashboard = () => {
   const [selectedBenchmark, setSelectedBenchmark] = useState('swe')
   const [animatedScores, setAnimatedScores] = useState({})
   const [activeTab, setActiveTab] = useState('radar')
-  const [highlightPrismai, setHighlightPrismai] = useState(true)
+  const [highlightLOTai, setHighlightLOTai] = useState(true)
 
   const benchmark = BENCHMARKS.find(b => b.id === selectedBenchmark)
 
@@ -120,7 +120,7 @@ const BenchmarkDashboard = () => {
           <span style={{ fontSize: '2rem' }}>⚡</span>
           <div style={{ textAlign: 'left' }}>
             <div style={{ fontSize: '1.4rem', fontWeight: 900, background: 'linear-gradient(90deg, #8b5cf6, #06b6d4)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-              PrismAI v7.0 — Benchmark Dashboard
+              LOT AI v7.0 — Benchmark Dashboard
             </div>
             <div style={{ fontSize: '0.75rem', color: '#64748b' }}>
               Sovereign ASI-OS vs. ChatGPT · Claude · Cursor · Devin · Gemini · Kimi K3 · Blink · Bolt · GPT-5.6
@@ -184,31 +184,31 @@ const BenchmarkDashboard = () => {
         {sorted.map((comp, idx) => {
           const score = animatedScores[comp.id] ?? 0
           const rawScore = benchmark.scores[comp.id] ?? 0
-          const isPrismai = comp.id === 'prismai'
+          const isLOTai = comp.id === 'lotai'
           return (
             <div key={comp.id} style={{ marginBottom: idx < sorted.length - 1 ? '14px' : 0 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '5px' }}>
                 <span style={{ fontSize: '1rem', width: '24px', textAlign: 'center' }}>{comp.logo}</span>
                 <span style={{
-                  fontSize: '0.78rem', fontWeight: isPrismai ? 800 : 500,
-                  color: isPrismai ? comp.color : '#94a3b8',
+                  fontSize: '0.78rem', fontWeight: isLOTai ? 800 : 500,
+                  color: isLOTai ? comp.color : '#94a3b8',
                   width: '130px', flexShrink: 0,
                 }}>
-                  {comp.name} {isPrismai && '🏆'}
+                  {comp.name} {isLOTai && '🏆'}
                 </span>
                 <div style={{ flex: 1, height: '28px', background: 'rgba(255,255,255,0.04)', borderRadius: '8px', overflow: 'hidden', position: 'relative' }}>
                   <div style={{
                     height: '100%', borderRadius: '8px',
                     width: `${score}%`,
-                    background: isPrismai
+                    background: isLOTai
                       ? 'linear-gradient(90deg, #6366f1, #8b5cf6, #06b6d4)'
                       : `linear-gradient(90deg, ${comp.color}88, ${comp.color}44)`,
                     transition: 'width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                    boxShadow: isPrismai ? `0 0 20px ${comp.glow}` : 'none',
+                    boxShadow: isLOTai ? `0 0 20px ${comp.glow}` : 'none',
                     display: 'flex', alignItems: 'center', paddingLeft: '10px',
                   }}>
                     {rawScore > 15 && (
-                      <span style={{ fontSize: '0.7rem', fontWeight: 700, color: isPrismai ? '#fff' : `${comp.color}`, whiteSpace: 'nowrap' }}>
+                      <span style={{ fontSize: '0.7rem', fontWeight: 700, color: isLOTai ? '#fff' : `${comp.color}`, whiteSpace: 'nowrap' }}>
                         {rawScore}%
                       </span>
                     )}
@@ -225,8 +225,8 @@ const BenchmarkDashboard = () => {
                   )}
                 </div>
                 <div style={{
-                  fontSize: '0.85rem', fontWeight: isPrismai ? 900 : 600,
-                  color: isPrismai ? '#34d399' : getScoreColor(rawScore),
+                  fontSize: '0.85rem', fontWeight: isLOTai ? 900 : 600,
+                  color: isLOTai ? '#34d399' : getScoreColor(rawScore),
                   width: '42px', textAlign: 'right',
                 }}>
                   {rawScore}%
@@ -237,18 +237,18 @@ const BenchmarkDashboard = () => {
         })}
       </div>
 
-      {/* Unique capabilities — things ONLY PrismAI has */}
+      {/* Unique capabilities — things ONLY LOT AI has */}
       <div style={{
         maxWidth: '900px', margin: '0 auto',
         display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '12px',
       }}>
         {[
-          { icon: '🧠', title: 'Only PrismAI', subtitle: 'Adaptive Learning', desc: 'Gets measurably smarter every session. No other tool does this.' },
-          { icon: '🔄', title: 'Only PrismAI', subtitle: '51-Stage Quality Loop', desc: 'Self-verifies across 51 dimensions before delivery.' },
-          { icon: '💾', title: 'Only PrismAI', subtitle: 'Sovereign Memory', desc: 'Remembers you, your projects, your preferences — forever.' },
-          { icon: '⚡', title: 'Only PrismAI', subtitle: '37 Expert Pod Swarm', desc: '37 specialist AI agents collaborate in parallel on every task.' },
-          { icon: '🩹', title: 'Only PrismAI', subtitle: 'Self-Healing Code', desc: 'Detects bugs, patches them autonomously, re-runs tests.' },
-          { icon: '🌌', title: 'Only PrismAI', subtitle: 'Novel Synthesis', desc: 'Combines physics + biology + CS to generate genuinely new ideas.' },
+          { icon: '🧠', title: 'Only LOT AI', subtitle: 'Adaptive Learning', desc: 'Gets measurably smarter every session. No other tool does this.' },
+          { icon: '🔄', title: 'Only LOT AI', subtitle: '51-Stage Quality Loop', desc: 'Self-verifies across 51 dimensions before delivery.' },
+          { icon: '💾', title: 'Only LOT AI', subtitle: 'Sovereign Memory', desc: 'Remembers you, your projects, your preferences — forever.' },
+          { icon: '⚡', title: 'Only LOT AI', subtitle: '37 Expert Pod Swarm', desc: '37 specialist AI agents collaborate in parallel on every task.' },
+          { icon: '🩹', title: 'Only LOT AI', subtitle: 'Self-Healing Code', desc: 'Detects bugs, patches them autonomously, re-runs tests.' },
+          { icon: '🌌', title: 'Only LOT AI', subtitle: 'Novel Synthesis', desc: 'Combines physics + biology + CS to generate genuinely new ideas.' },
         ].map((item, i) => (
           <div key={i} style={{
             background: 'linear-gradient(135deg, rgba(139,92,246,0.08), rgba(59,130,246,0.05))',
@@ -267,7 +267,7 @@ const BenchmarkDashboard = () => {
       </div>
 
       <div style={{ textAlign: 'center', marginTop: '32px', fontSize: '0.68rem', color: '#334155' }}>
-        PrismAI v7.0 Sovereign ASI-OS · 51-Stage Agentic Loop · 37-Pod Expert Swarm · Constitutional AI · 817 Cybersecurity Skills
+        LOT AI v7.0 Sovereign ASI-OS · 51-Stage Agentic Loop · 37-Pod Expert Swarm · Constitutional AI · 817 Cybersecurity Skills
       </div>
     </div>
   )

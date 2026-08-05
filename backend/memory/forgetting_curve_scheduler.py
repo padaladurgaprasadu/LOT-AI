@@ -1,5 +1,5 @@
 """
-PrismAI Forgetting Curve Scheduler v1.0
+LOT AI Forgetting Curve Scheduler v1.0
 ========================================
 Implements the Ebbinghaus Forgetting Curve with spaced repetition scheduling
 to help users retain knowledge at scientifically optimal review intervals.
@@ -18,9 +18,9 @@ Spaced Repetition (SR) counteracts decay by reviewing at optimal intervals:
   Review 4: After 7 days       → Retention stays at ~87%
   Review 5: After 30 days      → Retention stays at ~90%
 
-PrismAI integration:
+LOT AI integration:
   • Every concept explained is registered in the user's profile
-  • When the user returns, PrismAI proactively surfaces concepts due for review
+  • When the user returns, LOT AI proactively surfaces concepts due for review
   • "Quick recall check" prompts reinforce learning without being intrusive
   • Mastery score (0.0–1.0) tracks per-concept retention strength
 """
@@ -153,14 +153,14 @@ class ForgettingCurveScheduler:
 
     def generate_review_prompt_block(self, max_items: int = 3) -> str:
         """
-        Generate a proactive review prompt block to inject into PrismAI responses.
+        Generate a proactive review prompt block to inject into LOT AI responses.
         Returns empty string if no concepts are due for review.
         """
         due = self.get_due_concepts(max_items=max_items)
         if not due:
             return ""
 
-        lines = ["\n\n[📚 PRISMAI ADAPTIVE RECALL — Concepts Due for Review]:"]
+        lines = ["\n\n[📚 LOTAI ADAPTIVE RECALL — Concepts Due for Review]:"]
         lines.append("These concepts are ready to reinforce in your long-term memory:\n")
         for concept, mastery in due:
             bars = int(mastery * 10)

@@ -24,7 +24,7 @@ full_app_signals = [
 ]
 
 print("==========================================================================")
-print("🚀 TESTING PRISMAI AUTONOMOUS WEB APP BUILDER ROUTING")
+print("🚀 TESTING LOTAI AUTONOMOUS WEB APP BUILDER ROUTING")
 print("==========================================================================")
 
 for prompt in test_prompts:

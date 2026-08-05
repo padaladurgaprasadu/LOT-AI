@@ -1,5 +1,5 @@
 """
-PrismAI McKinsey-Grade Presentation & Report Engine v1.0
+LOT AI McKinsey-Grade Presentation & Report Engine v1.0
 =========================================================
 Autonomously generates professional PowerPoint decks (.pptx), 
 structured executive PDF reports (.pdf), and Excel spreadsheets (.xlsx).
@@ -11,11 +11,11 @@ from typing import Dict, Any, List
 
 class PresentationReportEngine:
     """
-    Automated PowerPoint, PDF, and Excel report synthesizer for PrismAI.
+    Automated PowerPoint, PDF, and Excel report synthesizer for LOT AI.
     """
     def generate_mckinsey_deck(self, topic: str, num_slides: int = 15) -> Dict[str, Any]:
         slides = []
-        slides.append({"slide_num": 1, "type": "title", "title": f"Executive Strategy: {topic}", "subtitle": "Prepared by PrismAI Swarm Engine"})
+        slides.append({"slide_num": 1, "type": "title", "title": f"Executive Strategy: {topic}", "subtitle": "Prepared by LOT AI Swarm Engine"})
         
         for s in range(2, num_slides + 1):
             slides.append({

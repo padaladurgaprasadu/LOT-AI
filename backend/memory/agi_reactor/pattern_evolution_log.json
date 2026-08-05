@@ -29,6 +29,196 @@
       "timestamp": "2026-07-30T03:25:53.442288+00:00",
       "type": "SUCCESS",
       "details": "Score 8.5: Build me a full SaaS CRM platform with React, FastAPI, Postg"
+    },
+    {
+      "timestamp": "2026-07-31T15:31:03.255752+00:00",
+      "type": "IMPROVE",
+      "details": "Score 7.8 — below threshold: Explain for loop"
+    },
+    {
+      "timestamp": "2026-07-31T15:31:42.926116+00:00",
+      "type": "IMPROVE",
+      "details": "Score 7.8 — below threshold: Tirupati"
+    },
+    {
+      "timestamp": "2026-07-31T15:35:20.078269+00:00",
+      "type": "IMPROVE",
+      "details": "Score 7.8 — below threshold: What is Javascript"
+    },
+    {
+      "timestamp": "2026-07-31T15:44:51.708273+00:00",
+      "type": "IMPROVE",
+      "details": "Score 7.8 — below threshold: What is Javascript"
+    },
+    {
+      "timestamp": "2026-08-01T02:51:06.983627+00:00",
+      "type": "IMPROVE",
+      "details": "Score 7.8 — below threshold: Hello"
+    },
+    {
+      "timestamp": "2026-08-01T02:51:15.717796+00:00",
+      "type": "IMPROVE",
+      "details": "Score 7.8 — below threshold: Hello"
+    },
+    {
+      "timestamp": "2026-08-01T02:51:46.865713+00:00",
+      "type": "IMPROVE",
+      "details": "Score 7.8 — below threshold: Hello"
+    },
+    {
+      "timestamp": "2026-08-01T02:52:03.937389+00:00",
+      "type": "IMPROVE",
+      "details": "Score 7.8 — below threshold: who are you"
+    },
+    {
+      "timestamp": "2026-08-01T03:42:07.250729+00:00",
+      "type": "IMPROVE",
+      "details": "Score 8.3 — below threshold: Draw an architecture diagram to build crop recommendation sy"
+    },
+    {
+      "timestamp": "2026-08-01T09:11:49.198376+00:00",
+      "type": "IMPROVE",
+      "details": "Score 7.8 — below threshold: Hello"
+    },
+    {
+      "timestamp": "2026-08-01T09:12:01.919146+00:00",
+      "type": "IMPROVE",
+      "details": "Score 7.8 — below threshold: Who are you"
+    },
+    {
+      "timestamp": "2026-08-01T09:12:34.291099+00:00",
+      "type": "IMPROVE",
+      "details": "Score 7.8 — below threshold: Explain Neural networks "
+    },
+    {
+      "timestamp": "2026-08-01T09:41:50.221587+00:00",
+      "type": "IMPROVE",
+      "details": "Score 7.8 — below threshold: Explain sorting"
+    },
+    {
+      "timestamp": "2026-08-01T09:56:19.560927+00:00",
+      "type": "IMPROVE",
+      "details": "Score 7.8 — below threshold: Hello"
+    },
+    {
+      "timestamp": "2026-08-01T09:56:44.760663+00:00",
+      "type": "IMPROVE",
+      "details": "Score 7.8 — below threshold: Who are you?"
+    },
+    {
+      "timestamp": "2026-08-01T09:59:55.177943+00:00",
+      "type": "IMPROVE",
+      "details": "Score 7.8 — below threshold: Hello"
+    },
+    {
+      "timestamp": "2026-08-01T10:11:01.163126+00:00",
+      "type": "IMPROVE",
+      "details": "Score 7.8 — below threshold: Who are you"
+    },
+    {
+      "timestamp": "2026-08-01T10:50:14.803096+00:00",
+      "type": "IMPROVE",
+      "details": "Score 7.8 — below threshold: Hello"
+    },
+    {
+      "timestamp": "2026-08-01T10:50:25.903672+00:00",
+      "type": "IMPROVE",
+      "details": "Score 7.8 — below threshold: Who are you"
+    },
+    {
+      "timestamp": "2026-08-01T10:50:42.883648+00:00",
+      "type": "IMPROVE",
+      "details": "Score 7.8 — below threshold: Who are you"
+    },
+    {
+      "timestamp": "2026-08-01T11:33:28.334938+00:00",
+      "type": "IMPROVE",
+      "details": "Score 7.8 — below threshold: Hello"
+    },
+    {
+      "timestamp": "2026-08-01T15:33:33.614755+00:00",
+      "type": "IMPROVE",
+      "details": "Score 7.8 — below threshold: Tirupati"
+    },
+    {
+      "timestamp": "2026-08-02T13:08:04.732261+00:00",
+      "type": "IMPROVE",
+      "details": "Score 7.8 — below threshold: Hello"
+    },
+    {
+      "timestamp": "2026-08-02T13:08:35.892777+00:00",
+      "type": "IMPROVE",
+      "details": "Score 7.8 — below threshold: Hello who are you?"
+    },
+    {
+      "timestamp": "2026-08-02T13:09:32.818703+00:00",
+      "type": "IMPROVE",
+      "details": "Score 8.3 — below threshold: Write a HTML CSS and JS code to build a portfolio website"
+    },
+    {
+      "timestamp": "2026-08-02T13:11:10.755614+00:00",
+      "type": "IMPROVE",
+      "details": "Score 8.3 — below threshold: Draw an architecture diagram to build a library management s"
+    },
+    {
+      "timestamp": "2026-08-02T13:16:15.669208+00:00",
+      "type": "IMPROVE",
+      "details": "Score 8.3 — below threshold: Draw an architecture diagram to build a library management s"
+    },
+    {
+      "timestamp": "2026-08-03T07:01:58.155692+00:00",
+      "type": "IMPROVE",
+      "details": "Score 7.8 — below threshold: Hello"
+    },
+    {
+      "timestamp": "2026-08-03T07:21:42.430762+00:00",
+      "type": "IMPROVE",
+      "details": "Score 7.8 — below threshold: How to Python"
+    },
+    {
+      "timestamp": "2026-08-03T08:00:41.324360+00:00",
+      "type": "IMPROVE",
+      "details": "Score 8.3 — below threshold: Build an insane 3D WebGL landing page for an orbital satelli"
+    },
+    {
+      "timestamp": "2026-08-03T11:01:01.239232+00:00",
+      "type": "IMPROVE",
+      "details": "Score 7.8 — below threshold: How to learn Python"
+    },
+    {
+      "timestamp": "2026-08-05T11:19:29.641186+00:00",
+      "type": "IMPROVE",
+      "details": "Score 7.8 — below threshold: Hello"
+    },
+    {
+      "timestamp": "2026-08-05T11:36:55.957523+00:00",
+      "type": "IMPROVE",
+      "details": "Score 7.8 — below threshold: Hello"
+    },
+    {
+      "timestamp": "2026-08-05T11:37:41.526251+00:00",
+      "type": "IMPROVE",
+      "details": "Score 8.3 — below threshold: Draw an architecture diagram to build library management sys"
+    },
+    {
+      "timestamp": "2026-08-05T12:05:00.212961+00:00",
+      "type": "IMPROVE",
+      "details": "Score 7.8 — below threshold: Hello"
+    },
+    {
+      "timestamp": "2026-08-05T12:08:53.139384+00:00",
+      "type": "IMPROVE",
+      "details": "Score 7.8 — below threshold: Hello"
+    },
+    {
+      "timestamp": "2026-08-05T12:09:12.361291+00:00",
+      "type": "IMPROVE",
+      "details": "Score 7.8 — below threshold: Explain loop engineering"
+    },
+    {
+      "timestamp": "2026-08-05T12:09:53.009008+00:00",
+      "type": "IMPROVE",
+      "details": "Score 7.8 — below threshold: explain CNN"
     }
   ]
 }

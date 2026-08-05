@@ -21,7 +21,7 @@ test_subjects = [
 ]
 
 print("==========================================================================")
-print("🚀 VERIFYING PRISMAI HIGH-RES WIKIMEDIA HERO IMAGES AT TOP OF CONTEXT")
+print("🚀 VERIFYING LOTAI HIGH-RES WIKIMEDIA HERO IMAGES AT TOP OF CONTEXT")
 print("==========================================================================")
 
 success_count = 0

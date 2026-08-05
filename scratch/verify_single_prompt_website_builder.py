@@ -8,7 +8,7 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 from backend.agents.prompts import get_system_prompt
 
 print("==========================================================================")
-print("🚀 VERIFYING PRISMAI SINGLE-PROMPT WEBSITE BUILDER PROTOCOL")
+print("🚀 VERIFYING LOTAI SINGLE-PROMPT WEBSITE BUILDER PROTOCOL")
 print("==========================================================================")
 
 # Test single-prompt website routing payload

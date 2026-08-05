@@ -1,0 +1,1538 @@
+[
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_08dd184d",
+      "target_modules": [
+        "k_proj",
+        "o_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Build payments microservice... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 1.1461404521380185e-05,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "k_proj",
+          "o_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785574402.1837256
+    },
+    "timestamp": 1785574402.1837256
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_a93dc696",
+      "target_modules": [
+        "down_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Test task... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 8.681020111695338e-06,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "down_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785574402.2817838
+    },
+    "timestamp": 1785574402.2817838
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_4a3f68e7",
+      "target_modules": [
+        "k_proj",
+        "o_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Build full stack SaaS application... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 1.164640463500596e-05,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "k_proj",
+          "o_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785574402.3139
+    },
+    "timestamp": 1785574402.3146675
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_b953f91c",
+      "target_modules": [
+        "down_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Build payments microservice... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 1.0446088425196708e-05,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "down_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785574413.8798323
+    },
+    "timestamp": 1785574413.8808482
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_9222aee8",
+      "target_modules": [
+        "q_proj",
+        "v_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Test task... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 9.03866734923603e-06,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "q_proj",
+          "v_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785574413.9142554
+    },
+    "timestamp": 1785574413.9150574
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_0453deec",
+      "target_modules": [
+        "down_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Build full stack SaaS application... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 1.0771640360426818e-05,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "down_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785574413.9383073
+    },
+    "timestamp": 1785574413.9383073
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_40769ac9",
+      "target_modules": [
+        "q_proj",
+        "v_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Task adaptation context... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 8.5300737985337e-06,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "q_proj",
+          "v_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785574657.0154202
+    },
+    "timestamp": 1785574657.0154202
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_b7e7da6b",
+      "target_modules": [
+        "down_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Autonomous app build... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 9.113623669860116e-06,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "down_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785574657.0479507
+    },
+    "timestamp": 1785574657.0479507
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_7737c9e9",
+      "target_modules": [
+        "q_proj",
+        "v_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Build payments microservice... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 1.0342397337547476e-05,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "q_proj",
+          "v_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785575433.2414608
+    },
+    "timestamp": 1785575433.2414608
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_2c22fcb7",
+      "target_modules": [
+        "q_proj",
+        "v_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Test task... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 1.0328875387220992e-05,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "q_proj",
+          "v_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785575433.339283
+    },
+    "timestamp": 1785575433.339283
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_5247e9c1",
+      "target_modules": [
+        "gate_proj",
+        "up_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Build full stack SaaS application... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 1.1142419974760395e-05,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "gate_proj",
+          "up_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785575433.3677747
+    },
+    "timestamp": 1785575433.3677747
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_387c7dbc",
+      "target_modules": [
+        "q_proj",
+        "v_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Build payments microservice... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 1.1959799368532124e-05,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "q_proj",
+          "v_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785575777.8817198
+    },
+    "timestamp": 1785575777.8817198
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_d030f946",
+      "target_modules": [
+        "down_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Test task... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 1.1959877276184187e-05,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "down_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785575777.9627683
+    },
+    "timestamp": 1785575777.9627683
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_ef7226b0",
+      "target_modules": [
+        "q_proj",
+        "v_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Build full stack SaaS application... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 9.116070582794079e-06,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "q_proj",
+          "v_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785575777.9882398
+    },
+    "timestamp": 1785575777.9882398
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_7bacee74",
+      "target_modules": [
+        "down_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Build payments microservice... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 1.1561238960018668e-05,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "down_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785576530.4074667
+    },
+    "timestamp": 1785576530.4074667
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_5097ebdc",
+      "target_modules": [
+        "gate_proj",
+        "up_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Test task... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 1.1674135554498304e-05,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "gate_proj",
+          "up_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785576530.511882
+    },
+    "timestamp": 1785576530.511882
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_218b2c39",
+      "target_modules": [
+        "gate_proj",
+        "up_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Build full stack SaaS application... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 9.510128355548079e-06,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "gate_proj",
+          "up_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785576530.5714037
+    },
+    "timestamp": 1785576530.5714037
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_137054b1",
+      "target_modules": [
+        "q_proj",
+        "v_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Build payments microservice... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 8.851446539042856e-06,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "q_proj",
+          "v_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785576716.4133492
+    },
+    "timestamp": 1785576716.413884
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_28510f60",
+      "target_modules": [
+        "q_proj",
+        "v_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Test task... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 1.1002820227580864e-05,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "q_proj",
+          "v_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785576716.4667535
+    },
+    "timestamp": 1785576716.4671826
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_9194415d",
+      "target_modules": [
+        "down_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Build full stack SaaS application... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 1.1415951218648011e-05,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "down_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785576716.4925902
+    },
+    "timestamp": 1785576716.4925902
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_d9283b3c",
+      "target_modules": [
+        "gate_proj",
+        "up_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Build payments microservice... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 9.806081318573635e-06,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "gate_proj",
+          "up_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785583021.32726
+    },
+    "timestamp": 1785583021.32726
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_27f01f71",
+      "target_modules": [
+        "gate_proj",
+        "up_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Test task... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 8.130902876179594e-06,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "gate_proj",
+          "up_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785583021.4278982
+    },
+    "timestamp": 1785583021.4278982
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_59587a60",
+      "target_modules": [
+        "down_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Build full stack SaaS application... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 8.308358157417416e-06,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "down_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785583021.5299478
+    },
+    "timestamp": 1785583021.5299478
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_f7644c7c",
+      "target_modules": [
+        "k_proj",
+        "o_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Build payments microservice... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 1.0500603150448705e-05,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "k_proj",
+          "o_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785583239.042185
+    },
+    "timestamp": 1785583239.042185
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_2c75e03e",
+      "target_modules": [
+        "k_proj",
+        "o_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Test task... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 1.1841094886894351e-05,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "k_proj",
+          "o_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785583239.121957
+    },
+    "timestamp": 1785583239.1224644
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_95724e9f",
+      "target_modules": [
+        "down_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Build full stack SaaS application... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 1.000009488292411e-05,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "down_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785583239.2570734
+    },
+    "timestamp": 1785583239.2570734
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_b284ef57",
+      "target_modules": [
+        "q_proj",
+        "v_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Build payments microservice... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 1.0654911808607877e-05,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "q_proj",
+          "v_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785583420.8041992
+    },
+    "timestamp": 1785583420.8041992
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_05e9cece",
+      "target_modules": [
+        "k_proj",
+        "o_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Test task... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 9.074465818355886e-06,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "k_proj",
+          "o_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785583420.8841107
+    },
+    "timestamp": 1785583420.884858
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_20caf3e0",
+      "target_modules": [
+        "down_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Build full stack SaaS application... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 8.251945276423095e-06,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "down_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785583420.928433
+    },
+    "timestamp": 1785583420.928433
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_0cc21002",
+      "target_modules": [
+        "gate_proj",
+        "up_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Build payments microservice... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 1.0212790649825448e-05,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "gate_proj",
+          "up_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785583930.3440046
+    },
+    "timestamp": 1785583930.3440046
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_3a0049d1",
+      "target_modules": [
+        "q_proj",
+        "v_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Test task... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 1.1844656914809845e-05,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "q_proj",
+          "v_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785583930.3978426
+    },
+    "timestamp": 1785583930.3983498
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_962a30ae",
+      "target_modules": [
+        "gate_proj",
+        "up_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Build full stack SaaS application... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 8.246561958151737e-06,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "gate_proj",
+          "up_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785583930.4207282
+    },
+    "timestamp": 1785583930.4207282
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_d04c96b5",
+      "target_modules": [
+        "k_proj",
+        "o_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Build payments microservice... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 8.253614828333663e-06,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "k_proj",
+          "o_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785594854.1199787
+    },
+    "timestamp": 1785594854.1199787
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_b6a37fa1",
+      "target_modules": [
+        "q_proj",
+        "v_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Test task... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 1.0753605314848032e-05,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "q_proj",
+          "v_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785594854.1593628
+    },
+    "timestamp": 1785594854.1593628
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_43b8a144",
+      "target_modules": [
+        "down_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Build full stack SaaS application... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 1.1918198480773184e-05,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "down_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785594854.1805418
+    },
+    "timestamp": 1785594854.1805418
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_6bef6b3d",
+      "target_modules": [
+        "gate_proj",
+        "up_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Build payments microservice... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 1.1608083214005317e-05,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "gate_proj",
+          "up_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785674666.1888955
+    },
+    "timestamp": 1785674666.1888955
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_4e425354",
+      "target_modules": [
+        "k_proj",
+        "o_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Test task... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 8.371842499826548e-06,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "k_proj",
+          "o_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785674666.2340636
+    },
+    "timestamp": 1785674666.2340636
+  },
+  {
+    "iteration": 1,
+    "total_candidates": 8,
+    "accepted_edits_count": 7,
+    "top_reward": 1.0,
+    "applied_edit": {
+      "edit_id": "se_350b10af",
+      "target_modules": [
+        "q_proj",
+        "v_proj"
+      ],
+      "synthetic_data": [
+        {
+          "prompt": "Given context: Build full stack SaaS application... What is the optimal architecture design?",
+          "response": "Apply modular microservice decomposition with single-responsibility contracts. (Sample 6)"
+        },
+        {
+          "prompt": "How to resolve runtime AST syntax errors autonomously?",
+          "response": "Inspect line-level trace, identify missing imports/variables, apply self-healing guard before execution."
+        }
+      ],
+      "optimization_params": {
+        "learning_rate": 1.0527954352498091e-05,
+        "epochs": 3,
+        "batch_size": 16,
+        "target_modules": [
+          "q_proj",
+          "v_proj"
+        ],
+        "loRA_rank": 64,
+        "loRA_alpha": 128
+      },
+      "tool_invocations": [
+        "augment_context",
+        "retrieve_chroma_vectors",
+        "verify_ast"
+      ],
+      "timestamp": 1785674666.257871
+    },
+    "timestamp": 1785674666.257871
+  }
+]

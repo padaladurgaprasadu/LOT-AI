@@ -1,5 +1,5 @@
 """
-PrismAI Sovereign Media & Image Fetcher v1.0
+LOT AI Sovereign Media & Image Fetcher v1.0
 ============================================
 Fetches official, high-resolution (1280px+) images from Wikipedia & Wikimedia Commons API.
 Guarantees 100% valid, beautiful, CDN-cached images for places, landmarks, and public figures.
@@ -41,14 +41,24 @@ def fetch_wikimedia_image(query_term: str) -> str:
     term = query_term.strip()
     term_lower = term.lower()
     
-    # 🛡️ GREETING GUARD: Immediately reject greetings and conversational phrases
+    # 🛡️ GREETING & ACADEMIC GUARD: Immediately reject greetings, programming, academic, and conceptual queries
+    ACADEMIC_TERMS = {"javascript", "js", "python", "java", "c++", "cpp", "c#", "golang", "rust", "typescript",
+                      "programming", "code", "coding", "algorithm", "data structure", "for loop", "while loop",
+                      "function", "variable", "recursion", "object oriented", "compiler", "operating system",
+                      "quantum mechanics", "calculus", "linear algebra", "thermodynamics", "organic chemistry",
+                      "syntax", "database", "sql", "api", "framework", "library", "react", "html", "css"}
+    ACADEMIC_STARTERS = ("what is", "what are", "explain", "how to", "how does", "definition of", "difference between")
+    
     if term_lower in GREETINGS_SET or any(term_lower == g or term_lower.startswith(g + " ") for g in GREETINGS_SET):
+        return ""
+    if any(t in term_lower for t in ACADEMIC_TERMS) or any(term_lower.startswith(s) for s in ACADEMIC_STARTERS):
+        logger.info(f"[MediaFetcher] Skipped academic/conceptual query: '{term}'")
         return ""
     
     try:
         # 1. Search Wikipedia for exact matching article title
         search_url = f"https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch={urllib.parse.quote(term)}&format=json"
-        req = urllib.request.Request(search_url, headers={"User-Agent": "PrismAI/1.0 (https://prismai.ai)"})
+        req = urllib.request.Request(search_url, headers={"User-Agent": "LOT AI/1.0 (https://lotai.ai)"})
         with urllib.request.urlopen(req, timeout=8) as resp:
             s_data = json.loads(resp.read().decode("utf-8"))
             results = s_data.get("query", {}).get("search", [])
@@ -57,7 +67,7 @@ def fetch_wikimedia_image(query_term: str) -> str:
                 
                 # 2. Fetch original featured page image for top title
                 img_url = f"https://en.wikipedia.org/w/api.php?action=query&titles={urllib.parse.quote(top_title)}&prop=pageimages&format=json&piprop=original"
-                req_img = urllib.request.Request(img_url, headers={"User-Agent": "PrismAI/1.0 (https://prismai.ai)"})
+                req_img = urllib.request.Request(img_url, headers={"User-Agent": "LOT AI/1.0 (https://lotai.ai)"})
                 with urllib.request.urlopen(req_img, timeout=8) as img_resp:
                     i_data = json.loads(img_resp.read().decode("utf-8"))
                     pages = i_data.get("query", {}).get("pages", {})

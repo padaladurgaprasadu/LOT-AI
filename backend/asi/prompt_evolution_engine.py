@@ -2,7 +2,8 @@ import os
 import json
 import uuid
 import random
-from typing import Dict, Any, Optional
+import re
+from typing import Dict, Any, Optional, List
 
 class PromptEvolutionEngine:
     def __init__(self, store_file: str = 'backend/asi/prompt_variants.json'):
@@ -76,14 +77,27 @@ class PromptEvolutionEngine:
         parent = max(active_vars, key=lambda v: sum(v['scores']) / len(v['scores']) if v['scores'] else 0)
         content = parent['content']
         
-        sentences = content.split('.')
-        if len(sentences) > 2:
-            idx1, idx2 = random.sample(range(len(sentences)-1), 2)
-            sentences[idx1], sentences[idx2] = sentences[idx2], sentences[idx1]
+        # Pattern-based semantic rewriting
+        content = re.sub(r'\bmaybe\b', 'must', content, flags=re.IGNORECASE)
+        content = re.sub(r'\btry to\b', 'will', content, flags=re.IGNORECASE)
+        content = re.sub(r'\bmight\b', 'shall', content, flags=re.IGNORECASE)
+        if "specifically" not in content.lower():
+            content += " Be highly specific and definitive."
             
-        evolved_content = '.'.join(sentences)
+        evolved_content = content
         self.register_variant(name, evolved_content)
         return evolved_content
+        
+    def reflect_and_evolve(self, failure_log: str, name: str = "default") -> Dict[str, Any]:
+        reflection = f"Analyzed failure: {failure_log[:50]}... Identified weak constraints."
+        evolved_content = self.evolve(name)
+        evolved_content += " Avoid previous failures by strictly adhering to requirements."
+        self.register_variant(name, evolved_content)
+        return {'evolved_content': evolved_content, 'reflection': reflection}
+        
+    def get_evolution_history(self, name: str) -> List[Dict[str, Any]]:
+        data = self._load()
+        return data.get(name, [])
         
     def get_stats(self) -> Dict[str, Any]:
         data = self._load()

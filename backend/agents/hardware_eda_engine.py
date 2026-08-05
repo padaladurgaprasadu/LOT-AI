@@ -78,19 +78,21 @@ class VerilogSynthesizer:
             "luts_estimated": 12,
             "flip_flops": 8,
             "max_frequency_mhz": 250.0,
+        }
+
 # ─────────────────────────────────────────────────────────────────────────────
-# 3. Prism-TPU Systolic Array Synthesizer
+# 3. LOT-TPU Systolic Array Synthesizer
 # ─────────────────────────────────────────────────────────────────────────────
 class TPUSynthesizer:
     """
-    Generates production SystemVerilog HDL for Prism-TPU 2D Systolic Array PEs
+    Generates production SystemVerilog HDL for LOT-TPU 2D Systolic Array PEs
     featuring Double-Buffered Latent-Pipelined Systolic Processing (DB-LPSP).
     """
     def synthesize_tpu_core(self, array_size: int = 16) -> Dict[str, Any]:
         sv_code = (
-            f"// Prism-TPU v1 — {array_size}x{array_size} Systolic Array Processing Unit\n"
+            f"// LOT-TPU v1 — {array_size}x{array_size} Systolic Array Processing Unit\n"
             f"// Optimized for INT4/FP8 Matrix Multiplication (C = A * B)\n"
-            f"module prism_tpu_systolic_core #(\n"
+            f"module lot_tpu_systolic_core #(\n"
             f"    parameter ARRAY_SIZE = {array_size},\n"
             f"    parameter DATA_WIDTH = 8\n"
             f") (\n"
@@ -119,7 +121,7 @@ class TPUSynthesizer:
             f"endmodule\n"
         )
         return {
-            "core_type": "Prism-TPU 2D Systolic Array",
+            "core_type": "LOT-TPU 2D Systolic Array",
             "array_dimensions": f"{array_size}x{array_size}",
             "systemverilog_code": sv_code,
             "pe_utilization_percent": 99.8,

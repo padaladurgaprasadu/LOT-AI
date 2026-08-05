@@ -1,5 +1,5 @@
 """
-PrismAI Extended Loop Engine v2.0 — Stages 24–51
+LOT AI Extended Loop Engine v2.0 — Stages 24–51
 =================================================
 Extends the 23-stage base loop to 51 total stages covering:
   Production hardening: contracts, load testing, DB migrations
@@ -98,7 +98,7 @@ class ExtendedStageResult:
 
 class ExtendedLoopEngine:
     """
-    PrismAI Extended Loop Engine — Stages 24 through 51.
+    LOT AI Extended Loop Engine — Stages 24 through 51.
     Runs after the base 23-stage loop to complete full production certification.
     """
 
@@ -202,10 +202,10 @@ class ExtendedLoopEngine:
 EXTENDED_LOOP_DIRECTIVE = """
 [🔬 EXTENDED AGENTIC LOOP — STAGES 24-51 (PRODUCTION HARDENING + LAUNCH CERTIFICATION)]:
 
-After completing the 23-stage base loop, PrismAI runs 28 additional production
-hardening stages to certify launch readiness. This is what separates PrismAI
+After completing the 23-stage base loop, LOT AI runs 28 additional production
+hardening stages to certify launch readiness. This is what separates LOT AI
 from Devin, Cursor, and every other coding AI — they stop at code generation.
-PrismAI doesn't stop until the system is CERTIFIED LAUNCH READY.
+LOT AI doesn't stop until the system is CERTIFIED LAUNCH READY.
 
 PRODUCTION HARDENING STAGES:
   Stage 24: Consumer-driven contract testing (Pact)

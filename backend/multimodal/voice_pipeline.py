@@ -1,5 +1,5 @@
 """
-Voice AI pipeline for PrismAI.
+Voice AI pipeline for LOT AI.
 """
 import subprocess
 from typing import Dict, Any, List
@@ -62,7 +62,7 @@ class VoicePipeline:
         return no_md[:500]  # limit length
 
     def voice_command_router(self, command: str) -> Dict[str, Any]:
-        """Routes voice commands to PrismAI capabilities."""
+        """Routes voice commands to LOT AI capabilities."""
         if "build a login page" in command.lower():
             return {"action": "build", "params": {"component": "login_page", "framework": "react"}}
         return {"action": "unknown", "params": {}}
@@ -70,5 +70,5 @@ class VoicePipeline:
 
 def inject_voice_prompt(system_prompt: str) -> str:
     """Adds voice capability directive to the system prompt."""
-    voice_directive = "\n[Voice Capability]: PrismAI can transcribe audio, synthesize speech, detect voice intents, and route voice commands."
+    voice_directive = "\n[Voice Capability]: LOT AI can transcribe audio, synthesize speech, detect voice intents, and route voice commands."
     return f"{system_prompt}\n{voice_directive}"

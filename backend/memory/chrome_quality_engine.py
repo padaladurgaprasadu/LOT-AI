@@ -1,5 +1,5 @@
 """
-PrismAI Addy Osmani Chrome Quality & Engineering Skills Engine v4.0
+LOT AI Addy Osmani Chrome Quality & Engineering Skills Engine v4.0
 ====================================================================
 Inspired by Addy Osmani's agent-skills (addyosmani/agent-skills).
 Enforces Google Chrome Engineering Standards, Spec-Driven Development, TDD,
@@ -22,7 +22,7 @@ def inject_chrome_quality_prompt(system_prompt: str) -> str:
     """
     Injects Addy Osmani Chrome Quality & Engineering Skills into AI system prompts.
     """
-    chrome_block = "\n\n[🛡️ PRISMAI CHROME QUALITY & ENGINEERING SKILLS ACTIVE]:\n"
+    chrome_block = "\n\n[🛡️ LOTAI CHROME QUALITY & ENGINEERING SKILLS ACTIVE]:\n"
     chrome_block += "You enforce Google Chrome Production Engineering Standards & TDD Quality Guardrails:\n"
     for skill in CHROME_QUALITY_SKILLS:
         chrome_block += f"- {skill}\n"

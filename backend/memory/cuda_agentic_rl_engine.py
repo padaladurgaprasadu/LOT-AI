@@ -1,5 +1,5 @@
 """
-PrismAI CUDA Agentic RL Engine v6.0
+LOT AI CUDA Agentic RL Engine v6.0
 ====================================
 Based on ByteDance Seed & Tsinghua AIR Research Paper (arXiv:2602.24286v1):
 "CUDA Agent: Large-Scale Agentic RL for High-Performance CUDA Kernel Generation"
@@ -26,7 +26,7 @@ def inject_cuda_agent_prompt(system_prompt: str) -> str:
     """
     Injects ByteDance/Tsinghua CUDA Agentic RL hardware capabilities into AI system prompts.
     """
-    cuda_block = "\n\n[⚡ PRISMA-TPU & GPU HARDWARE OPTIMIZATION ENGINE (arXiv:2602.24286v1)]:\n"
+    cuda_block = "\n\n[⚡ LOTA-TPU & GPU HARDWARE OPTIMIZATION ENGINE (arXiv:2602.24286v1)]:\n"
     cuda_block += "You possess state-of-the-art GPU/TPU Kernel Generation & Hardware Acceleration capabilities:\n"
     for cap in CUDA_AGENT_CAPABILITIES:
         cuda_block += f"- {cap}\n"

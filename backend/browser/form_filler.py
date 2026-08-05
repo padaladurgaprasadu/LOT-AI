@@ -6,7 +6,7 @@ from typing import Dict, List, Optional
 class FormFiller:
     def __init__(self):
         self.session = requests.Session()
-        self.session.headers.update({'User-Agent': 'PrismAI/1.0'})
+        self.session.headers.update({'User-Agent': 'LOT AI/1.0'})
 
     def detect_forms(self, url: str) -> List[Dict]:
         try:
@@ -104,4 +104,4 @@ class FormFiller:
         return self.fill_form(action_url, form_data, submit=True)
 
 def inject_form_filler_prompt(system_prompt: str) -> str:
-    return system_prompt + "\n[PrismAI Directive]: You have an autonomous Form Filler agent. You can parse pages to detect forms and submit data securely."
+    return system_prompt + "\n[LOT AI Directive]: You have an autonomous Form Filler agent. You can parse pages to detect forms and submit data securely."

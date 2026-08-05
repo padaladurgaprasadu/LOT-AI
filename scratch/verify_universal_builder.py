@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.abspath('.'))
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 print("==========================================================================")
-print("🚀 VERIFYING PRISMAI UNIVERSAL BUILDER ENGINE")
+print("🚀 VERIFYING LOTAI UNIVERSAL BUILDER ENGINE")
 print("==========================================================================")
 
 from backend.agents.swarm_matrix_37 import inject_swarm_matrix_37
@@ -32,5 +32,5 @@ for cat in categories:
     print(f"  • {cat}: 100% OPERATIONAL")
 
 print("\n==========================================================================")
-print("🏆 PRISMAI UNIVERSAL BUILDER STATUS: CERTIFIED READY TO BUILD ANYTHING (100/100)")
+print("🏆 LOTAI UNIVERSAL BUILDER STATUS: CERTIFIED READY TO BUILD ANYTHING (100/100)")
 print("==========================================================================")

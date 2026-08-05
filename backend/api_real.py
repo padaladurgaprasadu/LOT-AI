@@ -28,7 +28,7 @@ from backend.orchestrator.state import AiONState
 load_dotenv()
 
 app = FastAPI(
-    title="PrismAI API",
+    title="LOT AI API",
     docs_url=None,
     redoc_url=None,
     openapi_url=None
@@ -87,7 +87,7 @@ except Exception as e:
 
 @app.api_route("/", methods=["GET", "HEAD"])
 def health_check():
-    return {"status": "ok", "message": "PrismAI Backend is running with PostgreSQL & Redis, Omni-Intelligence Active."}
+    return {"status": "ok", "message": "LOT AI Backend is running with PostgreSQL & Redis, Omni-Intelligence Active."}
 
 # Initialize Redis for Rate Limiting
 # Note: slowapi requires an async redis connection string for storage
@@ -297,7 +297,7 @@ async def upgrade_user_tier(req: UpgradeTierRequest, auth: dict = Depends(verify
         else:
             user.tier = req.tier
         db.commit()
-        return {"status": "success", "tier": req.tier, "message": f"Successfully upgraded to PrismAI {req.tier.upper()}!"}
+        return {"status": "success", "tier": req.tier, "message": f"Successfully upgraded to LOT AI {req.tier.upper()}!"}
     except Exception as e:
         db.rollback()
         raise HTTPException(status_code=500, detail=str(e))
@@ -1038,7 +1038,7 @@ async def stop_preview(project_id: str):
 @app.get("/health")
 @app.get("/api/health")
 async def health_check():
-    return {"status": "healthy", "service": "PrismAI Core API", "timestamp": time.time()}
+    return {"status": "healthy", "service": "LOT AI Core API", "timestamp": time.time()}
 
 class ChatRequest(BaseModel):
     message: str
@@ -1057,9 +1057,9 @@ async def startup_event():
     try:
         from backend.agents.base import BaseAgent
         global_base_agent = BaseAgent()
-        print("⚡ [PrismAI Startup] Global BaseAgent pre-warmed & ready in memory!")
+        print("⚡ [LOT AI Startup] Global BaseAgent pre-warmed & ready in memory!")
     except Exception as e:
-        print("⚠️ [PrismAI Startup] Warning pre-warming BaseAgent:", e)
+        print("⚠️ [LOT AI Startup] Warning pre-warming BaseAgent:", e)
 
 @app.post("/api/chat")
 @limiter.limit("50/minute")
@@ -1078,6 +1078,7 @@ async def ai_chat(request_data: ChatRequest, request: Request):
 
     # 🟢 PHASE 1: Immediate Connection & Heartbeat Logging
     async def event_generator():
+        nonlocal sanitized_message
         import json
         import time
         import asyncio
@@ -1435,7 +1436,7 @@ IMPORTANT RULES:
             from backend.asi.novel_synthesis_engine import inject_novel_synthesis_prompt
             # v6.0 Cybersecurity (817 Anthropic skills — MITRE ATT&CK + NIST)
             from backend.security.cybersecurity_skills_engine import inject_cybersecurity_skills_prompt
-            from backend.security.prismai_threat_shield import shield_message
+            from backend.security.lotai_threat_shield import shield_message
             # v7.0 PILLAR 1: Real Docker VM Execution
             from backend.execution.docker_vm_engine import inject_docker_vm_prompt
             from backend.execution.real_terminal import inject_terminal_prompt
@@ -1471,80 +1472,45 @@ IMPORTANT RULES:
             from backend.computer_use.screen_agent import inject_screen_agent_prompt
             from backend.computer_use.task_recorder import inject_recorder_prompt
             # v7.0 MASTER: Autonomy Orchestrator (competitive superiority)
-            from backend.prismai_autonomy_engine import inject_master_autonomy_prompt
+            from backend.lotai_autonomy_engine import inject_master_autonomy_prompt
 
             # === THREAT SHIELD: scan before processing ===
             try:
-                is_allowed, sanitized_message = shield_message(sanitized_message, "default")
+                is_allowed, shielded_content = shield_message(sanitized_message, "default")
                 if not is_allowed:
-                    yield f"data: [THREAT DETECTED] Your request was blocked by PrismAI's security shield. Please rephrase.\n\n"
+                    yield f"data: [THREAT DETECTED] Your request was blocked by LOT AI's security shield. Please rephrase.\n\n"
                     return
+                if shielded_content:
+                    sanitized_message = shielded_content
             except Exception:
                 pass  # Non-fatal — never block legitimate requests due to shield errors
 
-            # ── Foundation Layer ──────────────────────────────────────────────
-            system_prompt = inject_impeccable_design_prompt(system_prompt)
-            system_prompt = inject_open_design_prompt(system_prompt)
-            system_prompt = inject_grok_build_prompt(system_prompt)
-            system_prompt = inject_chrome_quality_prompt(system_prompt)
-            system_prompt = inject_awesome_llm_apps_prompt(system_prompt)
-            system_prompt = inject_cuda_agent_prompt(system_prompt)
-            system_prompt = inject_intelligent_ui_rules(system_prompt)
-            system_prompt = inject_swarm_matrix_37(system_prompt)
-            system_prompt = inject_openworker_prompt(system_prompt)
-            system_prompt = inject_jcode_prompt(system_prompt)
-            system_prompt = inject_gstack_prompt(system_prompt)
-            system_prompt = inject_ecc_prompt(system_prompt)
-            system_prompt = inject_grand_unified_prompt(system_prompt)
-            system_prompt = inject_kimi_k5_prompt(system_prompt)
-            system_prompt = inject_nemotron_550b_prompt(system_prompt)
-            system_prompt = inject_unique_response_prompt(system_prompt)
-            system_prompt = inject_addictive_performance_prompt(system_prompt)
-            system_prompt = inject_loop_engineering_prompt(system_prompt)
-            system_prompt = inject_mcp_orchestrator_prompt(system_prompt)
-            system_prompt = inject_agent_skills_prompt(system_prompt)
-            # ── Swarm + Phases ────────────────────────────────────────────────
-            system_prompt = inject_swarm_orchestrator_prompt(system_prompt, sanitized_message)
-            system_prompt = inject_all_remaining_phases(system_prompt, sanitized_message)
-            system_prompt = inject_agi_reactor_prompt(system_prompt, sanitized_message)
-            # ── v6.0 AGI-Class Engines ────────────────────────────────────────
-            system_prompt = inject_causal_reasoning_prompt(system_prompt)
-            system_prompt = inject_transfer_learning_prompt(system_prompt, sanitized_message)
-            system_prompt = inject_goal_decomposition_prompt(system_prompt, sanitized_message)
-            system_prompt = inject_meta_learning_prompt(system_prompt, sanitized_message)
-            # ── v6.0 ASI-Direction ────────────────────────────────────────────
-            system_prompt = inject_constitutional_prompt(system_prompt)
-            system_prompt = inject_novel_synthesis_prompt(system_prompt, sanitized_message)
-            # ── v6.0 Cybersecurity: 817 Skills ───────────────────────────────
-            system_prompt = inject_cybersecurity_skills_prompt(system_prompt, sanitized_message)
-            # ── v7.0 PILLAR 1: Real Execution ────────────────────────────────
-            system_prompt = inject_docker_vm_prompt(system_prompt)
-            system_prompt = inject_terminal_prompt(system_prompt)
-            system_prompt = inject_package_manager_prompt(system_prompt)
-            system_prompt = inject_test_runner_prompt(system_prompt)
-            # ── v7.0 PILLAR 2: Browser Autonomy ──────────────────────────────
-            system_prompt = inject_browser_prompt(system_prompt, sanitized_message)
-            system_prompt = inject_scraper_prompt(system_prompt, sanitized_message)
-            system_prompt = inject_visual_debug_prompt(system_prompt)
-            # ── v7.0 PILLAR 3: API Integrations ──────────────────────────────
-            system_prompt = inject_github_prompt(system_prompt, sanitized_message)
-            system_prompt = inject_deployment_prompt(system_prompt, sanitized_message)
-            system_prompt = inject_api_caller_prompt(system_prompt, sanitized_message)
-            # ── v7.0 PILLAR 4: Multi-Modal ───────────────────────────────────
-            system_prompt = inject_vision_prompt(system_prompt, sanitized_message)
-            system_prompt = inject_document_prompt(system_prompt, sanitized_message)
-            system_prompt = inject_voice_prompt(system_prompt)
-            # ── v7.0 PILLAR 5: Autonomous DevOps ─────────────────────────────
-            system_prompt = inject_docker_engine_prompt(system_prompt)
-            system_prompt = inject_cicd_prompt(system_prompt)
-            # ── v7.0 PILLAR 6: Web Intelligence ──────────────────────────────
-            system_prompt = inject_search_prompt(system_prompt, sanitized_message)
-            system_prompt = inject_competitive_prompt(system_prompt, sanitized_message)
-            # ── v7.0 PILLAR 7: Project Manager ───────────────────────────────
-            system_prompt = inject_pm_prompt(system_prompt, sanitized_message)
-            system_prompt = inject_multi_agent_prompt(system_prompt)
-            # ── v7.0 PILLAR 8: Business Intelligence ─────────────────────────
-            system_prompt = inject_market_prompt(system_prompt, sanitized_message)
+            # ── Fast Latency & Natural Human Response Optimization ──────────────
+            is_code_or_build_directive = any(kw in sanitized_message.lower() for kw in [
+                "[build]", "build a", "create app", "scaffold", "saas app", "dockerfile", 
+                "deploy to", "fullstack app", "3d website", "three.js", "game engine"
+            ])
+
+            if is_code_or_build_directive:
+                # ── Code & App Build Directive Stack ──────────────────────────────
+                system_prompt = inject_impeccable_design_prompt(system_prompt)
+                system_prompt = inject_open_design_prompt(system_prompt)
+                system_prompt = inject_grok_build_prompt(system_prompt)
+                system_prompt = inject_chrome_quality_prompt(system_prompt)
+                system_prompt = inject_awesome_llm_apps_prompt(system_prompt)
+                system_prompt = inject_intelligent_ui_rules(system_prompt)
+                system_prompt = inject_swarm_matrix_37(system_prompt)
+                system_prompt = inject_gstack_prompt(system_prompt)
+                system_prompt = inject_ecc_prompt(system_prompt)
+                system_prompt = inject_swarm_orchestrator_prompt(system_prompt, sanitized_message)
+                system_prompt = inject_all_remaining_phases(system_prompt, sanitized_message)
+                system_prompt = inject_docker_vm_prompt(system_prompt)
+                system_prompt = inject_terminal_prompt(system_prompt)
+                system_prompt = inject_browser_prompt(system_prompt, sanitized_message)
+                system_prompt = inject_github_prompt(system_prompt, sanitized_message)
+            else:
+                # ── Conversational / Tutor / General Query Stack (Fast & Natural) ──
+                system_prompt += "\n\n[HUMAN CONVERSATIONAL DIRECTIVE]: Speak naturally, warmly, and directly as a world-class polymath expert. Do NOT use dry corporate headers, repetitive category tags, or robotic boilerplate. Be engaging, clear, concise for quick queries, and deeply educational for complex questions."
             system_prompt = inject_financial_prompt(system_prompt, sanitized_message)
             # ── v7.0 PILLAR 9: Knowledge Reactor ─────────────────────────────
             system_prompt = inject_knowledge_reactor_prompt(system_prompt)
@@ -1556,6 +1522,60 @@ IMPORTANT RULES:
             system_prompt = inject_extended_loop_prompt(system_prompt)
             # ── MASTER AUTONOMY ORCHESTRATOR (competitive superiority — LAST) ─
             system_prompt = inject_master_autonomy_prompt(system_prompt, sanitized_message)
+            # ── v8.0 FABLE 6: Sovereign Creative & Agentic Synthesis Engine ──
+            try:
+                from backend.agents.fable6_engine import inject_fable6_prompt
+                system_prompt = inject_fable6_prompt(system_prompt, sanitized_message)
+            except Exception as _f6e:
+                pass  # Non-fatal
+            # ── v8.0 OPUS 5: Agentic Persistence & Deep Reasoning Engine ──────
+            try:
+                from backend.agents.opus5_engine import inject_opus5_prompt
+                system_prompt = inject_opus5_prompt(system_prompt, sanitized_message)
+            except Exception as _o5e:
+                pass  # Non-fatal
+            # ── v8.0 CLAW-CODE: Zero-Human-Intervention Daemon (Repo #43) ──────
+            try:
+                from backend.execution.claw_autonomous_daemon import inject_claw_daemon_prompt
+                system_prompt = inject_claw_daemon_prompt(system_prompt, sanitized_message)
+            except Exception as _cde:
+                pass  # Non-fatal
+            # ── v8.0 CLAUDE-CODE PROTOCOL ADAPTER ──────────────────────────────
+            try:
+                from backend.agents.claude_code_protocol_adapter import inject_claude_code_adapter_prompt
+                system_prompt = inject_claude_code_adapter_prompt(system_prompt, sanitized_message)
+            except Exception as _cca:
+                pass  # Non-fatal
+            # ── v8.0 SPLINE 3D & INSANE WEBGL ENGINE ────────────────────────────
+            try:
+                from backend.agents.spline_3d_engine import inject_spline_3d_prompt
+                system_prompt = inject_spline_3d_prompt(system_prompt, sanitized_message)
+            except Exception as _s3d:
+                pass  # Non-fatal
+            # ── v9.0 ARCHITECTURE BLUEPRINT (7-Layer AIOS) ───────────────────────
+            try:
+                from backend.agents.architecture_blueprint import inject_architecture_prompt
+                system_prompt = inject_architecture_prompt(system_prompt)
+            except Exception as _abp:
+                pass  # Non-fatal
+            # ── v9.0 AUTONOMOUS [BUILD] DIRECTIVE ENGINE ─────────────────────────
+            try:
+                from backend.execution.build_directive_engine import inject_build_directive_prompt
+                system_prompt = inject_build_directive_prompt(system_prompt, sanitized_message)
+            except Exception as _bde:
+                pass  # Non-fatal
+            # ── v9.0 PRODUCTION PERFORMANCE MONITOR ──────────────────────────────
+            try:
+                from backend.memory.performance_monitor import inject_performance_prompt
+                system_prompt = inject_performance_prompt(system_prompt)
+            except Exception as _ppm:
+                pass  # Non-fatal
+            # ── v9.0 AGI/ASI UNIFIED ORCHESTRATOR ────────────────────────────────
+            try:
+                from backend.asi.asi_orchestrator import inject_asi_orchestrator_prompt
+                system_prompt = inject_asi_orchestrator_prompt(system_prompt)
+            except Exception as _asi:
+                pass  # Non-fatal
             # ── Memory + Personalisation (always last) ────────────────────────
             system_prompt = inject_sovereign_memory_prompt(system_prompt, sanitized_message, user_id="default")
             system_prompt = inject_adaptive_learning_prompt(system_prompt, sanitized_message, user_id="default")
@@ -1570,7 +1590,7 @@ IMPORTANT RULES:
                 elif role == "ai" and not content.startswith("[BUILD]"):
                     messages.append(AIMessage(content=content))
                     
-            is_identity_query = any(k in sanitized_message.lower() for k in ["who are you", "what is your name", "who made you", "what is prismai", "what can you do", "who created you"])
+            is_identity_query = any(k in sanitized_message.lower() for k in ["who are you", "what is your name", "who made you", "what is lotai", "what can you do", "who created you"])
             
             from backend.memory.intelligent_ui_rules import classify_content_type
             content_type = classify_content_type(sanitized_message)
@@ -1618,17 +1638,42 @@ IMPORTANT RULES:
 """
             elif content_type == "Place":
                 formatting_reminder = """\n\n[DYNAMIC EXCELLENCE DIRECTIVE FOR PLACES & LANDMARKS]:
-• Start with the 1200px hero image at Line 1 if available.
-• Provide a high-density Executive Summary box (`> **Executive Summary:** ...`).
-• Use natural, topic-tailored headers that fit the specific location.
-• Include a structured Data Table for key facts, elevation, location, and access details.
-• Use clean 1-line bullet points with double spacing for maximum readability."""
+• A hero image is already displayed above your response. DO NOT generate any markdown image tags (![...](...)) yourself.
+• Start with a bold Executive Summary: `> 💡 **LOT AI Insight:** [1-line takeaway about this place]`
+• Use natural, topic-tailored headers with emoji (## 🏛️ Heritage & History, ## 📍 Location & Access, ## 🎯 Key Highlights).
+• Include a structured Data Table: `| Attribute | Details |` with key facts (location, elevation, timings, entry fee, nearest transport).
+• Use clean 1-line bullet points with double spacing for maximum readability.
+• End with ⚡ Key Takeaways / Must-Know Facts section."""
+            elif content_type == "Person":
+                formatting_reminder = """\n\n[DYNAMIC EXCELLENCE DIRECTIVE FOR PEOPLE & PERSONALITIES]:
+• A hero image is already displayed above your response. DO NOT generate any markdown image tags (![...](...)) yourself.
+• Start with a bold Executive Summary: `> 💡 **LOT AI Insight:** [1-line takeaway about this person]`
+• Use natural, topic-tailored headers with emoji (## 👤 Who Is [Name]?, ## 🏆 Key Achievements, ## 📊 Career Timeline).
+• Include a structured Data Table: `| Attribute | Details |` with key facts (full name, born, nationality, known for, net worth/impact).
+• Use clean 1-line bullet points with double spacing.
+• End with ⚡ Legacy & Impact section."""
+            elif content_type == "Animal":
+                formatting_reminder = """\n\n[DYNAMIC EXCELLENCE DIRECTIVE FOR ANIMALS & WILDLIFE]:
+• A hero image is already displayed above your response. DO NOT generate any markdown image tags (![...](...)) yourself.
+• Start with a bold Executive Summary: `> 💡 **LOT AI Insight:** [1-line takeaway about this animal]`
+• Use natural headers (## 🐾 Classification & Habitat, ## 📊 Key Facts, ## 🔬 Behavior & Diet).
+• Include a Data Table: `| Attribute | Details |` with key facts (scientific name, family, habitat, diet, lifespan, conservation status).
+• End with ⚡ Key Takeaways."""
+            elif content_type in ("Company", "Product", "Movie", "Book"):
+                formatting_reminder = """\n\n[DYNAMIC EXCELLENCE DIRECTIVE]:
+• A hero image may be displayed above your response. DO NOT generate any markdown image tags (![...](...)) yourself.
+• Start with: `> 💡 **LOT AI Insight:** [1-line takeaway]`
+• Use topic-tailored headers with emoji.
+• Include a structured Data Table for key attributes.
+• End with ⚡ Key Takeaways."""
             else:
                 formatting_reminder = """\n\n[NATURAL INTELLIGENT DIRECTIVE]:
-• Provide direct, authoritative, highly informative, and dynamic responses tailored specifically to the user's prompt.
-• Avoid rigid, repetitive boilerplate headings. Use topic-tailored markdown section headers (`##`).
-• Include clean markdown tables, fenced code blocks with expected outputs (` ```text `), and scannable bullet points (`•`).
-• Start immediately with the core takeaway or code—zero intro fluff."""
+• DO NOT generate markdown image tags (![...](...)) in your response — images are handled separately.
+• Start with: `> 💡 **LOT AI Insight:** [1-line core takeaway]` if the topic warrants it.
+• Provide direct, authoritative, deeply informative responses tailored to the user's prompt.
+• Use topic-tailored markdown section headers with emoji (`## 🔬 Deep Dive`, `## ⚡ Key Insights`).
+• Include clean markdown tables, fenced code blocks with expected outputs, and scannable bullet points.
+• Start immediately with the core takeaway—zero intro fluff."""
                         
             if request_data.image:
                 human_content = [{"type": "text", "text": sanitized_message + formatting_reminder}]
@@ -1642,14 +1687,17 @@ IMPORTANT RULES:
             # Clear status indicator
             yield f"data: {json.dumps({'type': 'status', 'message': ''})}\n\n"
 
-            # 🖼️ SMART MEDIA EMBEDDER: Fetch official Wikimedia/Wikipedia image for places, landmarks, people & subjects
-            if content_type != "Programming" and not is_greeting and not is_identity_query and not is_build_req and not is_architecture_req and len(sanitized_message.strip()) > 2:
+            # 🖼️ SMART MEDIA EMBEDDER: Fetch official Wikimedia/Wikipedia image strictly for places, landmarks, people & real physical entities
+            # EXCLUDES: Academic, Educational, Programming, Science, Math, Generic queries
+            hero_image_yielded = False
+            if content_type in ("Place", "Person", "Animal", "Company", "Product", "Movie", "Book") and not is_greeting and not is_identity_query and not is_build_req and not is_architecture_req and len(sanitized_message.strip()) > 2:
                 try:
                     from backend.utils.media_fetcher import fetch_wikimedia_image
                     wiki_img = fetch_wikimedia_image(sanitized_message.strip())
                     if wiki_img:
-                        # 🖼️ EXACTLY 1 HERO IMAGE GUARANTEE: Yield type visual card ONLY (No duplicate markdown image tag)
+                        # 🖼️ YIELD HERO IMAGE FIRST — before any LLM tokens stream
                         yield f"data: {json.dumps({'type': 'visual', 'url': wiki_img, 'alt': sanitized_message.strip(), 'media_type': 'image'})}\n\n"
+                        hero_image_yielded = True
                 except Exception as img_err:
                     api_logger.warning(f"Media fetcher skipped: {img_err}")
             
@@ -2026,7 +2074,7 @@ async def execute_code(request: Request):
 
 @app.get("/api/health")
 async def health_check():
-    return {"status": "ok", "message": "PrismAI Multi-Agent Brain 3.0 is running!"}
+    return {"status": "ok", "message": "LOT AI Multi-Agent Brain 3.0 is running!"}
 
 @app.websocket("/api/ws/sandbox/{project_id}")
 async def websocket_sandbox_logs(websocket: WebSocket, project_id: str):
@@ -2114,7 +2162,7 @@ async def add_team_member(request: Request, payload: dict):
 @app.get("/api/memory")
 async def get_system_memory(request: Request):
     """
-    Phase 2: Returns real sovereign memory stats from PrismAI's persistent
+    Phase 2: Returns real sovereign memory stats from LOT AI's persistent
     SemanticMemoryStore + ProjectKnowledgeGraph + ArchitectureDecisionStore.
     """
     try:

@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.abspath('.'))
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 print("==========================================================================")
-print("🚀 VERIFYING PRISMAI ANY TASK COMPLETION SLA (YE TASK ICHINA COMPLETE)")
+print("🚀 VERIFYING LOTAI ANY TASK COMPLETION SLA (YE TASK ICHINA COMPLETE)")
 print("==========================================================================")
 
 from backend.agents.swarm_matrix_37 import inject_swarm_matrix_37
@@ -31,5 +31,5 @@ for name, desc in tasks:
     print(f"  • {name:28s} ──► {desc} [100% OPERATIONAL ✅]")
 
 print("\n==========================================================================")
-print("🏆 YE TASK ICHINA PRISMAI 100% COMPLETE CHESTHUNDHI (100/100 VERIFIED)")
+print("🏆 YE TASK ICHINA LOTAI 100% COMPLETE CHESTHUNDHI (100/100 VERIFIED)")
 print("==========================================================================")

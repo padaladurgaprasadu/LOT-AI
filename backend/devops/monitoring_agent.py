@@ -172,4 +172,4 @@ const logger = winston.createLogger({{
         return ""
 
 def inject_monitoring_prompt(system_prompt: str) -> str:
-    return system_prompt + "\n[PrismAI Directive]: You have access to a Monitoring Agent to configure Prometheus, Grafana, alerts, and OpenTelemetry instrumentation."
+    return system_prompt + "\n[LOT AI Directive]: You have access to a Monitoring Agent to configure Prometheus, Grafana, alerts, and OpenTelemetry instrumentation."

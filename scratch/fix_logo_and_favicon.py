@@ -17,9 +17,9 @@ favicon = Image.new("RGBA", fav_size, (0, 0, 0, 0))
 draw = ImageDraw.Draw(favicon)
 draw.rounded_rectangle([(0, 0), (127, 127)], radius=24, fill=(18, 18, 24, 255))
 
-# Resize prism graphic to fit inside rounded box with padding
-resized_prism = img.resize((104, 104), Image.LANCZOS)
-favicon.paste(resized_prism, (12, 12), resized_prism)
+# Resize lot graphic to fit inside rounded box with padding
+resized_lot = img.resize((104, 104), Image.LANCZOS)
+favicon.paste(resized_lot, (12, 12), resized_lot)
 
 # Save Favicon to public folder
 pub_dir = r"c:\Users\DELL\OneDrive\Desktop\Tatvamasi\yAI\frontend\public"

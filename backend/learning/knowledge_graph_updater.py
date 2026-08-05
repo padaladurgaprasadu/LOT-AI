@@ -5,7 +5,7 @@ import re
 from typing import Dict, Any, List
 
 class KnowledgeGraphUpdater:
-    """Maintain and update the PrismAI knowledge graph with new information."""
+    """Maintain and update the LOT AI knowledge graph with new information."""
     def __init__(self):
         self.graph_path = os.path.join(os.path.dirname(__file__), 'knowledge_graph.json')
         self.graph = self._load_graph()

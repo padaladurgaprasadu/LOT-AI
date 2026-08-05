@@ -11,7 +11,7 @@ class DockerVMEngine:
 
     def create_session(self, task_id: str, stack: str = 'python') -> Dict:
         cmd = [
-            "docker", "run", "-d", f"--name=prismai_{task_id}",
+            "docker", "run", "-d", f"--name=lotai_{task_id}",
             "--memory=512m", "--cpus=0.5", "--network=none",
             "python:3.12-slim", "sleep", "infinity"
         ]
@@ -30,7 +30,7 @@ class DockerVMEngine:
             return {"stdout": "", "stderr": str(e), "exit_code": -1, "duration_ms": 0}
 
     def exec_in_container(self, task_id: str, cmd: str) -> Dict:
-        docker_cmd = ["docker", "exec", f"prismai_{task_id}", "sh", "-c", cmd]
+        docker_cmd = ["docker", "exec", f"lotai_{task_id}", "sh", "-c", cmd]
         try:
             start = time.time()
             result = subprocess.run(docker_cmd, capture_output=True, text=True, timeout=60)
@@ -55,7 +55,7 @@ class DockerVMEngine:
                 f.write(code)
                 temp_path = f.name
             
-            cmd = ["docker", "cp", temp_path, f"prismai_{task_id}:/{filename}"]
+            cmd = ["docker", "cp", temp_path, f"lotai_{task_id}:/{filename}"]
             subprocess.run(cmd, capture_output=True, text=True, timeout=60)
             os.remove(temp_path)
             return True
@@ -67,7 +67,7 @@ class DockerVMEngine:
         return self.exec_in_container(task_id, cmd)
 
     def destroy_session(self, task_id: str) -> bool:
-        cmd = ["docker", "rm", "-f", f"prismai_{task_id}"]
+        cmd = ["docker", "rm", "-f", f"lotai_{task_id}"]
         try:
             result = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
             return result.returncode == 0
@@ -75,12 +75,12 @@ class DockerVMEngine:
             return False
 
     def list_sessions(self) -> List[str]:
-        cmd = ["docker", "ps", "--filter", "name=prismai", "--format", "{{.Names}}"]
+        cmd = ["docker", "ps", "--filter", "name=lotai", "--format", "{{.Names}}"]
         try:
             result = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
             if result.returncode == 0:
                 names = result.stdout.strip().split('\n')
-                return [name.replace("prismai_", "") for name in names if name]
+                return [name.replace("lotai_", "") for name in names if name]
             return []
         except Exception:
             return []

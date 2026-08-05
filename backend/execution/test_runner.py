@@ -10,7 +10,7 @@ import shutil
 
 def run_pytest(working_dir: str, timeout: int = 120) -> dict:
     """Runs pytest in the specified directory and parses results."""
-    report_file = "/tmp/prismai_test_report.json" if os.name != 'nt' else "C:\\Windows\\Temp\\prismai_test_report.json"
+    report_file = "/tmp/lotai_test_report.json" if os.name != 'nt' else "C:\\Windows\\Temp\\lotai_test_report.json"
     
     if shutil.which("pytest") is None:
         return {

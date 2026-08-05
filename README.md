@@ -1,6 +1,6 @@
-# 💎 PrismAI: Sovereign AI Engineering Platform & Silicon Ecosystem
+# 💎 LOT AI: Sovereign AI Engineering Platform & Silicon Ecosystem
 
-This is the **full, unfiltered** walkthrough of what happens when a user interacts with PrismAI—from the moment they type a message to the moment they receive a running application, McKinsey presentation deck, or custom silicon IP.
+This is the **full, unfiltered** walkthrough of what happens when a user interacts with LOT AI—from the moment they type a message to the moment they receive a running application, McKinsey presentation deck, or custom silicon IP.
 
 ---
 

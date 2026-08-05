@@ -1,5 +1,5 @@
 """
-PrismAI Colibri-MoE NVMe Streaming Engine v1.0
+LOT AI Colibri-MoE NVMe Streaming Engine v1.0
 ===============================================
 Zero-GPU NVMe SSD Expert Memory-Mapped Streaming Engine.
 Allows running 1 Trillion Parameter MoE Models on 16GB-32GB Laptops.
@@ -13,7 +13,7 @@ from typing import Dict, Any, List
 
 class ColibriMoEEngine:
     """
-    Zero-Copy Memory-Mapped NVMe MoE Expert Streaming Engine for PrismAI.
+    Zero-Copy Memory-Mapped NVMe MoE Expert Streaming Engine for LOT AI.
     """
     def __init__(self, ram_budget_gb: float = 16.0):
         self.ram_budget_gb = ram_budget_gb
@@ -51,5 +51,5 @@ class ColibriMoEEngine:
             "ram_used_gb": 9.8,
             "active_experts": [expert_1["expert_id"], expert_2["expert_id"]],
             "total_ttft_ms": round((time.time() - t0) * 1000 + 8.5, 2),
-            "engine": "PrismAI Colibri-MoE Engine"
+            "engine": "LOT AI Colibri-MoE Engine"
         }

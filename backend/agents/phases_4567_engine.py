@@ -1,17 +1,17 @@
 """
-PrismAI Sovereign CLI Engine v1.0 — Phase 6
+LOT AI Sovereign CLI Engine v1.0 — Phase 6
 =============================================
 Agentic terminal interface that runs the full 37-swarm from any command line.
 
 Commands:
-  prismai build "e-commerce platform"  → Full autonomous app synthesis
-  prismai review                       → AI code review on current git diff
-  prismai debug "error description"    → Root-cause analysis + auto-fix
-  prismai architect "system name"      → Full C4 architecture generation
-  prismai test                         → Generate + run comprehensive test suite
-  prismai secure                       → OWASP security audit + fix recommendations
-  prismai optimize                     → Performance profiling + optimisation plan
-  prismai ship                         → Production deployment checklist + CI/CD
+  lotai build "e-commerce platform"  → Full autonomous app synthesis
+  lotai review                       → AI code review on current git diff
+  lotai debug "error description"    → Root-cause analysis + auto-fix
+  lotai architect "system name"      → Full C4 architecture generation
+  lotai test                         → Generate + run comprehensive test suite
+  lotai secure                       → OWASP security audit + fix recommendations
+  lotai optimize                     → Performance profiling + optimisation plan
+  lotai ship                         → Production deployment checklist + CI/CD
 
 Phase 4: Browser Intelligence integration (Playwright MCP)
 Phase 5: Voice pipeline (already in frontend, backend hooks here)
@@ -41,9 +41,9 @@ CLI_COMMANDS = {
 }
 
 CLI_DIRECTIVE = """
-[⌨️ PHASE 6: PRISMAI SOVEREIGN CLI — AGENTIC TERMINAL]:
+[⌨️ PHASE 6: LOTAI SOVEREIGN CLI — AGENTIC TERMINAL]:
 
-PrismAI operates as a full Agentic CLI engine. When the user asks about
+LOT AI operates as a full Agentic CLI engine. When the user asks about
 command-line tasks, scripts, or terminal operations:
 
 1. SYNTHESISE the exact shell command (bash/powershell/zsh as appropriate)
@@ -52,12 +52,12 @@ command-line tasks, scripts, or terminal operations:
 4. OFFER to run autonomously via the MCP Filesystem server
 
 Available CLI Command Categories:
-  prismai build   → Full-stack autonomous app generation from a description
-  prismai review  → AI-powered code review with improvement suggestions
-  prismai debug   → Automated root-cause analysis using stack trace + AST analysis
-  prismai test    → Generate Playwright E2E + Vitest unit + Pytest test suites
-  prismai secure  → OWASP Top 10 automated security audit
-  prismai ship    → Full CI/CD pipeline: Docker → K8s manifests → GitHub Actions
+  lotai build   → Full-stack autonomous app generation from a description
+  lotai review  → AI-powered code review with improvement suggestions
+  lotai debug   → Automated root-cause analysis using stack trace + AST analysis
+  lotai test    → Generate Playwright E2E + Vitest unit + Pytest test suites
+  lotai secure  → OWASP Top 10 automated security audit
+  lotai ship    → Full CI/CD pipeline: Docker → K8s manifests → GitHub Actions
 
 AGENTIC COMMAND SYNTHESIS RULES:
   • Never generate destructive commands without explicit confirmation
@@ -70,7 +70,7 @@ AGENTIC COMMAND SYNTHESIS RULES:
 BROWSER_INTELLIGENCE_DIRECTIVE = """
 [🌐 PHASE 4: BROWSER INTELLIGENCE ENGINE — PLAYWRIGHT MCP]:
 
-PrismAI has full autonomous browser capabilities via Playwright MCP.
+LOT AI has full autonomous browser capabilities via Playwright MCP.
 When debugging, testing, or inspecting web applications:
 
 1. LAUNCH: Open real Chromium/Firefox/WebKit browser instance
@@ -87,7 +87,7 @@ Visual Regression Testing:
 
 Live Site Debugging Protocol:
   User: "My checkout page is broken"
-  PrismAI:
+  LOT AI:
     1. Opens checkout URL in browser
     2. Screenshots the broken state
     3. Reads console errors
@@ -102,7 +102,7 @@ suggest using browser automation to verify UI behaviour.
 THREE_D_STUDIO_DIRECTIVE = """
 [🎨 PHASE 7: 3D VISUAL AI STUDIO — THREE.JS ARCHITECTURE CANVAS]:
 
-PrismAI can generate interactive 3D architecture visualisations using Three.js.
+LOT AI can generate interactive 3D architecture visualisations using Three.js.
 
 When creating architecture diagrams, output in this structured format:
   📐 ARCHITECTURE CANVAS: [System name]
@@ -128,13 +128,13 @@ Design AI Studio:
 VOICE_AI_DIRECTIVE = """
 [🎙️ PHASE 5: VOICE-FIRST AI OS — SUB-200MS PIPELINE]:
 
-PrismAI has a sovereign voice interface. For voice interactions:
+LOT AI has a sovereign voice interface. For voice interactions:
   • Understand natural speech commands without exact phrasing
   • Handle domain-specific technical terminology accurately
   • Generate concise, speakable responses (not walls of code)
   • Use speech-friendly formatting: no markdown in voice mode
 
-Voice Command Examples (that PrismAI understands perfectly):
+Voice Command Examples (that LOT AI understands perfectly):
   "Build me a React dashboard with dark mode"
   "What's the best way to scale a PostgreSQL database"
   "Fix the authentication bug in my FastAPI app"

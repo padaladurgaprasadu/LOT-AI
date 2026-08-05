@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkBreaks from 'remark-breaks';
 import ArchitectureViewer from './ArchitectureViewer';
+import LOTAIInputBar from './LOTAIInputBar';
 const renderMessageContent = (content) => {
   if (!content.includes('<architecture>')) {
       return (
@@ -178,7 +179,7 @@ export default function Chat() {
             alignItems: 'center',
             gap: '8px'
           }}>
-            <span>🎓</span> PrismAI Mentor
+            <span>🎓</span> LOT AI Mentor
           </div>
           
           <div style={{
@@ -191,7 +192,7 @@ export default function Chat() {
           }}>
             {messages.length === 0 && (
               <div style={{ color: '#888', textAlign: 'center', marginTop: '20px' }}>
-                Ask me anything about code, architecture, or PrismAI concepts! I will format perfectly every time.
+                Ask me anything about code, architecture, or LOT AI concepts! I will format perfectly every time.
               </div>
             )}
             
@@ -228,47 +229,21 @@ export default function Chat() {
             <div ref={messagesEndRef} />
           </div>
 
-          <form onSubmit={handleAsk} style={{
-            padding: '16px',
-            borderTop: '1px solid var(--border-color)',
-            background: 'var(--card-bg)',
-            display: 'flex',
-            gap: '8px'
-          }}>
-            <input 
-              type="text" 
+          <div style={{ padding: '12px 16px', borderTop: '1px solid var(--border-color)', background: 'var(--card-bg)' }}>
+            <LOTAIInputBar
               value={input}
-              onChange={e => setInput(e.target.value)}
-              placeholder="Ask PrismAI Mentor..."
-              disabled={isLoading}
-              style={{
-                flex: 1,
-                padding: '12px',
-                borderRadius: '8px',
-                border: '1px solid var(--border-color)',
-                background: 'var(--bg-color)',
-                color: 'white',
-                outline: 'none'
-              }}
+              onChange={setInput}
+              onSubmit={handleAsk}
+              isLoading={isLoading}
+              placeholder="Ask LOT AI Prometheus..."
             />
-            <button 
-              type="submit" 
-              disabled={isLoading || !input.trim()}
-              style={{
-                padding: '0 16px',
-                background: 'var(--primary-color)',
-                color: 'white',
-                border: 'none',
-                borderRadius: '8px',
-                cursor: (isLoading || !input.trim()) ? 'not-allowed' : 'pointer',
-                opacity: (isLoading || !input.trim()) ? 0.5 : 1
-              }}
-            >
-              Send
-            </button>
-          </form>
+          </div>
         </div>
       )}
     </div>
   );
 }
+
+
+
+

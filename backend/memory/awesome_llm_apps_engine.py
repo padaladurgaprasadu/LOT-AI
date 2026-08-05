@@ -1,5 +1,5 @@
 """
-PrismAI Awesome LLM Apps Registry & Generator Engine v5.0
+LOT AI Awesome LLM Apps Registry & Generator Engine v5.0
 ===========================================================
 Inspired by Shubham Saboo's awesome-llm-apps (Shubhamsaboo/awesome-llm-apps).
 Provides 100+ Production-Ready AI Agent Blueprints (Agentic RAG, Deep Research Swarms,
@@ -28,7 +28,7 @@ def inject_awesome_llm_apps_prompt(system_prompt: str) -> str:
     """
     Injects 100+ Production-Ready LLM Application Blueprints into AI system prompts.
     """
-    blueprint_block = "\n\n[🚀 PRISMAI 100+ PRODUCTION LLM APP BLUEPRINTS ACTIVE]:\n"
+    blueprint_block = "\n\n[🚀 LOTAI 100+ PRODUCTION LLM APP BLUEPRINTS ACTIVE]:\n"
     blueprint_block += "You possess 100+ Production-Ready Open-Source AI Application Blueprints.\n"
     blueprint_block += "When requested to build any AI application, leverage these production-grade patterns:\n"
     for bp in AWESOME_LLM_APP_BLUEPRINTS:

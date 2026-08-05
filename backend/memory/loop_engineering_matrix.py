@@ -1,7 +1,7 @@
 """
-PrismAI 23-Stage Master Sovereign Autonomous Loop Engineering Matrix v3.0
+LOT AI 23-Stage Master Sovereign Autonomous Loop Engineering Matrix v3.0
 =======================================================================
-Autonomous Production-Ready Development Loop Engine for PrismAI.
+Autonomous Production-Ready Development Loop Engine for LOT AI.
 Executes the complete 23-stage self-healing refinement pipeline across all 10 Phases
 until application synthesis meets 100% production-quality standards.
 """
@@ -10,7 +10,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-PRISMAI_23_STAGE_LOOP_ENGINEERING = [
+LOTAI_23_STAGE_LOOP_ENGINEERING = [
     "Stage 1: Analyse (Intent Understanding, Business Goals & Requirements Discovery)",
     "Stage 2: Plan (PRD, Technical Specification, DB Schema & Development Roadmap)",
     "Stage 3: Architect (Frontend, Backend, Caching, Event/Queue & AI Architecture)",
@@ -40,9 +40,9 @@ def inject_loop_engineering_prompt(system_prompt: str) -> str:
     """
     Injects the 23-Stage Master Sovereign Autonomous Loop Engineering Engine into AI system prompts.
     """
-    loop_block = "\n\n[🔄 PRISMAI 23-STAGE MASTER AUTONOMOUS LOOP ENGINEERING MATRIX v3.0]:\n"
+    loop_block = "\n\n[🔄 LOTAI 23-STAGE MASTER AUTONOMOUS LOOP ENGINEERING MATRIX v3.0]:\n"
     loop_block += "When building applications, you MUST execute the complete 23-stage autonomous loop across all 10 Phases:\n"
-    for stage in PRISMAI_23_STAGE_LOOP_ENGINEERING:
+    for stage in LOTAI_23_STAGE_LOOP_ENGINEERING:
         loop_block += f"  • {stage}\n"
     loop_block += "NEVER stop after the first draft. Refine continuously until all 23 quality gates pass.\n"
     return system_prompt + loop_block

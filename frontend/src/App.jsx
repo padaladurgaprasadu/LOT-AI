@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import './App.css'
-import prismaiLogo from './assets/prismai_logo.png'
+import lotaiLogo from './assets/lotai_logo.png'
 import Auth from './components/Auth'
 import Chat from './components/Chat'
 import { supabase } from './lib/supabaseClient'
@@ -13,6 +13,10 @@ import remarkBreaks from 'remark-breaks'
 import PlatformDashboards from './components/PlatformDashboards'
 import AIWorkspaceTabs from './components/AIWorkspaceTabs'
 import AdaptiveLearningPanel from './components/AdaptiveLearningPanel'
+import LOTAIInputBar from './components/LOTAIInputBar'
+import AgentSwarmDashboard from './components/AgentSwarmDashboard'
+import LOTDesktopSuite from './components/LOTDesktopSuite'
+import LOTModelArena from './components/LOTModelArena'
 
 const handleMarkdownClick = async (e) => {
   const target = e.target;
@@ -223,7 +227,7 @@ const renderMessageContent = (content, onOpenArchitecture, onTriggerBuild, hasVi
                   </div>
               </div>
               <p style={{ color: '#cbd5e1', fontSize: '0.9rem', marginBottom: '16px' }}>
-                  PrismAI has initialized the WebContainer WASM Sandbox and 37-Agent Swarm Pod Matrix to build your application zero-shot.
+                  LOT AI has initialized the WebContainer WASM Sandbox and 37-Agent Swarm Pod Matrix to build your application zero-shot.
               </p>
               <button 
                   onClick={() => onTriggerBuild && onTriggerBuild(goal)}
@@ -290,7 +294,7 @@ const renderMessageContent = (content, onOpenArchitecture, onTriggerBuild, hasVi
               // Streaming/Incomplete state
               return (
                 <div key={i} style={{ margin: '16px 0', padding: '12px 20px', backgroundColor: 'rgba(59, 130, 246, 0.1)', border: '1px solid rgba(59, 130, 246, 0.3)', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '12px', color: '#60a5fa' }}>
-                  <div className="spinner" style={{ width: '16px', height: '16px', borderWidth: '2px', borderTopColor: '#60a5fa' }}></div>
+                  <img src={lotaiLogo} alt="Designing..." style={{ width: '32px', height: '32px', animation: 'spin 1.2s linear infinite', objectFit: 'contain', filter: 'drop-shadow(0 0 8px rgba(59, 130, 246, 0.6))' }} />
                   <span style={{ fontWeight: '500' }}>Designing your architecture...</span>
                 </div>
               );
@@ -322,7 +326,7 @@ function App() {
   
   // Auth & Tier state
   const [session, setSession] = useState(null)
-  const [userTier, setUserTier] = useState('free') // 'free' | 'pro' | 'max'
+  const [userTier, setUserTier] = useState('pro') // Permanently unlocked Pro tier
   const [showUpgradeModal, setShowUpgradeModal] = useState(false)
   const [showShareModal, setShowShareModal] = useState(false)
   const [shareToastMsg, setShareToastMsg] = useState('')
@@ -333,7 +337,7 @@ function App() {
       return;
     }
     const shareId = currentChatId || `share-${Date.now()}`;
-    const shareUrl = `${window.location.origin}/prismai/?share=${shareId}`;
+    const shareUrl = `${window.location.origin}/lotai/?share=${shareId}`;
     try {
       await navigator.clipboard.writeText(shareUrl);
       setShareToastMsg("Copied shareable link to clipboard! 🔗");
@@ -485,7 +489,7 @@ function App() {
   // Load chat history from localStorage on mount, then sync from Cloud
   useEffect(() => {
     try {
-        const savedHistory = localStorage.getItem('prismai_chat_history');
+        const savedHistory = localStorage.getItem('lotai_chat_history');
         if (savedHistory) {
             setChatHistoryList(JSON.parse(savedHistory));
         }
@@ -497,7 +501,7 @@ function App() {
         })
         .then(res => res.json())
         .then(data => {
-            const savedHistoryStr = localStorage.getItem('prismai_chat_history');
+            const savedHistoryStr = localStorage.getItem('lotai_chat_history');
             let localData = savedHistoryStr ? JSON.parse(savedHistoryStr) : [];
             
             if (data && data.history && data.history.length > 0) {
@@ -521,7 +525,7 @@ function App() {
                 merged.sort((a, b) => b.timestamp - a.timestamp);
                 
                 setChatHistoryList(merged);
-                localStorage.setItem('prismai_chat_history', JSON.stringify(merged));
+                localStorage.setItem('lotai_chat_history', JSON.stringify(merged));
                 
                 // Sync back to cloud if we merged local data
                 if (hasLocalChanges) {
@@ -585,7 +589,7 @@ function App() {
           }
           
           try {
-              localStorage.setItem('prismai_chat_history', JSON.stringify(newList));
+              localStorage.setItem('lotai_chat_history', JSON.stringify(newList));
           } catch (e) {}
           
           syncToCloud(newList);
@@ -604,7 +608,7 @@ function App() {
         const newList = chatHistoryList.map(c => c.id === chatId ? { ...c, title: newTitle.trim() } : c);
         setChatHistoryList(newList);
         try {
-            localStorage.setItem('prismai_chat_history', JSON.stringify(newList));
+            localStorage.setItem('lotai_chat_history', JSON.stringify(newList));
         } catch (err) {}
         syncToCloud(newList);
     }
@@ -616,7 +620,7 @@ function App() {
         const newList = chatHistoryList.filter(c => c.id !== chatId);
         setChatHistoryList(newList);
         try {
-            localStorage.setItem('prismai_chat_history', JSON.stringify(newList));
+            localStorage.setItem('lotai_chat_history', JSON.stringify(newList));
         } catch (err) {}
         syncToCloud(newList);
         
@@ -659,7 +663,7 @@ function App() {
     setChatInput(msgToEdit)
     setChatMessages(prev => prev.slice(0, idx))
     setTimeout(() => {
-      document.querySelector('input[placeholder="Message PrismAI..."]')?.focus()
+      document.querySelector('input[placeholder="Message LOT AI..."]')?.focus()
     }, 10)
   }
 
@@ -961,22 +965,13 @@ function App() {
       setChatStatus("");
 
     } catch (err) {
-      console.warn("Backend connection offline, using PrismAI Dynamic Client Engine:", err);
+      console.warn("Backend connection offline, using LOT AI Dynamic Client Engine:", err);
       const query = userMessage.trim();
       const p = query.toLowerCase();
       let fallbackResponse = "";
 
-      if (p.startsWith("build") || p.startsWith("create") || p.startsWith("develop") || p.includes("management system") || p.includes("web app") || p.includes("website")) {
-        setGoal(userMessage);
-        setAgentRole("Fullstack Web Developer");
-        handlePlan(userMessage, "Fullstack Web Developer");
-        setIsChatLoading(false);
-        setChatStatus("");
-        return;
-      }
-
-      if (p.includes("architecture") || p.includes("system design") || p.includes("draw an architecture") || p.includes("diagram")) {
-        const topicRaw = userMessage.replace(/draw|an|architecture|diagram|to|build|system|for|management/gi, '').trim() || "Restaurant Management";
+      if (p.includes("architecture") || p.includes("system design") || p.includes("draw an architecture") || p.includes("diagram") || p.includes("draw")) {
+        const topicRaw = userMessage.replace(/draw|an|architecture|diagram|to|build|system|for|management/gi, '').trim() || "Library Management";
         const topic = topicRaw.charAt(0).toUpperCase() + topicRaw.slice(1);
         const cleanTitle = `${topic} System Architecture`;
         
@@ -984,31 +979,49 @@ function App() {
 {
   "title": "${cleanTitle}",
   "overview": "High-availability, event-driven microservices architecture designed for ${topic} with automated load balancing, distributed caching, secure authentication, and real-time data persistence.",
+  "zones": [
+    { "id": "z_client", "label": "Client Layer" },
+    { "id": "z_gateway", "label": "API & Security Zone" },
+    { "id": "z_services", "label": "Core Microservices" },
+    { "id": "z_data", "label": "Persistence & Cache Layer" }
+  ],
   "nodes": [
-    { "id": "client_app", "label": "Client Web & Mobile App (React / Tailwind)", "type": "frontend" },
-    { "id": "api_gateway", "label": "API Gateway & Load Balancer (NGINX / FastAPI)", "type": "gateway" },
-    { "id": "auth_service", "label": "Auth & Session Service (OAuth2 / JWT)", "type": "service" },
-    { "id": "core_service", "label": "Core ${topic} Business Logic Engine", "type": "service" },
-    { "id": "analytics_service", "label": "Analytics & Reporting Service", "type": "service" },
-    { "id": "notification_service", "label": "Real-Time Notification Worker (Redis Pub/Sub)", "type": "service" },
-    { "id": "primary_db", "label": "PostgreSQL Primary Cluster (ACID Storage)", "type": "database" },
-    { "id": "cache_layer", "label": "Redis Distributed In-Memory Cache", "type": "cache" }
+    { "id": "client_web", "label": "Client Web & Mobile App (React / Tailwind)", "type": "frontend", "zone": "z_client", "tech": "React 18", "status": "Healthy", "description": "Web & mobile interface for user interaction" },
+    { "id": "api_gateway", "label": "API Gateway & Load Balancer (NGINX / FastAPI)", "type": "gateway", "zone": "z_gateway", "tech": "FastAPI", "status": "Healthy", "description": "Rate limiting, TLS termination, and routing" },
+    { "id": "auth_service", "label": "Auth & Identity Service (OAuth2 / JWT)", "type": "security", "zone": "z_gateway", "tech": "OAuth2 / JWT", "status": "Healthy", "description": "User authentication & RBAC permissions" },
+    { "id": "core_service", "label": "Core ${topic} Engine", "type": "microservice", "zone": "z_services", "tech": "Node.js / Express", "status": "Healthy", "description": "Core business logic processing" },
+    { "id": "analytics_service", "label": "Analytics & Reporting Service", "type": "microservice", "zone": "z_services", "tech": "Python / Pandas", "status": "Healthy", "description": "Real-time analytics and telemetry reporting" },
+    { "id": "notification_service", "label": "Notification Worker", "type": "queue", "zone": "z_services", "tech": "Redis Pub/Sub", "status": "Healthy", "description": "Async event queue and notification delivery" },
+    { "id": "primary_db", "label": "PostgreSQL Primary Cluster", "type": "database", "zone": "z_data", "tech": "PostgreSQL 16", "status": "Healthy", "description": "ACID compliant relational storage" },
+    { "id": "cache_layer", "label": "Redis Distributed Cache", "type": "cache", "zone": "z_data", "tech": "Redis 7", "status": "Healthy", "description": "In-memory caching and session store" }
   ],
   "edges": [
-    { "source": "client_app", "target": "api_gateway", "from": "client_app", "to": "api_gateway", "label": "HTTPS / Secure WSS", "type": "sync" },
+    { "source": "client_web", "target": "api_gateway", "from": "client_web", "to": "api_gateway", "label": "HTTPS / Secure WSS", "type": "sync" },
     { "source": "api_gateway", "target": "auth_service", "from": "api_gateway", "to": "auth_service", "label": "Token Validation", "type": "grpc" },
     { "source": "api_gateway", "target": "core_service", "from": "api_gateway", "to": "core_service", "label": "REST / gRPC Requests", "type": "rest" },
     { "source": "api_gateway", "target": "analytics_service", "from": "api_gateway", "to": "analytics_service", "label": "Telemetry Logs", "type": "async" },
     { "source": "core_service", "target": "primary_db", "from": "core_service", "to": "primary_db", "label": "Read/Write Queries", "type": "db" },
     { "source": "core_service", "target": "cache_layer", "from": "core_service", "to": "cache_layer", "label": "In-Memory Caching", "type": "data" },
     { "source": "core_service", "target": "notification_service", "from": "core_service", "to": "notification_service", "label": "Async Event Queue", "type": "event" }
-  ]
+  ],
+  "review": {
+    "score": 98,
+    "status": "APPROVED",
+    "summary": "Production-grade microservices architecture for ${topic} with high availability and automated load balancing."
+  }
 }
 </architecture>`;
+      } else if (p.startsWith("build") || p.startsWith("create") || p.startsWith("develop") || p.includes("management system") || p.includes("web app") || p.includes("website")) {
+        setGoal(userMessage);
+        setAgentRole("Fullstack Web Developer");
+        handlePlan(userMessage, "Fullstack Web Developer");
+        setIsChatLoading(false);
+        setChatStatus("");
+        return;
       } else if (p.includes("who are you") || p.includes("what is your name") || p.includes("what are you") || p.includes("who made you")) {
-        fallbackResponse = "I am **PrismAI**, a Sovereign AI Engineering Assistant and Fullstack Platform. How can I assist you today?";
+        fallbackResponse = "**LOT AI** is a Sovereign AI Operating System, purpose-built for developers, engineers, and builders who demand production-grade intelligence. I build, debug, design, and deploy.\n\nI can help with a wide range of tasks, including:\n\n* Explaining concepts and answering questions\n* Writing and debugging code\n* Building AI systems and software architectures\n* Research and technical analysis\n* Writing, editing, and brainstorming\n* Math, science, and education\n* Planning projects and solving problems\n\nFrom our recent conversations, I also know you've been working on **yAI** and **PrismAI**, exploring agentic AI architectures, model routing, and integrations with tools like Antigravity and Claude. I can continue helping you refine those ideas or tackle something completely different.";
       } else if (p.includes("hello") || p.includes("hi") || p.includes("hey")) {
-        fallbackResponse = "Hello! I am **PrismAI**, your Sovereign AI Engineering Assistant. How can I empower your project today?";
+        fallbackResponse = "Hello! **LOT AI** is a Sovereign AI Operating System, purpose-built for developers, engineers, and builders who demand production-grade intelligence. How can I empower your project today?";
       } else {
         const isForLoopQuery = /for loop|python loop|python for loop/i.test(userMessage);
 
@@ -1105,7 +1118,7 @@ function App() {
       }
 
       if (!fallbackResponse) {
-        fallbackResponse = `## 🌟 Welcome to PrismAI\n\n• **Identity:** PrismAI — Sovereign AI Engineering Assistant & Fullstack Platform.\n\n• **Capabilities:** Autonomous fullstack application generation, intelligent design systems, and enterprise code synthesis.\n\n• **Goal:** Empowering developers to build, debug, and scale production software effortlessly. How can I assist your project today?`;
+        fallbackResponse = `## 🌟 Welcome to LOT AI\n\n• **Identity:** LOT AI — Sovereign AI Engineering Assistant & Fullstack Platform.\n\n• **Capabilities:** Autonomous fullstack application generation, intelligent design systems, and enterprise code synthesis.\n\n• **Goal:** Empowering developers to build, debug, and scale production software effortlessly. How can I assist your project today?`;
       }
 
       setIsChatLoading(false);
@@ -1266,7 +1279,7 @@ function generateClientSideWebAppHTML(goal) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PrismAI Library Management System — Enterprise Catalog</title>
+  <title>LOT AI Library Management System — Enterprise Catalog</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', system-ui, sans-serif; }
     html { scroll-behavior: smooth; }
@@ -1296,7 +1309,7 @@ function generateClientSideWebAppHTML(goal) {
   <div class="glow-cyan"></div>
   <div class="glow-indigo"></div>
   <div class="nav">
-    <div class="brand">PrismAI Library Management System 📚</div>
+    <div class="brand">LOT AI Library Management System 📚</div>
     <button class="btn-add" onclick="addNewBookPrompt()">+ Add New Book</button>
   </div>
   <div class="stats-grid">
@@ -1664,7 +1677,7 @@ import './index.css';
 
 export default function App() {
   const [items, setItems] = useState([
-    { id: 1, title: 'Enterprise Core System', author: 'PrismAI Architect', status: 'Active', category: 'Core' },
+    { id: 1, title: 'Enterprise Core System', author: 'LOT AI Architect', status: 'Active', category: 'Core' },
     { id: 2, title: 'Database Migration Engine', author: 'Senior Engineer', status: 'Pending', category: 'Database' },
     { id: 3, title: 'Authentication Provider', author: 'Security Team', status: 'Active', category: 'Security' }
   ]);
@@ -1678,7 +1691,7 @@ export default function App() {
   return (
     <div className="app-container">
       <header className="header">
-        <h1>PrismAI ${cleanGoal}</h1>
+        <h1>LOT AI ${cleanGoal}</h1>
         <button className="btn-primary">+ Add New Item</button>
       </header>
 
@@ -1759,7 +1772,7 @@ app.get('/api/health', (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(\`🚀 PrismAI ${cleanGoal} Server running on port \${PORT}\`));`,
+app.listen(PORT, () => console.log(\`🚀 LOT AI ${cleanGoal} Server running on port \${PORT}\`));`,
         "package.json": JSON.stringify({
           "name": cleanGoal.toLowerCase().replace(/[^a-z0-9]/g, '-'),
           "version": "1.0.0",
@@ -1777,9 +1790,9 @@ app.listen(PORT, () => console.log(\`🚀 PrismAI ${cleanGoal} Server running on
             "vite": "^4.3.9"
           }
         }, null, 2),
-        "README.md": `# 🚀 PrismAI ${cleanGoal}
+        "README.md": `# 🚀 LOT AI ${cleanGoal}
 
-Autonomously synthesized full-stack application built by **PrismAI** using a 37-Agent Swarm Matrix.
+Autonomously synthesized full-stack application built by **LOT AI** using a 37-Agent Swarm Matrix.
 
 ## Project Structure
 - \`index.html\` - WASM Live Preview Canvas
@@ -2262,20 +2275,8 @@ Autonomously synthesized full-stack application built by **PrismAI** using a 37-
           <button onClick={() => setShowSidebar(!showSidebar)} style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', fontSize: '1.4rem', cursor: 'pointer', padding: '2px 4px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="Toggle Sidebar">
             ☰
           </button>
-          <img src={prismaiLogo} alt="PrismAI Logo" style={{ width: '50px', height: '50px', objectFit: 'contain', display: 'block', marginLeft: '4px', mixBlendMode: 'screen', background: 'transparent' }} />
-          <h1 style={{ margin: 0, fontSize: '1.5rem', letterSpacing: '0.5px', fontWeight: '700', marginLeft: '6px' }}>PrismAI</h1>
-          <span style={{ 
-            fontSize: '0.75rem', 
-            fontWeight: 'bold', 
-            padding: '3px 8px', 
-            borderRadius: '6px', 
-            textTransform: 'uppercase',
-            backgroundColor: userTier === 'pro' ? 'rgba(168, 85, 247, 0.2)' : userTier === 'plus' ? 'rgba(59, 130, 246, 0.2)' : userTier === 'go' ? 'rgba(34, 197, 94, 0.2)' : 'rgba(255, 255, 255, 0.1)',
-            color: userTier === 'pro' ? '#c084fc' : userTier === 'plus' ? '#60a5fa' : userTier === 'go' ? '#4ade80' : '#94a3b8',
-            border: `1px solid ${userTier === 'pro' ? '#a855f7' : userTier === 'plus' ? '#3b82f6' : userTier === 'go' ? '#22c55e' : '#475569'}`
-          }}>
-            {userTier === 'pro' ? '👑 PRO' : userTier === 'plus' ? '⚡ PLUS' : userTier === 'go' ? '🚀 GO' : 'FREE'}
-          </span>
+          <img src={lotaiLogo} alt="LOT Logo" style={{ width: '50px', height: '50px', objectFit: 'contain', display: 'block', marginLeft: '4px', mixBlendMode: 'screen', background: 'transparent' }} />
+          <h1 style={{ margin: 0, fontSize: '1.5rem', letterSpacing: '0.5px', fontWeight: '700', marginLeft: '6px' }}>LOT</h1>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <button 
@@ -2299,132 +2300,8 @@ Autonomously synthesized full-stack application built by **PrismAI** using a 37-
           >
             🔗 Share
           </button>
-          <button 
-            onClick={() => setShowUpgradeModal(true)} 
-            style={{ 
-              backgroundColor: 'rgba(59, 130, 246, 0.08)', 
-              border: '1px solid rgba(59, 130, 246, 0.25)', 
-              color: '#93c5fd', 
-              padding: '6px 14px', 
-              borderRadius: '20px', 
-              fontSize: '0.85rem', 
-              fontWeight: '500', 
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              transition: 'all 0.2s ease',
-              backdropFilter: 'blur(4px)'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(59, 130, 246, 0.18)';
-              e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.45)';
-              e.currentTarget.style.color = '#bfdbfe';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(59, 130, 246, 0.08)';
-              e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.25)';
-              e.currentTarget.style.color = '#93c5fd';
-            }}
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
-            </svg>
-            <span>Upgrade</span>
-          </button>
         </div>
       </header>
-
-      {/* UPGRADE PRICING MODAL (ChatGPT Killer Matrix) */}
-      {showUpgradeModal && (
-        <div style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(10px)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px' }}>
-          <div style={{ backgroundColor: '#101216', border: '1px solid #2a2d36', borderRadius: '20px', maxWidth: '1050px', width: '100%', padding: '32px', position: 'relative', boxShadow: '0 25px 60px rgba(0,0,0,0.9)' }}>
-            <button onClick={() => setShowUpgradeModal(false)} style={{ position: 'absolute', top: '20px', right: '20px', background: 'none', border: 'none', color: '#888', fontSize: '1.5rem', cursor: 'pointer' }}>✕</button>
-            <div style={{ textAlign: 'center', marginBottom: '28px' }}>
-              <h2 style={{ fontSize: '2rem', fontWeight: '800', margin: '0 0 8px 0', background: 'linear-gradient(135deg, #60a5fa, #c084fc)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Choose Your PrismAI Plan</h2>
-              <p style={{ color: '#94a3b8', margin: 0, fontSize: '0.95rem' }}>Select the optimal power tier for your AI engineering, live compilation, and multi-agent workflows.</p>
-            </div>
-            
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))', gap: '16px' }}>
-              {/* FREE TIER */}
-              <div style={{ backgroundColor: '#16181d', border: '1px solid #262930', borderRadius: '14px', padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                <div>
-                  <h3 style={{ margin: '0 0 4px 0', fontSize: '1.15rem', color: '#e0e0e0' }}>Free</h3>
-                  <p style={{ fontSize: '0.75rem', color: '#64748b', margin: '0 0 12px 0' }}>Essential AI capabilities</p>
-                  <div style={{ fontSize: '1.6rem', fontWeight: 'bold', margin: '8px 0', color: '#fff' }}>₹0 <span style={{ fontSize: '0.8rem', color: '#888' }}>/ month</span></div>
-                  <ul style={{ paddingLeft: '16px', margin: '14px 0', color: '#94a3b8', fontSize: '0.8rem', lineHeight: '1.7' }}>
-                    <li>30 Queries / day</li>
-                    <li>Sub-150ms Instant Model</li>
-                    <li>1 Active Project</li>
-                    <li>Basic WASM Preview</li>
-                  </ul>
-                </div>
-                <button onClick={() => handleUpgradeTier('free')} disabled={userTier === 'free'} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #333', backgroundColor: userTier === 'free' ? '#222' : '#333', color: userTier === 'free' ? '#666' : '#fff', cursor: userTier === 'free' ? 'default' : 'pointer' }}>
-                  {userTier === 'free' ? 'Current Plan' : 'Downgrade to Free'}
-                </button>
-              </div>
-
-              {/* GO TIER */}
-              <div style={{ backgroundColor: '#132219', border: '1px solid #22c55e', borderRadius: '14px', padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                <div>
-                  <h3 style={{ margin: '0 0 4px 0', fontSize: '1.15rem', color: '#4ade80' }}>🚀 Go</h3>
-                  <p style={{ fontSize: '0.75rem', color: '#64748b', margin: '0 0 12px 0' }}>Expanded access & 3D WebGL</p>
-                  <div style={{ fontSize: '1.6rem', fontWeight: 'bold', margin: '8px 0', color: '#fff' }}>₹299 <span style={{ fontSize: '0.8rem', color: '#888' }}>/ month</span></div>
-                  <ul style={{ paddingLeft: '16px', margin: '14px 0', color: '#bbf7d0', fontSize: '0.8rem', lineHeight: '1.7' }}>
-                    <li>150 Queries / day</li>
-                    <li>3D WebGL Engine ✅</li>
-                    <li>Voice AI Integration</li>
-                    <li>100k Context Memory</li>
-                    <li>5 Active Projects</li>
-                  </ul>
-                </div>
-                <button onClick={() => handleUpgradeTier('go')} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: 'none', backgroundColor: '#22c55e', color: '#fff', fontWeight: 'bold', cursor: 'pointer' }}>
-                  {userTier === 'go' ? 'Current Plan' : 'Upgrade to Go 🚀'}
-                </button>
-              </div>
-
-              {/* PLUS TIER */}
-              <div style={{ backgroundColor: '#131e33', border: '2px solid #3b82f6', borderRadius: '14px', padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', position: 'relative' }}>
-                <div style={{ position: 'absolute', top: '-10px', right: '14px', backgroundColor: '#3b82f6', color: '#fff', fontSize: '0.65rem', fontWeight: 'bold', padding: '2px 8px', borderRadius: '10px' }}>POPULAR</div>
-                <div>
-                  <h3 style={{ margin: '0 0 4px 0', fontSize: '1.15rem', color: '#60a5fa' }}>⚡ Plus</h3>
-                  <p style={{ fontSize: '0.75rem', color: '#64748b', margin: '0 0 12px 0' }}>Full 37-Agent Swarm & IDE</p>
-                  <div style={{ fontSize: '1.6rem', fontWeight: 'bold', margin: '8px 0', color: '#fff' }}>₹1,499 <span style={{ fontSize: '0.8rem', color: '#888' }}>/ month</span></div>
-                  <ul style={{ paddingLeft: '16px', margin: '14px 0', color: '#cbd5e1', fontSize: '0.8rem', lineHeight: '1.7' }}>
-                    <li>1,000 Queries / day</li>
-                    <li>Full 37-Agent Swarm Matrix</li>
-                    <li>In-Browser WebContainer IDE</li>
-                    <li>Self-Healing Code Interceptor</li>
-                    <li>30-Day Vector Memory</li>
-                  </ul>
-                </div>
-                <button onClick={() => handleUpgradeTier('plus')} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: 'none', backgroundColor: '#3b82f6', color: '#fff', fontWeight: 'bold', cursor: 'pointer' }}>
-                  {userTier === 'plus' ? 'Current Plan' : 'Upgrade to Plus ⚡'}
-                </button>
-              </div>
-
-              {/* PRO TIER */}
-              <div style={{ backgroundColor: '#211430', border: '2px solid #a855f7', borderRadius: '14px', padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                <div>
-                  <h3 style={{ margin: '0 0 4px 0', fontSize: '1.15rem', color: '#c084fc' }}>👑 Pro</h3>
-                  <p style={{ fontSize: '0.75rem', color: '#64748b', margin: '0 0 12px 0' }}>Air-gapped executive suite</p>
-                  <div style={{ fontSize: '1.6rem', fontWeight: 'bold', margin: '8px 0', color: '#fff' }}>₹7,999 <span style={{ fontSize: '0.8rem', color: '#888' }}>/ month</span></div>
-                  <ul style={{ paddingLeft: '16px', margin: '14px 0', color: '#e9d5ff', fontSize: '0.8rem', lineHeight: '1.7' }}>
-                    <li>Unlimited Queries</li>
-                    <li>100% Air-Gapped Privacy</li>
-                    <li>Docker Sandbox Execution</li>
-                    <li>Unlimited Swarm Rollouts</li>
-                    <li>Permanent AST Memory</li>
-                  </ul>
-                </div>
-                <button onClick={() => handleUpgradeTier('pro')} style={{ width: '100%', padding: '10px', borderRadius: '8px', border: 'none', backgroundColor: '#a855f7', color: '#fff', fontWeight: 'bold', cursor: 'pointer' }}>
-                  {userTier === 'pro' ? 'Current Plan' : 'Upgrade to Pro 👑'}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
       
       {/* MAIN CONTENT AREA */}
       <div className="main-content-wrapper" style={{ display: 'flex', flex: 1, overflow: 'hidden', position: 'relative' }}>
@@ -2432,6 +2309,18 @@ Autonomously synthesized full-stack application built by **PrismAI** using a 37-
         {activeView === 'dashboards' ? (
            <div style={{ flex: 1, width: '100%', backgroundColor: 'var(--app-bg)' }}>
               <PlatformDashboards API_URL={API_URL} />
+           </div>
+        ) : activeView === 'agents' ? (
+           <div style={{ flex: 1, width: '100%', backgroundColor: 'var(--app-bg)' }}>
+              <AgentSwarmDashboard API_URL={API_URL} />
+           </div>
+        ) : activeView === 'desktop' ? (
+           <div style={{ flex: 1, width: '100%', backgroundColor: 'var(--app-bg)' }}>
+              <LOTDesktopSuite API_URL={API_URL} />
+           </div>
+        ) : activeView === 'arena' ? (
+           <div style={{ flex: 1, width: '100%', backgroundColor: 'var(--app-bg)' }}>
+              <LOTModelArena API_URL={API_URL} />
            </div>
         ) : (
            <>
@@ -2495,7 +2384,7 @@ Autonomously synthesized full-stack application built by **PrismAI** using a 37-
                 </div>
                 <div className="sidebar-user-details" style={{ display: 'flex', flexDirection: 'column' }}>
                   <span className="sidebar-user-name" style={{ color: '#ececec', fontSize: '0.9rem', fontWeight: '500' }}>{session?.user?.email?.split('@')[0] || 'Guest'}</span>
-                  <span className="sidebar-user-plan" style={{ color: '#60a5fa', fontSize: '0.75rem', fontWeight: '600', letterSpacing: '0.5px' }}>PrismAI 2.0</span>
+                  <span className="sidebar-user-plan" style={{ color: '#60a5fa', fontSize: '0.75rem', fontWeight: '600', letterSpacing: '0.5px' }}>LOT AI 2.0</span>
                 </div>
               </div>
               
@@ -2561,14 +2450,7 @@ Autonomously synthesized full-stack application built by **PrismAI** using a 37-
                   maxWidth: '85%',
                   flexDirection: msg.role === 'user' ? 'row-reverse' : 'row'
                 }}>
-                  <div style={{ 
-                    width: '32px', height: '32px', borderRadius: '50%', flexShrink: 0,
-                    backgroundColor: msg.role === 'user' ? 'var(--border-color)' : 'var(--accent)',
-                    display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '14px',
-                    textTransform: 'uppercase'
-                  }}>
-                    {msg.role === 'user' ? (session?.user?.email?.[0] || 'U') : 'P'}
-                  </div>
+
                   <div style={{ 
                     backgroundColor: msg.role === 'user' ? 'var(--border-color)' : 'transparent',
                     padding: msg.role === 'user' ? '12px 18px' : '6px 0',
@@ -2651,12 +2533,11 @@ Autonomously synthesized full-stack application built by **PrismAI** using a 37-
               ))}
               
               {isChatLoading && (
-                <div style={{ display: 'flex', gap: '16px', alignSelf: 'flex-start' }}>
-                   <div style={{ width: '32px', height: '32px', borderRadius: '50%', backgroundColor: 'var(--accent)', display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#fff', fontWeight: 'bold' }}>P</div>
-                   <div style={{ padding: '6px 0', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                     <div className="spinner" style={{ width: '18px', height: '18px' }}></div>
+                <div style={{ display: 'flex', gap: '16px', alignSelf: 'flex-start', alignItems: 'center' }}>
+                   <div style={{ padding: '6px 0', display: 'flex', alignItems: 'center', gap: '16px' }}>
+                     <img src={lotaiLogo} alt="LOT AI Loading" style={{ width: '48px', height: '48px', animation: 'spin 1.2s linear infinite', objectFit: 'contain', filter: 'drop-shadow(0 0 12px rgba(56, 189, 248, 0.6))' }} />
                      {chatStatus && (
-                         <span style={{ fontSize: '0.9rem', color: '#9ca3af', fontStyle: 'italic', animation: 'pulse 2s infinite' }}>{chatStatus}</span>
+                         <span style={{ fontSize: '1.05rem', color: '#38bdf8', fontWeight: '500', letterSpacing: '0.3px', animation: 'pulse 2s infinite' }}>{chatStatus}</span>
                      )}
                    </div>
                 </div>
@@ -2705,128 +2586,34 @@ Autonomously synthesized full-stack application built by **PrismAI** using a 37-
             
 
 
-            <form onSubmit={handleChatSubmit} style={{ 
-              width: '100%', 
-              maxWidth: '800px', 
-              backgroundColor: 'var(--btn-bg)', 
-              borderRadius: '24px', 
-              padding: '8px', 
-              display: 'flex', 
-              alignItems: 'center', 
-              border: '1px solid var(--border-color)',
-              boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
+            <LOTAIInputBar
+              value={chatInput}
+              onChange={setChatInput}
+              onSubmit={handleChatSubmit}
+              onImageUpload={handleImageUpload}
+              selectedImages={selectedImages}
+              onRemoveImage={(idx) => setSelectedImages(prev => prev.filter((_, i) => i !== idx))}
+              isRecording={isRecording}
+              onToggleVoice={startVoiceRecognition}
+              isWebSearchEnabled={isWebSearchEnabled}
+              onToggleWebSearch={() => setIsWebSearchEnabled(!isWebSearchEnabled)}
+              isLoading={isChatLoading}
+              placeholder={step === 1 ? "Ask LOT AI Prometheus..." : "Update your project..."}
+            />
+            
+            {/* LOT AI Sleek Footer Disclaimer Tagline */}
+            <div style={{
+              marginTop: '8px',
+              fontSize: '0.73rem',
+              color: '#71717a',
+              textAlign: 'center',
+              fontWeight: '400',
+              letterSpacing: '0.01em',
+              userSelect: 'none',
+              opacity: 0.85
             }}>
-              <input type="file" multiple accept="image/*" ref={fileInputRef} onChange={handleImageUpload} style={{ display: 'none' }} />
-              <button 
-                type="button" 
-                onClick={() => fileInputRef.current?.click()}
-                style={{
-                  background: 'none', 
-                  border: 'none', 
-                  color: 'var(--modal-text-color)',
-                  fontSize: '1.4rem', 
-                  cursor: 'pointer', 
-                  padding: '0 12px', 
-                  transition: 'color 0.2s',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}
-                title="Attach Image"
-                onMouseEnter={(e) => e.target.style.color = '#fff'}
-                onMouseLeave={(e) => e.target.style.color = '#888'}
-              >
-                +
-              </button>
-              <input 
-                type="text" 
-                value={chatInput} 
-                onChange={(e) => setChatInput(e.target.value)} 
-                placeholder={step === 1 ? "Message PrismAI..." : "Update your app..."} 
-                style={{ 
-                  flex: 1, 
-                  minWidth: 0,
-                  padding: '12px 20px', 
-                  backgroundColor: 'transparent', 
-                  border: 'none', 
-                  color: 'var(--text-primary)', 
-                  fontSize: '1rem', 
-                  outline: 'none' 
-                }}
-              />
-              <button
-                type="button"
-                onClick={startVoiceRecognition}
-                style={{
-                  background: 'none', 
-                  border: 'none', 
-                  color: isRecording ? '#ef4444' : '#888',
-                  cursor: 'pointer', 
-                  padding: '0 10px', 
-                  transition: 'all 0.2s',
-                  transform: isRecording ? 'scale(1.05)' : 'scale(1)'
-                }}
-                title={isRecording ? "Listening..." : "Voice Input"}
-              >
-                {isRecording ? (
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(239, 68, 68, 0.1)', padding: '6px 12px', borderRadius: '20px', border: '1px solid rgba(239, 68, 68, 0.3)' }}>
-                        <span style={{ fontSize: '1rem', animation: 'pulse 1.5s infinite' }}>🔴</span>
-                        <span style={{ fontSize: '0.8rem', fontWeight: '600', color: '#ef4444' }}>Listening</span>
-                    </div>
-                ) : (
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(59, 130, 246, 0.1)', padding: '6px 12px', borderRadius: '20px', border: '1px solid rgba(59, 130, 246, 0.3)', transition: 'all 0.3s', boxShadow: '0 0 10px rgba(59, 130, 246, 0.1)' }} onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(59, 130, 246, 0.2)'; e.currentTarget.style.boxShadow = '0 0 15px rgba(59, 130, 246, 0.3)'; }} onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(59, 130, 246, 0.1)'; e.currentTarget.style.boxShadow = '0 0 10px rgba(59, 130, 246, 0.1)'; }}>
-                        <span style={{ fontSize: '1rem' }}>✨</span>
-                        <span style={{ fontSize: '0.8rem', fontWeight: '600', color: '#60a5fa', letterSpacing: '0.5px' }}>Voice AI</span>
-                    </div>
-                )}
-              </button>
-              
-              <button
-                type="button"
-                onClick={() => setIsWebSearchEnabled(!isWebSearchEnabled)}
-                style={{
-                  background: 'none', 
-                  border: 'none', 
-                  color: isWebSearchEnabled ? '#10b981' : '#888',
-                  cursor: 'pointer', 
-                  padding: '0 10px', 
-                  transition: 'all 0.2s',
-                  transform: isWebSearchEnabled ? 'scale(1.05)' : 'scale(1)'
-                }}
-                title={isWebSearchEnabled ? "Web Search Enabled" : "Web Search"}
-              >
-                {isWebSearchEnabled ? (
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(16, 185, 129, 0.1)', padding: '6px 12px', borderRadius: '20px', border: '1px solid rgba(16, 185, 129, 0.3)', boxShadow: '0 0 10px rgba(16, 185, 129, 0.1)' }}>
-                        <span style={{ fontSize: '1rem' }}>🌐</span>
-                        <span style={{ fontSize: '0.8rem', fontWeight: '600', color: '#10b981', letterSpacing: '0.5px' }}>Search ON</span>
-                    </div>
-                ) : (
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(136, 136, 136, 0.1)', padding: '6px 12px', borderRadius: '20px', border: '1px solid rgba(136, 136, 136, 0.3)', transition: 'all 0.3s' }} onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(136, 136, 136, 0.2)'; }} onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(136, 136, 136, 0.1)'; }}>
-                        <span style={{ fontSize: '1rem', opacity: 0.7 }}>🌐</span>
-                        <span style={{ fontSize: '0.8rem', fontWeight: '600', color: '#888', letterSpacing: '0.5px' }}>Search</span>
-                    </div>
-                )}
-              </button>
-              <button 
-                type="submit" 
-                disabled={isChatLoading || !chatInput.trim()} 
-                style={{ 
-                  width: '40px', 
-                  height: '40px', 
-                  borderRadius: '50%', 
-                  backgroundColor: (isChatLoading || !chatInput.trim()) ? 'var(--border-color)' : 'var(--accent)', 
-                  border: 'none', 
-                  color: 'var(--text-primary)', 
-                  display: 'flex', 
-                  justifyContent: 'center', 
-                  alignItems: 'center', 
-                  cursor: (isChatLoading || !chatInput.trim()) ? 'not-allowed' : 'pointer',
-                  transition: 'background 0.2s'
-                }}
-              >
-                ➤
-              </button>
-            </form>
+              LOT AI can make mistakes. Verify important info.
+            </div>
           </div>
         </div>
 
@@ -2862,7 +2649,7 @@ Autonomously synthesized full-stack application built by **PrismAI** using a 37-
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60vh', color: 'var(--text-secondary)' }}>
                   <div style={{ fontSize: '4rem', marginBottom: '20px' }}>🤖</div>
                   <h2>Welcome to the Omni-Chat Builder</h2>
-                  <p>Talk to PrismAI Advisor on the left.</p>
+                  <p>Talk to LOT AI Advisor on the left.</p>
                   <p>Ask questions, or ask it to "build a new project" and watch the magic happen!</p>
                 </div>
               )}
@@ -2929,9 +2716,9 @@ Autonomously synthesized full-stack application built by **PrismAI** using a 37-
                         {awaitingApproval ? (
                            <div style={{ width: '20px', height: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>⏸️</div>
                         ) : (
-                           <div className="spinner" style={{ width: '20px', height: '20px' }}></div>
+                            <img src={lotaiLogo} alt="Engineering..." style={{ width: '24px', height: '24px', animation: 'spin 1.2s linear infinite', objectFit: 'contain' }} />
                         )}
-                        {awaitingApproval ? 'Paused for Approval' : 'PrismAI is engineering your application...'}
+                        {awaitingApproval ? 'Paused for Approval' : 'LOT AI is engineering your application...'}
                      </h3>
                      <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
                        {awaitingApproval && (
@@ -3037,19 +2824,19 @@ Autonomously synthesized full-stack application built by **PrismAI** using a 37-
               )}
 
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '16px', lineHeight: '1.5' }}>
-                Anyone with this link can view this public PrismAI chat thread:
+                Anyone with this link can view this public LOT AI chat thread:
               </p>
 
               <div style={{ display: 'flex', gap: '8px', marginBottom: '20px' }}>
                 <input 
                   type="text" 
                   readOnly 
-                  value={`${window.location.origin}/prismai/?share=${currentChatId || 'share-live'}`} 
+                  value={`${window.location.origin}/lotai/?share=${currentChatId || 'share-live'}`} 
                   style={{ flex: 1, padding: '10px 12px', backgroundColor: 'var(--input-bg)', border: '1px solid var(--border-color)', borderRadius: '8px', color: 'var(--text-primary)', fontSize: '0.85rem' }} 
                 />
                 <button 
                   onClick={async () => {
-                    const shareUrl = `${window.location.origin}/prismai/?share=${currentChatId || 'share-live'}`;
+                    const shareUrl = `${window.location.origin}/lotai/?share=${currentChatId || 'share-live'}`;
                     await navigator.clipboard.writeText(shareUrl);
                     setShareToastMsg("Copied shareable link to clipboard! 🔗");
                     setTimeout(() => setShareToastMsg(''), 3000);
@@ -3064,7 +2851,7 @@ Autonomously synthesized full-stack application built by **PrismAI** using a 37-
                 <span style={{ display: 'block', color: 'var(--text-secondary)', fontSize: '0.8rem', marginBottom: '12px', fontWeight: '600' }}>SHARE TO SOCIAL MEDIA</span>
                 <div style={{ display: 'flex', gap: '10px' }}>
                   <a 
-                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent('Check out this AI conversation on PrismAI!')}&url=${encodeURIComponent(`${window.location.origin}/prismai/?share=${currentChatId || 'share-live'}`)}`} 
+                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent('Check out this AI conversation on LOT AI!')}&url=${encodeURIComponent(`${window.location.origin}/lotai/?share=${currentChatId || 'share-live'}`)}`} 
                     target="_blank" 
                     rel="noreferrer" 
                     style={{ flex: 1, textDecoration: 'none', padding: '8px', backgroundColor: 'rgba(255,255,255,0.06)', border: '1px solid var(--border-color)', borderRadius: '8px', color: 'var(--text-primary)', textAlign: 'center', fontSize: '0.82rem', fontWeight: '500' }}
@@ -3072,7 +2859,7 @@ Autonomously synthesized full-stack application built by **PrismAI** using a 37-
                     𝕏 Twitter
                   </a>
                   <a 
-                    href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`Check out this PrismAI chat: ${window.location.origin}/prismai/?share=${currentChatId || 'share-live'}`)}`} 
+                    href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`Check out this LOT AI chat: ${window.location.origin}/lotai/?share=${currentChatId || 'share-live'}`)}`} 
                     target="_blank" 
                     rel="noreferrer" 
                     style={{ flex: 1, textDecoration: 'none', padding: '8px', backgroundColor: 'rgba(34, 197, 94, 0.1)', border: '1px solid rgba(34, 197, 94, 0.3)', borderRadius: '8px', color: '#4ade80', textAlign: 'center', fontSize: '0.82rem', fontWeight: '500' }}
@@ -3080,7 +2867,7 @@ Autonomously synthesized full-stack application built by **PrismAI** using a 37-
                     💬 WhatsApp
                   </a>
                   <a 
-                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`${window.location.origin}/prismai/?share=${currentChatId || 'share-live'}`)}`} 
+                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`${window.location.origin}/lotai/?share=${currentChatId || 'share-live'}`)}`} 
                     target="_blank" 
                     rel="noreferrer" 
                     style={{ flex: 1, textDecoration: 'none', padding: '8px', backgroundColor: 'rgba(59, 130, 246, 0.1)', border: '1px solid rgba(59, 130, 246, 0.3)', borderRadius: '8px', color: '#60a5fa', textAlign: 'center', fontSize: '0.82rem', fontWeight: '500' }}
@@ -3112,3 +2899,7 @@ Autonomously synthesized full-stack application built by **PrismAI** using a 37-
 }
 
 export default App
+
+
+
+

@@ -14,7 +14,7 @@ class GitHubAgent:
         url = f"{self.BASE_URL}{endpoint}"
         headers = {
             "Accept": "application/vnd.github.v3+json",
-            "User-Agent": "PrismAI-GitHubAgent"
+            "User-Agent": "LOT AI-GitHubAgent"
         }
         if token:
             headers["Authorization"] = f"token {token}"

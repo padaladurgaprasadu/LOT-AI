@@ -8,7 +8,7 @@ from backend.memory.mcp_orchestrator_engine import SOVEREIGN_MCP_SERVERS
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 print("==========================================================================")
-print("🚀 VERIFYING PRISMAI 5 SOVEREIGN MCP SERVERS ORCHESTRATION ENGINE")
+print("🚀 VERIFYING LOTAI 5 SOVEREIGN MCP SERVERS ORCHESTRATION ENGINE")
 print("==========================================================================")
 
 for key, server in SOVEREIGN_MCP_SERVERS.items():

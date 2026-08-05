@@ -1,11 +1,11 @@
 """
-PrismAI Parallel Multi-Agent Swarm Orchestrator v3.0 — Phase 3
+LOT AI Parallel Multi-Agent Swarm Orchestrator v3.0 — Phase 3
 ================================================================
 Runs 37 Senior Expert Pods in parallel using a LangGraph-style state machine.
 
 What no other AI does:
   ChatGPT/Claude/Cursor/Devin: ONE agent, ONE context, ONE pass.
-  PrismAI: 37 specialist agents → parallel execution → consensus voting → unified delivery.
+  LOT AI: 37 specialist agents → parallel execution → consensus voting → unified delivery.
 
 Swarm Architecture (5-layer hierarchy):
   Layer 1 — Router Agent:       Classifies intent, picks specialist pods

@@ -18,10 +18,10 @@ const ExecutionLifecycle = ({ activeTab, onCrash }) => {
 
   const triggerRecovery = useCallback((reason) => {
     if (retryCount >= 3) {
-      console.error(`[PrismAI DevOps] Max auto-recovery attempts reached. Failed to recover from: ${reason}`);
+      console.error(`[LOT AI DevOps] Max auto-recovery attempts reached. Failed to recover from: ${reason}`);
       return;
     }
-    console.warn(`[PrismAI DevOps] Intercepted infrastructure crash (${reason}), attempting hard reboot... Attempt ${retryCount + 1}/3`);
+    console.warn(`[LOT AI DevOps] Intercepted infrastructure crash (${reason}), attempting hard reboot... Attempt ${retryCount + 1}/3`);
     setRestarting(true);
     setRetryCount(prev => prev + 1);
     
@@ -70,7 +70,7 @@ const ExecutionLifecycle = ({ activeTab, onCrash }) => {
       <div style={{ display: activeTab === 'preview' ? 'block' : 'none', height: '100%', width: '100%' }}>
         {restarting ? (
           <div style={{ padding: '20px', color: '#10b981', fontFamily: 'monospace', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
-            [PrismAI DevOps] Hard Rebooting WebContainer...
+            [LOT AI DevOps] Hard Rebooting WebContainer...
           </div>
         ) : (
           <div style={{ position: 'relative', height: '100%' }}>
@@ -114,7 +114,7 @@ const ExecutionLifecycle = ({ activeTab, onCrash }) => {
 
       <div style={{ display: activeTab === 'terminal' ? 'flex' : 'none', flexDirection: 'column', height: '100%', width: '100%' }}>
          <div style={{ padding: '12px 20px', borderBottom: '1px solid #222', color: '#888', fontSize: '0.85rem', display: 'flex', justifyContent: 'space-between', backgroundColor: '#000' }}>
-             <span>PrismAI Execution Logs (WebContainer)</span>
+             <span>LOT AI Execution Logs (WebContainer)</span>
              <span style={{ color: restarting ? '#ef4444' : '#10b981' }}>{restarting ? '● Rebooting' : '● Live'}</span>
          </div>
          <div style={{ flex: 1, overflow: 'auto', backgroundColor: '#000', padding: '10px' }}>
@@ -174,7 +174,7 @@ export const ExecutionManager = ({ files, dynamicDependencies, activeTab, isBack
                 <iframe
                   srcDoc={indexHtmlContent}
                   style={{ width: '100%', height: '100%', border: 'none', backgroundColor: '#06070a' }}
-                  title="PrismAI 3D / Web Preview"
+                  title="LOT AI 3D / Web Preview"
                   sandbox="allow-scripts allow-same-origin allow-modals allow-forms"
                 />
               );

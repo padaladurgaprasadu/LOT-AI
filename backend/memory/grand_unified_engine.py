@@ -1,5 +1,5 @@
 """
-PrismAI Grand Unified Supremacy Engine
+LOT AI Grand Unified Supremacy Engine
 =======================================
 Synthesizes and transcends 9 landmark open-source repositories:
 1. ruvnet/ruflo (Distributed Flow Orchestration)
@@ -17,7 +17,7 @@ def inject_grand_unified_prompt(system_prompt: str) -> str:
     """
     Injects Grand Unified Supremacy Engine directives into system prompt.
     """
-    unified_prompt = "\n\n[👑 PRISMAI 10,000X GRAND UNIFIED SUPREMACY ENGINE]:\n"
+    unified_prompt = "\n\n[👑 LOTAI 10,000X GRAND UNIFIED SUPREMACY ENGINE]:\n"
     unified_prompt += "• Swarm & Flow Orchestration (ruflo + odysseus): 1,000-Agent Swarm Pod Matrix running parallel non-blocking workflows.\n"
     unified_prompt += "• Open Silicon Hardware IP (tiny-gpu): Synthesizable SystemVerilog TPU/GPU cores for open ASIC tapeout.\n"
     unified_prompt += "• Visual & Design Perfection (open-design + impeccable): 78 Design Systems + 41 Senior UI Quality Rules.\n"

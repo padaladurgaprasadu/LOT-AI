@@ -1,5 +1,5 @@
 """
-PrismAI Live Financial & Enterprise Data Connectors v1.0
+LOT AI Live Financial & Enterprise Data Connectors v1.0
 ========================================================
 Real-time integration with Yahoo Finance, SEC EDGAR filings,
 World Bank, IMF, and Google Scholar data feeds.
@@ -10,7 +10,7 @@ from typing import Dict, Any, List
 
 class EnterpriseDataConnectors:
     """
-    Connects PrismAI agents directly to global financial, economic, and academic data feeds.
+    Connects LOT AI agents directly to global financial, economic, and academic data feeds.
     """
     def fetch_financial_metrics(self, company_symbol: str) -> Dict[str, Any]:
         """Fetch stock, valuation, and balance sheet metrics."""

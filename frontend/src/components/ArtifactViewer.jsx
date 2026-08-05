@@ -130,7 +130,7 @@ const ArtifactViewer = ({ codeFiles, setCodeFiles, projectId, isPreviewRunning, 
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PrismAI Preview</title>
+    <title>LOT AI Preview</title>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body>
@@ -356,82 +356,50 @@ export const ${baseName} = () => null;
       overflow: 'hidden',
       boxShadow: '0 20px 40px rgba(0,0,0,0.4)'
     }}>
-      {/* Sleek Tab Bar */}
+      {/* Sovereign Pill Toggle */}
       <div style={{
         display: 'flex',
         justifyContent: 'center',
         padding: '12px 20px',
-        backgroundColor: '#111',
-        borderBottom: '1px solid #2a2a2a',
+        backgroundColor: '#0f0f0f',
+        borderBottom: '1px solid #1e1e1e',
         position: 'relative'
       }}>
         <div style={{
-          display: 'flex',
-          backgroundColor: '#1e1e1e',
-          borderRadius: '8px',
-          padding: '4px',
-          gap: '4px'
+          display: 'inline-flex',
+          backgroundColor: '#18181b',
+          borderRadius: '12px',
+          padding: '3px',
+          border: '1px solid #27272a',
+          gap: '2px'
         }}>
-          <button
-            onClick={() => setActiveTab('code')}
-            style={{
-              padding: '8px 24px',
-              borderRadius: '6px',
-              border: 'none',
-              background: activeTab === 'code' ? '#2a2a2a' : 'transparent',
-              color: activeTab === 'code' ? '#fff' : '#888',
-              fontSize: '0.9rem',
-              fontWeight: '500',
-              cursor: 'pointer',
-              transition: 'all 0.2s',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              boxShadow: activeTab === 'code' ? '0 2px 8px rgba(0,0,0,0.2)' : 'none'
-            }}
-          >
-            <span style={{ color: '#4ade80' }}>⚛️</span> Code
-          </button>
-          <button
-            onClick={() => setActiveTab('preview')}
-            style={{
-              padding: '8px 24px',
-              borderRadius: '6px',
-              border: 'none',
-              background: activeTab === 'preview' ? '#2a2a2a' : 'transparent',
-              color: activeTab === 'preview' ? '#fff' : '#888',
-              fontSize: '0.9rem',
-              fontWeight: '500',
-              cursor: 'pointer',
-              transition: 'all 0.2s',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              boxShadow: activeTab === 'preview' ? '0 2px 8px rgba(0,0,0,0.2)' : 'none'
-            }}
-          >
-            <span style={{ color: '#60a5fa' }}>🌐</span> Preview
-          </button>
-          <button
-            onClick={() => setActiveTab('terminal')}
-            style={{
-              padding: '8px 24px',
-              borderRadius: '6px',
-              border: 'none',
-              background: activeTab === 'terminal' ? '#2a2a2a' : 'transparent',
-              color: activeTab === 'terminal' ? '#fff' : '#888',
-              fontSize: '0.9rem',
-              fontWeight: '500',
-              cursor: 'pointer',
-              transition: 'all 0.2s',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              boxShadow: activeTab === 'terminal' ? '0 2px 8px rgba(0,0,0,0.2)' : 'none'
-            }}
-          >
-            <span style={{ color: '#f59e0b' }}>🖥️</span> Terminal
-          </button>
+          {['code', 'preview', 'terminal'].map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              style={{
+                padding: '7px 22px',
+                borderRadius: '9px',
+                border: 'none',
+                backgroundColor: activeTab === tab ? '#ffffff' : 'transparent',
+                color: activeTab === tab ? '#09090b' : '#71717a',
+                fontSize: '13px',
+                fontWeight: '600',
+                letterSpacing: '0.02em',
+                cursor: 'pointer',
+                transition: 'background-color 0.2s ease, color 0.2s ease',
+                textTransform: 'capitalize'
+              }}
+              onMouseEnter={(e) => {
+                if (activeTab !== tab) e.currentTarget.style.color = '#a1a1aa';
+              }}
+              onMouseLeave={(e) => {
+                if (activeTab !== tab) e.currentTarget.style.color = '#71717a';
+              }}
+            >
+              {tab === 'code' ? 'Code' : tab === 'preview' ? 'Preview' : 'Terminal'}
+            </button>
+          ))}
         </div>
         
         <div style={{ position: 'absolute', right: '20px', top: '16px', display: 'flex', gap: '10px' }}>

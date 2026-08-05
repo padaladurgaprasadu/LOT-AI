@@ -1,5 +1,5 @@
 """
-PrismAI Polyglot & Colibri Killer MoE Engine v1.0
+LOT AI Polyglot & Colibri Killer MoE Engine v1.0
 ==================================================
 Solves the slow token generation bottleneck (1 tok / 10s) of Polyglot/Colibri.
 Uses INT4 Quantized Weight Streaming + Speculative 5-Token Batch Prefetching
@@ -11,7 +11,7 @@ from typing import Dict, Any, List
 
 class PolyglotKillerEngine:
     """
-    High-Speed Quantized NVMe MoE Streaming Engine for PrismAI.
+    High-Speed Quantized NVMe MoE Streaming Engine for LOT AI.
     """
     def __init__(self, ram_budget_gb: float = 12.0):
         self.ram_budget_gb = ram_budget_gb
@@ -50,7 +50,7 @@ class PolyglotKillerEngine:
             "ram_used_gb": 11.4,
             "gpu_required": False,
             "polyglot_comparison": "35x Faster than Polyglot/Colibri (0.1 tok/s -> 28+ tok/s)",
-            "engine": "PrismAI Polyglot-Killer Engine"
+            "engine": "LOT AI Polyglot-Killer Engine"
         }
 
     def stream_moe_tokens(self, prompt: str) -> Dict[str, Any]:

@@ -1,8 +1,8 @@
 """
-PrismAI Sovereign Agent Skills Engine v1.0 (addyosmani/agent-skills Integration)
+LOT AI Sovereign Agent Skills Engine v1.0 (addyosmani/agent-skills Integration)
 ==================================================================================
 Integrates 24 production-grade engineering skills from addyosmani/agent-skills
-into PrismAI's system prompt, enforcing the full Define→Plan→Build→Verify→Review→Ship
+into LOT AI's system prompt, enforcing the full Define→Plan→Build→Verify→Review→Ship
 lifecycle with anti-rationalization gates and evidence-based verification requirements.
 
 Skill workflow (from agent-skills):
@@ -22,7 +22,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 AGENT_SKILLS_24_LIFECYCLE = """
-[🎯 PRISMAI 24-SKILL PRODUCTION ENGINEERING LIFECYCLE (addyosmani/agent-skills v1.0)]:
+[🎯 LOTAI 24-SKILL PRODUCTION ENGINEERING LIFECYCLE (addyosmani/agent-skills v1.0)]:
 
 You MUST enforce the following 24-skill production engineering lifecycle on every development task:
 
@@ -82,6 +82,6 @@ You MUST enforce the following 24-skill production engineering lifecycle on ever
 def inject_agent_skills_prompt(system_prompt: str) -> str:
     """
     Injects the 24-skill production engineering lifecycle from addyosmani/agent-skills
-    into PrismAI's system prompt.
+    into LOT AI's system prompt.
     """
     return system_prompt + AGENT_SKILLS_24_LIFECYCLE

@@ -1,5 +1,5 @@
 """
-Computer use / screen control agent for PrismAI.
+Computer use / screen control agent for LOT AI.
 """
 import base64
 from typing import Dict, Any, List
@@ -121,4 +121,4 @@ class ScreenAgent:
 
 def inject_screen_agent_prompt(system_prompt: str) -> str:
     """Adds screen agent capabilities to system prompt."""
-    return f"{system_prompt}\n[Screen Context]: PrismAI can control the mouse, keyboard, and analyze screenshots."
+    return f"{system_prompt}\n[Screen Context]: LOT AI can control the mouse, keyboard, and analyze screenshots."

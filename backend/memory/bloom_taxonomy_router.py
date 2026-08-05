@@ -1,7 +1,7 @@
 """
-PrismAI Bloom's Taxonomy Router v1.0
+LOT AI Bloom's Taxonomy Router v1.0
 =====================================
-Routes PrismAI responses through Bloom's Taxonomy 6-level cognitive hierarchy
+Routes LOT AI responses through Bloom's Taxonomy 6-level cognitive hierarchy
 to match the exact cognitive depth required by the user's current expertise level.
 
 Bloom's Taxonomy Levels:
@@ -12,7 +12,7 @@ Bloom's Taxonomy Levels:
   Level 5 — Evaluate:   Appraise, argue, critique, defend, judge, justify, prioritise
   Level 6 — Create:     Build, design, develop, formulate, invent, plan, produce
 
-Every prompt type maps to a Bloom's level. PrismAI adjusts:
+Every prompt type maps to a Bloom's level. LOT AI adjusts:
   • Vocabulary complexity (simple ↔ technical)
   • Explanation depth (concept ↔ edge-cases)
   • Code complexity (minimal ↔ production-grade)
@@ -164,7 +164,7 @@ Respond as a CTO & Chief Architect designing for a unicorn-scale platform.
 • Synthesize original solutions. Do not just implement existing patterns — improve them.
 • Deliverables: 💻 Multi-file production code + 📐 C4 Architecture + 👁️ Live preview.
 • Apply all 24 engineering skills: spec → TDD → security → performance → observability.
-• This is PrismAI at full ASI-grade. No shortcuts. No boilerplate. Pure excellence.
+• This is LOT AI at full ASI-grade. No shortcuts. No boilerplate. Pure excellence.
 """,
 }
 
@@ -256,5 +256,5 @@ def inject_bloom_taxonomy_prompt(system_prompt: str, bloom_level: int) -> str:
     """
     bloom_injection = get_bloom_system_prompt(bloom_level)
     meta = get_bloom_meta(bloom_level)
-    header = f"\n\n[🎓 PRISMAI ADAPTIVE BLOOM ENGINE — Level {bloom_level}: {meta['name'].upper()}]:\n"
+    header = f"\n\n[🎓 LOTAI ADAPTIVE BLOOM ENGINE — Level {bloom_level}: {meta['name'].upper()}]:\n"
     return system_prompt + header + bloom_injection

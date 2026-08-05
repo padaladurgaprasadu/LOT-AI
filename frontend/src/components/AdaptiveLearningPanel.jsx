@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 
 /**
- * PrismAI Adaptive Learning Panel v1.0
+ * LOT AI Adaptive Learning Panel v1.0
  * ======================================
  * Real-time learning progress dashboard showing:
  *   • User expertise level & Bloom's Taxonomy tier
@@ -194,7 +194,7 @@ export default function AdaptiveLearningPanel({ isOpen, onClose }) {
               🧠 Adaptive Learning
             </div>
             <div style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", marginTop: 2 }}>
-              Personalised by PrismAI ASI-OS
+              Personalised by LOT AI ASI-OS
             </div>
           </div>
           <button onClick={onClose} style={{
@@ -296,7 +296,7 @@ export default function AdaptiveLearningPanel({ isOpen, onClose }) {
           <div style={{ padding: "10px 14px", borderRadius: 10,
             background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)",
             display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <span style={{ fontSize: 11, color: "rgba(255,255,255,0.5)" }}>PrismAI sessions</span>
+            <span style={{ fontSize: 11, color: "rgba(255,255,255,0.5)" }}>LOT AI sessions</span>
             <span style={{ fontSize: 14, fontWeight: 800, color: "#8b5cf6" }}>{sessionCount}</span>
           </div>
         </div>

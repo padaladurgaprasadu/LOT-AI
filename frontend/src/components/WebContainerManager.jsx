@@ -9,7 +9,7 @@ const DEFAULT_DASHBOARD_HTML = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PrismAI AIOS — Universal Autonomous Application Workspace</title>
+  <title>LOT AI AIOS — Universal Autonomous Application Workspace</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', system-ui, -apple-system, sans-serif; }
     html { scroll-behavior: smooth; }
@@ -40,7 +40,7 @@ const DEFAULT_DASHBOARD_HTML = `<!DOCTYPE html>
   <div class="glow-purple"></div>
 
   <div class="nav">
-    <div class="brand">PrismAI AIOS ⚡</div>
+    <div class="brand">LOT AI AIOS ⚡</div>
     <div class="badge-status">WASM WebContainer Live 🚀</div>
   </div>
 
@@ -49,7 +49,7 @@ const DEFAULT_DASHBOARD_HTML = `<!DOCTYPE html>
       Sovereign Autonomous Application Engine
     </div>
     <h1 class="hero-title">Universal Application Workspace</h1>
-    <p class="hero-desc">Submit any prompt—from Library Management Systems to High-Scale Enterprise Microservices—and PrismAI AIOS will compile and mount your application live zero-shot.</p>
+    <p class="hero-desc">Submit any prompt—from Library Management Systems to High-Scale Enterprise Microservices—and LOT AI AIOS will compile and mount your application live zero-shot.</p>
   </div>
 
   <div class="grid">
@@ -151,7 +151,7 @@ export const WebContainerManager = ({ codeFiles }) => {
 </head>
 <body>
   <div class="sidebar">
-    <div class="brand">PrismAI AIOS ⚡</div>
+    <div class="brand">LOT AI AIOS ⚡</div>
     <div class="nav-item active">📊 Analytics</div>
     <div class="nav-item">🚀 AI Swarm</div>
     <div class="nav-item">⚙️ Models</div>
@@ -261,7 +261,7 @@ export const WebContainerManager = ({ codeFiles }) => {
       {/* Header */}
       <div style={{ backgroundColor: '#1a1a1a', padding: '12px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #2a2a2a' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ fontSize: '14px', fontWeight: '500', color: '#e0e0e0' }}>PrismAI WASM Sandbox</span>
+          <span style={{ fontSize: '14px', fontWeight: '500', color: '#e0e0e0' }}>LOT AI WASM Sandbox</span>
           <span style={{ fontSize: '12px', color: previewUrl ? '#4ade80' : '#888', backgroundColor: 'rgba(255,255,255,0.05)', padding: '2px 8px', borderRadius: '12px' }}>
             {status}
           </span>

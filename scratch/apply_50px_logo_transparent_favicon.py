@@ -4,7 +4,7 @@ import sys
 
 sys.stdout.reconfigure(encoding='utf-8')
 
-transparent_png = r"c:\Users\DELL\OneDrive\Desktop\Tatvamasi\yAI\frontend\src\assets\prismai_logo.png"
+transparent_png = r"c:\Users\DELL\OneDrive\Desktop\Tatvamasi\yAI\frontend\src\assets\lotai_logo.png"
 
 favicon_target = r"c:\Users\DELL\OneDrive\Desktop\Tatvamasi\yAI\frontend\public\favicon.png"
 

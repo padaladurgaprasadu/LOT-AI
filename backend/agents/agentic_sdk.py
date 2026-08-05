@@ -19,7 +19,7 @@ class AuthenticationAgent:
 
 class DatabaseAgent:
     def setup_database(self, db_type: str = "PostgreSQL") -> str:
-        return f"{db_type} Schema + Prisma ORM Migrations Initialized"
+        return f"{db_type} Schema + LOTa ORM Migrations Initialized"
 
 class TestingAgent:
     def write_tests(self) -> Dict[str, Any]:

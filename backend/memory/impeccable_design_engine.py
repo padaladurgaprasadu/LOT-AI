@@ -1,5 +1,5 @@
 """
-PrismAI Impeccable Design Engine v1.0
+LOT AI Impeccable Design Engine v1.0
 =====================================
 Built-in Senior Product Designer Intelligence & 3D Web Engine.
 Integrates 41 Design Rules, 23 Executive Commands, Anti-Pattern Detection,
@@ -46,7 +46,7 @@ def inject_impeccable_design_prompt(system_prompt: str) -> str:
     """
     Injects Impeccable 3D Senior Product Designer rules into AI system prompts.
     """
-    impeccable_block = "\n\n[💎 PRISMAI IMPECCABLE DESIGN SYSTEM ENFORCER]:\n"
+    impeccable_block = "\n\n[💎 LOTAI IMPECCABLE DESIGN SYSTEM ENFORCER]:\n"
     impeccable_block += "You operate as a Senior Product Designer & 3D Web Engineer.\n"
     impeccable_block += "Enforce these core design rules on every web app build:\n"
     for rule in IMPECCABLE_DESIGN_RULES:

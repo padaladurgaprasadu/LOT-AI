@@ -6,7 +6,7 @@ import time
 sys.path.insert(0, os.path.abspath('.'))
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
-print("=== 🔬 PrismAI End-to-End Category Verification Suite ===")
+print("=== 🔬 LOT AI End-to-End Category Verification Suite ===")
 
 from backend.memory.intelligent_ui_rules import classify_content_type, INTELLIGENT_UI_MATRIX
 

@@ -21,8 +21,8 @@ for item in datas:
 img.putdata(newData)
 
 target_png_files = [
-    r"c:\Users\DELL\OneDrive\Desktop\Tatvamasi\yAI\frontend\public\prismai_logo.png",
-    r"c:\Users\DELL\OneDrive\Desktop\Tatvamasi\yAI\frontend\src\assets\prismai_logo.png",
+    r"c:\Users\DELL\OneDrive\Desktop\Tatvamasi\yAI\frontend\public\lotai_logo.png",
+    r"c:\Users\DELL\OneDrive\Desktop\Tatvamasi\yAI\frontend\src\assets\lotai_logo.png",
     r"c:\Users\DELL\OneDrive\Desktop\Tatvamasi\yAI\frontend\public\favicon.png",
     r"c:\Users\DELL\OneDrive\Desktop\Tatvamasi\yAI\frontend\public\logo.png",
     r"c:\Users\DELL\OneDrive\Desktop\Tatvamasi\yAI\frontend\src\assets\logo.png"

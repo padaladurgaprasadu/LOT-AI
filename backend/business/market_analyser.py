@@ -1,5 +1,5 @@
 """
-Business market intelligence engine for PrismAI.
+Business market intelligence engine for LOT AI.
 """
 from typing import Dict, Any, List
 
@@ -73,5 +73,5 @@ class MarketAnalyser:
 
 def inject_market_prompt(system_prompt: str, task: str) -> str:
     """Adds market intelligence directive to the system prompt."""
-    market_directive = "\n[Market Capability]: PrismAI can analyze market sizes, generate lean canvases, run SWOT, and define pricing."
+    market_directive = "\n[Market Capability]: LOT AI can analyze market sizes, generate lean canvases, run SWOT, and define pricing."
     return f"{system_prompt}\nTask: {task}\n{market_directive}"

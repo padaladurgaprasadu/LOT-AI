@@ -1,9 +1,9 @@
 """
-PrismAI Self-Evolving AGI Reactor v1.0 — Phase 8
+LOT AI Self-Evolving AGI Reactor v1.0 — Phase 8
 =================================================
-The engine that makes PrismAI improve itself autonomously.
+The engine that makes LOT AI improve itself autonomously.
 
-Core Concept: Every interaction teaches PrismAI how to be better.
+Core Concept: Every interaction teaches LOT AI how to be better.
   1. Self-Evaluation:  Score every response against 24-skill checklist
   2. Pattern Learning: Track what works vs what doesn't
   3. Anti-Shortcut:    Detect and reject rationalised shortcuts
@@ -11,7 +11,7 @@ Core Concept: Every interaction teaches PrismAI how to be better.
   5. Knowledge Distil: Compress learnings into reusable heuristics
 
 No other AI tool does this. ChatGPT/Claude/Cursor give the same quality
-response to request #1 and request #1,000,000. PrismAI gets measurably
+response to request #1 and request #1,000,000. LOT AI gets measurably
 better with every single interaction.
 
 Scoring Dimensions (from addyosmani/agent-skills):
@@ -150,7 +150,7 @@ class SelfEvaluationEngine:
 class PatternLearningEngine:
     """
     Tracks response quality patterns and learns heuristics over time.
-    Patterns improve PrismAI's routing and generation automatically.
+    Patterns improve LOT AI's routing and generation automatically.
     """
 
     def __init__(self):
@@ -206,7 +206,7 @@ class PatternLearningEngine:
 class AGIReactor:
     """
     Master AGI Reactor — combines self-evaluation + pattern learning
-    to make PrismAI measurably better with every interaction.
+    to make LOT AI measurably better with every interaction.
     """
 
     def __init__(self):
@@ -258,7 +258,7 @@ class AGIReactor:
 AGI_REACTOR_DIRECTIVE = """
 [🤖 PHASE 8: SELF-EVOLVING AGI REACTOR — ACTIVE]:
 
-PrismAI is self-aware of its own quality and improves with every interaction.
+LOT AI is self-aware of its own quality and improves with every interaction.
 
 SELF-EVALUATION PROTOCOL (run after every response):
   D1 Correctness (25%):     Will this code run without bugs on first attempt?
@@ -269,7 +269,7 @@ SELF-EVALUATION PROTOCOL (run after every response):
   D6 Novelty (5%):          Does this bring genuine insight beyond the obvious?
 
 ANTI-SHORTCUT ENFORCEMENT (HARD BLOCK):
-  The following are PERMANENTLY BANNED from any PrismAI output:
+  The following are PERMANENTLY BANNED from any LOT AI output:
   ❌ "TODO: implement later"
   ❌ "# placeholder"
   ❌ "pass  # not implemented"

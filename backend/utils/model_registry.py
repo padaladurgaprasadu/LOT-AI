@@ -31,58 +31,58 @@ logger = get_logger(__name__)
 NVIDIA_BASE_URL = "https://integrate.api.nvidia.com/v1"
 
 # ═══════════════════════════════════════════════════════════════
-# THE 11-MODEL NVIDIA LIQUID ROUTING TABLE
-# Every agent role maps to a purpose-built frontier model.
+# THE 12-MODEL NVIDIA NIM LIQUID ROUTING TABLE
+# Single NVIDIA API Key (integrate.api.nvidia.com/v1)
 # ═══════════════════════════════════════════════════════════════
 NVIDIA_MODEL_TIERS = {
     # 👑 1. Nemotron 3 Ultra 550B (1M Context Hybrid Mamba-Transformer MoE)
     "nemotron_ultra": "nvidia/nemotron-3-ultra-550b-a55b",
 
-    # 🌐 2. GLM-5.2 (Flagship Agentic & Long-Horizon Reasoning)
+    # 🌐 2. GLM-5.2 (Flagship LLM for Agentic Workflows, Coding & Long-Horizon Reasoning)
     "glm_5_2": "z-ai/glm-5.2",
 
-    # 🖼️ 3. MiniMax M3 Preview (Multimodal MoE Vision-Language)
-    "minimax_m3": "minimaxai/minimax-m3",
+    # 🖼️ 3. MiniMax M3 Preview (Multimodal MoE Vision-Language Model)
+    "minimax_m3": "minimaxai/minimax-m3-preview",
 
-    # ⚡ 4. Nemotron 4 340B Instruct (Enterprise Agentic Reasoning)
-    "nemotron_4_340b": "nvidia/nemotron-4-340b-instruct",
+    # ⚡ 4. Nemotron Frontier (1M Context MoE Agentic Reasoning & Tool Calling)
+    "nemotron_frontier": "nvidia/nemotron-3-550b-frontier",
 
     # 🏎️ 5. Mistral Medium 3.5 128B (128K Context Fast Reasoning)
     "mistral_medium": "mistralai/mistral-medium-3.5-128b",
 
-    # 🔬 6. DeepSeek V4 Coder (1M Context MoE Coder Engine)
-    "deepseek_v4_coder": "deepseek-ai/deepseek-v4-pro",
+    # 🔬 6. DeepSeek V4 (1M Context MoE Engine for Coding & Agentic Tasks)
+    "deepseek_v4_1m": "deepseek-ai/deepseek-v4",
 
-    # 💻 7. DeepSeek V4 Flash (1M Context MoE Agentic Coder)
-    "deepseek_v4_flash": "deepseek-ai/deepseek-v4-flash",
+    # 💻 7. DeepSeek V4 Coder (1M Context MoE TDD Self-Healing Code Synthesis)
+    "deepseek_v4_coder": "deepseek-ai/deepseek-v4-coder",
 
-    # 💬 8. Nemotron Ultra 253B (253B Parameter MoE Reasoning)
-    "nemotron_253b": "nvidia/llama-3.1-nemotron-ultra-253b-v1",
+    # 💬 8. MiniMax M2.7 (230B Parameter Text Model for Coding & Office Tasks)
+    "minimax_m2_7": "minimaxai/minimax-m2.7-230b",
 
-    # 👁️ 9. Qwen 3.5 VLM 400B MoE (Advanced Vision & Agentic RAG)
-    "qwen_vlm": "meta/llama-3.2-90b-vision-instruct",
+    # 👁️ 9. Qwen 3.5 VLM (400B MoE Vision-Language Agentic Model)
+    "qwen_vlm": "qwen/qwen-3.5-vlm-400b",
 
-    # 🚀 10. Nemotron Super 49B (Super-Fast Agentic MoE)
-    "nemotron_super": "nvidia/llama-3.3-nemotron-super-49b-v1.5",
+    # 🚀 10. Nemotron MoE Chat (1M Context Hybrid Mamba-Transformer Instruction Following)
+    "nemotron_moe_chat": "nvidia/nemotron-moe-chat",
 
-    # 📚 11. Gemma 4 31B IT (Dense 31B Frontier Reasoning)
+    # 📚 11. Gemma 4 31B IT (Dense 31B Model for Frontier Reasoning & Agentic Workflows)
     "gemma_4": "google/gemma-4-31b-it",
 
-    # ⚡ 12. Nemotron-3 Nano 30B (Sub-50ms 262K MoE Tool & Intent Router)
+    # ⚡ 12. Nemotron 3 Nano 30B (Sub-50ms MoE Intent & Tool Router)
     "nemotron_nano": "nvidia/nemotron-3-nano-30b-a3b",
 
     # Standard Fallback Tiers mapped to NVIDIA NIM API Catalog
     "instant": "nvidia/nemotron-3-nano-30b-a3b",
-    "fast": "meta/llama-3.1-8b-instruct",
-    "coding": "deepseek-ai/deepseek-v4-pro",
+    "fast": "mistralai/mistral-medium-3.5-128b",
+    "coding": "deepseek-ai/deepseek-v4-coder",
     "planning": "nvidia/nemotron-3-ultra-550b-a55b",
     "reasoning": "nvidia/nemotron-3-ultra-550b-a55b",
-    "research": "z-ai/glm-5.2",
-    "vision": "meta/llama-3.2-90b-vision-instruct",
-    "multimodal": "minimaxai/minimax-m3",
+    "research": "deepseek-ai/deepseek-v4",
+    "vision": "qwen/qwen-3.5-vlm-400b",
+    "multimodal": "minimaxai/minimax-m3-preview",
     "longctx": "google/gemma-4-31b-it",
-    "moe_chat": "nvidia/llama-3.1-nemotron-ultra-253b-v1",
-    "frontier": "nvidia/nemotron-3-ultra-550b-a55b"
+    "moe_chat": "minimaxai/minimax-m2.7-230b",
+    "frontier": "nvidia/nemotron-3-550b-frontier"
 }
 
 # ═══════════════════════════════════════════════════════════════
@@ -106,6 +106,7 @@ ROLE_TO_TIER = {
 
     # Coding & Engineering Agents
     "developer":            "coding",
+    "coder":                "coding",
     "frontend":             "coding",
     "frontend coder":       "coding",
     "frontend developer":   "coding",
@@ -124,6 +125,7 @@ ROLE_TO_TIER = {
     "debugger":             "coding",
 
     # Deep Reasoning Agents (Nemotron 550B)
+    "reasoning":            "reasoning",
     "qa":                   "reasoning",
     "qa engineer":          "reasoning",
     "security engineer":    "reasoning",
@@ -173,9 +175,11 @@ ROLE_TO_TIER = {
     "data analyst":             "moe_chat",
     "domainorchestrator":       "moe_chat",
 
-    # Frontier (MiniMax M3 Preview)
+    # Frontier (MiniMax M3 Preview & Fable 6)
     "novelty":                  "frontier",
     "innovation":               "frontier",
+    "fable":                    "frontier",
+    "fable6":                   "frontier",
     "architecture_studio":      "frontier",
     "architecture studio":      "frontier",
 

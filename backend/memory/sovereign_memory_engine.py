@@ -1,12 +1,12 @@
 """
-PrismAI Sovereign Memory Engine v2.0 — Phase 2
+LOT AI Sovereign Memory Engine v2.0 — Phase 2
 ================================================
 Persistent Vector Memory + Project Knowledge Graph + Cross-Session Continuity
 
-This is what separates PrismAI from every other AI tool:
+This is what separates LOT AI from every other AI tool:
 
 ChatGPT/Claude/Cursor/Devin: ZERO memory between sessions.
-PrismAI: Remembers EVERYTHING — code, projects, decisions, preferences — forever.
+LOT AI: Remembers EVERYTHING — code, projects, decisions, preferences — forever.
 
 Architecture:
   ┌─────────────────────────────────────────────────────────┐
@@ -18,7 +18,7 @@ Architecture:
   └─────────────────────────────────────────────────────────┘
 
 Key Capabilities:
-  1. Cross-Session Continuity: PrismAI remembers what you built last week
+  1. Cross-Session Continuity: LOT AI remembers what you built last week
   2. Project Knowledge Graph: Full semantic map of your codebase
   3. Architecture ADR Storage: Every major decision is preserved
   4. Semantic Recall: "Last time you used FastAPI with PostgreSQL"
@@ -221,7 +221,7 @@ class ProjectKnowledgeGraph:
         recent = self.get_recent_projects(3)
         if not recent:
             return ""
-        lines = ["Your recent projects in PrismAI memory:"]
+        lines = ["Your recent projects in LOT AI memory:"]
         for p in recent:
             stack = ", ".join(p.get("tech_stack", [])) or "unknown stack"
             lines.append(f"  • {p['name']} ({stack}) — {p.get('description','')[:80]}")
@@ -241,7 +241,7 @@ class ArchitectureDecisionStore:
     Persists Architecture Decision Records (ADRs) from user conversations.
     ADRs capture: Context → Options → Decision → Consequences.
 
-    These are injected into future responses so PrismAI never forgets
+    These are injected into future responses so LOT AI never forgets
     why architectural choices were made.
     """
 
@@ -284,7 +284,7 @@ class ArchitectureDecisionStore:
         relevant = self.search_adrs(query, top_k=MAX_ADRS_IN_CONTEXT)
         if not relevant:
             return ""
-        lines = ["\n[📐 PAST ARCHITECTURE DECISIONS (from your PrismAI memory)]:"]
+        lines = ["\n[📐 PAST ARCHITECTURE DECISIONS (from your LOT AI memory)]:"]
         for adr in relevant:
             lines.append(f"  ADR: {adr['title']}")
             lines.append(f"    Decision: {adr['decision'][:120]}")
@@ -326,7 +326,7 @@ class CrossSessionContinuityEngine:
             # ── Semantic Memory Recall ────────────────────────────────────
             past_memories = self.memory.search(user_message, top_k=3)
             if past_memories:
-                mem_lines = ["\n[🧠 PRISMAI SOVEREIGN MEMORY — Relevant Past Context]:"]
+                mem_lines = ["\n[🧠 LOTAI SOVEREIGN MEMORY — Relevant Past Context]:"]
                 for m in past_memories:
                     mem_lines.append(f"  • [{m.get('category','general')}] {m['content'][:150]}")
                 blocks.append("\n".join(mem_lines))

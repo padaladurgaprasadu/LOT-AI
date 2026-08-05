@@ -1,5 +1,5 @@
 """
-PrismAI Android Mobile-MoE Engine v1.0
+LOT AI Android Mobile-MoE Engine v1.0
 =======================================
 Enables running 100B+ Parameter MoE Models Directly on Android Smartphones
 using 2-Bit INT2 Sub-Byte Quantization, UFS 4.0 Flash Burst Streaming,
@@ -11,7 +11,7 @@ from typing import Dict, Any, List
 
 class AndroidMobileMoEEngine:
     """
-    Android Smartphone MoE Streaming & NPU Acceleration Engine for PrismAI.
+    Android Smartphone MoE Streaming & NPU Acceleration Engine for LOT AI.
     """
     def __init__(self, phone_ram_gb: float = 8.0):
         self.phone_ram_gb = phone_ram_gb

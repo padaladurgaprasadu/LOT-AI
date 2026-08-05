@@ -1,5 +1,5 @@
 """
-Automation task recorder and replayer for PrismAI.
+Automation task recorder and replayer for LOT AI.
 """
 from dataclasses import dataclass
 from typing import Dict, Any, List
@@ -130,4 +130,4 @@ class TaskRecorder:
 
 def inject_recorder_prompt(system_prompt: str) -> str:
     """Adds recorder context to system prompt."""
-    return f"{system_prompt}\n[Recorder Context]: PrismAI can record and replay sequences of GUI actions."
+    return f"{system_prompt}\n[Recorder Context]: LOT AI can record and replay sequences of GUI actions."

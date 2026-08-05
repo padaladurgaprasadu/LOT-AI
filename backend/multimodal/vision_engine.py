@@ -1,5 +1,5 @@
 """
-Multi-modal vision intelligence engine for PrismAI.
+Multi-modal vision intelligence engine for LOT AI.
 """
 import os
 import base64
@@ -91,5 +91,5 @@ class VisionEngine:
 
 def inject_vision_prompt(system_prompt: str, task: str) -> str:
     """Adds vision capabilities directive to the system prompt."""
-    vision_directive = "\n[Vision Capability]: PrismAI can analyze images, convert UI screenshots to code, extract design systems, and read text from images. Utilize this for any visual tasks."
+    vision_directive = "\n[Vision Capability]: LOT AI can analyze images, convert UI screenshots to code, extract design systems, and read text from images. Utilize this for any visual tasks."
     return f"{system_prompt}\nTask: {task}\n{vision_directive}"

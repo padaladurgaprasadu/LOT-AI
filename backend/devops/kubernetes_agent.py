@@ -159,4 +159,4 @@ class KubernetesAgent:
             return {"success": False, "resources_created": 0, "errors": str(e)}
 
 def inject_kubernetes_prompt(system_prompt: str) -> str:
-    return system_prompt + "\n[PrismAI Directive]: You have access to a Kubernetes Agent to generate deployments, services, ingress, and HPA configurations."
+    return system_prompt + "\n[LOT AI Directive]: You have access to a Kubernetes Agent to generate deployments, services, ingress, and HPA configurations."

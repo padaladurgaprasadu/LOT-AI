@@ -6,7 +6,7 @@ import time
 sys.path.insert(0, os.path.abspath('.'))
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
-print('=== 🚀 PrismAI Full System & Swarm Matrix Verification ===')
+print('=== 🚀 LOT AI Full System & Swarm Matrix Verification ===')
 
 start_t = time.time()
 try:

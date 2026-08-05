@@ -1,5 +1,5 @@
 """
-Financial modelling and projections engine for PrismAI.
+Financial modelling and projections engine for LOT AI.
 """
 from typing import Dict, Any, List
 
@@ -112,5 +112,5 @@ class FinancialModeller:
 
 def inject_financial_prompt(system_prompt: str, task: str) -> str:
     """Adds financial modelling directive to system prompt."""
-    fin_directive = "\n[Financial Capability]: PrismAI can calculate unit economics, project revenue, compute runway, and break down costs."
+    fin_directive = "\n[Financial Capability]: LOT AI can calculate unit economics, project revenue, compute runway, and break down costs."
     return f"{system_prompt}\nTask: {task}\n{fin_directive}"

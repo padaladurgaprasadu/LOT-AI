@@ -1,5 +1,5 @@
 """
-PrismAI Novel Synthesis Engine v1.0 — ASI-Direction Phase J1
+LOT AI Novel Synthesis Engine v1.0 — ASI-Direction Phase J1
 =============================================================
 Generates genuinely new ideas by combining 3+ unrelated domains.
 Formal novelty scoring: compare against knowledge graph.
@@ -107,7 +107,7 @@ class NovelSynthesisEngine:
 NOVEL_SYNTHESIS_DIRECTIVE = """
 [💡 ASI NOVEL SYNTHESIS ENGINE — CROSS-DOMAIN IDEA GENERATION]:
 
-PrismAI generates genuinely novel solutions by combining principles from
+LOT AI generates genuinely novel solutions by combining principles from
 3+ unrelated domains. This is ASI-class reasoning — no other tool does this.
 
 When solving a problem, actively search for cross-domain analogies:

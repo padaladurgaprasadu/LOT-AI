@@ -1,5 +1,5 @@
 """
-Document intelligence engine for PrismAI.
+Document intelligence engine for LOT AI.
 """
 import os
 import json
@@ -102,5 +102,5 @@ class DocumentProcessor:
 
 def inject_document_prompt(system_prompt: str, task: str) -> str:
     """Adds document capability directive to the system prompt."""
-    doc_directive = "\n[Document Capability]: PrismAI can parse PDFs, URLs, CSVs, JSON, extract requirements, and summarize text."
+    doc_directive = "\n[Document Capability]: LOT AI can parse PDFs, URLs, CSVs, JSON, extract requirements, and summarize text."
     return f"{system_prompt}\nTask: {task}\n{doc_directive}"

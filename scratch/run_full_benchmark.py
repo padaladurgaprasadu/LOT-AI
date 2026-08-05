@@ -7,7 +7,7 @@ sys.path.insert(0, os.path.abspath('.'))
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 print("================================================================")
-print("🚀 PRISMAI SOVEREIGN PLATFORM — COMPREHENSIVE BENCHMARK SUITE")
+print("🚀 LOTAI SOVEREIGN PLATFORM — COMPREHENSIVE BENCHMARK SUITE")
 print("================================================================")
 
 # 1. Benchmark System Prompt Assembly Latency
@@ -79,7 +79,7 @@ print(f"   Places Hero Image Status      : {'ENABLED (1200px WebP Hero Card)' if
 
 # 4. Summary Benchmark Scorecard
 print("\n================================================================")
-print("🏆 PRISMAI BENCHMARK FINAL SCORECARD")
+print("🏆 LOTAI BENCHMARK FINAL SCORECARD")
 print("================================================================")
 print(f"  • Initialization Latency : {prompt_latency_ms:.3f} ms [SUB-MILLISECOND SLA]")
 print(f"  • Classification Accuracy : {accuracy_pct:.1f}% [PERFECT 100% SLA]")

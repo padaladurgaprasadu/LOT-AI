@@ -7,7 +7,7 @@ const TasksView = ({ timeline }) => {
         <span style={{ fontSize: '1.5rem' }}>📝</span> Planner Objectives
       </h2>
       <p style={{ color: 'var(--text-secondary)' }}>
-        Current execution modules mapped by the PrismAI Planner and their real-time completion status.
+        Current execution modules mapped by the LOT AI Planner and their real-time completion status.
       </p>
       
       <div style={{ marginTop: '30px', display: 'flex', flexDirection: 'column', gap: '12px' }}>

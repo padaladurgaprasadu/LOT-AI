@@ -53,5 +53,26 @@
         "relation": "uses"
       }
     ]
+  },
+  "default": {
+    "nodes": {
+      "9aca4140196c1e34": {
+        "id": "9aca4140196c1e34",
+        "name": "Portfolio Website",
+        "type": "project",
+        "description": "Write a HTML CSS and JS code to build a portfolio website",
+        "tech_stack": [],
+        "last_seen": "2026-08-02T13:09:32.918947+00:00"
+      },
+      "0b3c39e24c289bd8": {
+        "id": "0b3c39e24c289bd8",
+        "name": "Library Management System",
+        "type": "project",
+        "description": "Draw an architecture diagram to build a library management system",
+        "tech_stack": [],
+        "last_seen": "2026-08-02T13:16:15.774272+00:00"
+      }
+    },
+    "edges": []
   }
 }

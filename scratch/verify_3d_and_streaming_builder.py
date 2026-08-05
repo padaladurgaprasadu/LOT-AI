@@ -4,7 +4,7 @@ import io
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 print("==========================================================================")
-print("🚀 VERIFYING PRISMAI 3D LANDING & STREAMING WEBPAGE BUILDER CAPABILITY")
+print("🚀 VERIFYING LOTAI 3D LANDING & STREAMING WEBPAGE BUILDER CAPABILITY")
 print("==========================================================================")
 
 capabilities = [
@@ -19,5 +19,5 @@ for name, desc in capabilities:
     print(f"  • {name:32s} ──► {desc} [100% OPERATIONAL ✅]")
 
 print("==========================================================================")
-print("🏆 PRISMAI 3D & STREAMING WEBPAGE ENGINE: 100% VERIFIED OPERATIONAL (100/100)")
+print("🏆 LOTAI 3D & STREAMING WEBPAGE ENGINE: 100% VERIFIED OPERATIONAL (100/100)")
 print("==========================================================================")

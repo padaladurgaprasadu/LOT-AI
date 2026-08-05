@@ -1,5 +1,5 @@
 """
-Autonomous daily knowledge learning reactor for PrismAI.
+Autonomous daily knowledge learning reactor for LOT AI.
 """
 import json
 import os
@@ -117,4 +117,4 @@ class KnowledgeReactor:
 
 def inject_knowledge_reactor_prompt(system_prompt: str) -> str:
     """Adds knowledge context to system prompt."""
-    return f"{system_prompt}\n[Knowledge Context]: PrismAI knows about latest CVEs and frameworks from the daily reactor cycle."
+    return f"{system_prompt}\n[Knowledge Context]: LOT AI knows about latest CVEs and frameworks from the daily reactor cycle."

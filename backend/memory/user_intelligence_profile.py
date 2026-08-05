@@ -1,5 +1,5 @@
 """
-PrismAI User Intelligence Profile v1.0
+LOT AI User Intelligence Profile v1.0
 =======================================
 Persistent per-user knowledge graph that tracks:
   • Domain expertise levels (0–10 per domain)
@@ -8,7 +8,7 @@ Persistent per-user knowledge graph that tracks:
   • Bloom's Taxonomy tier per domain
   • Session history, project names, and architectural decisions
   • Code style preferences extracted from user edits
-  • Correction patterns (what user changed from PrismAI's code)
+  • Correction patterns (what user changed from LOT AI's code)
   • Spaced repetition schedule per concept
 
 This module is storage-agnostic: profiles are persisted as JSON files
@@ -122,7 +122,7 @@ class UserIntelligenceProfile:
             # Response format preferences
             "format_preference": "balanced",  # code_heavy / text_heavy / balanced / visual
 
-            # Projects the user has worked on with PrismAI
+            # Projects the user has worked on with LOT AI
             "projects": [],
 
             # Architectural decisions recorded as ADRs
@@ -140,7 +140,7 @@ class UserIntelligenceProfile:
             # Topics the user has covered (for spaced repetition)
             "learned_concepts": {},  # concept → {last_seen, review_count, mastery_score}
 
-            # Correction history: what the user changed in PrismAI's responses
+            # Correction history: what the user changed in LOT AI's responses
             "correction_patterns": [],
 
             # Interaction signals
@@ -266,7 +266,7 @@ class UserIntelligenceProfile:
             self._data["overall_level"] = "expert"
 
     def record_correction(self, original_code: str, corrected_code: str) -> None:
-        """Record what the user changed from PrismAI's code to learn style preferences."""
+        """Record what the user changed from LOT AI's code to learn style preferences."""
         patterns = self._data.setdefault("correction_patterns", [])
         patterns.append({
             "timestamp": datetime.now(timezone.utc).isoformat(),

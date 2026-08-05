@@ -82,5 +82,63 @@
       "timestamp": "2026-07-30T08:46:07.650671+00:00",
       "user_id": "cert_v6"
     }
+  ],
+  "default": [
+    {
+      "id": "d8828f6abd2ec004",
+      "content": "Draw an architecture diagram to build crop recommendation system",
+      "category": "development",
+      "tags": [],
+      "timestamp": "2026-08-01T03:42:07.382734+00:00",
+      "user_id": "default"
+    },
+    {
+      "id": "b42099eed2e12af9",
+      "content": "Explain Neural networks ",
+      "category": "learning",
+      "tags": [],
+      "timestamp": "2026-08-01T09:12:34.328819+00:00",
+      "user_id": "default"
+    },
+    {
+      "id": "c216170089ee4488",
+      "content": "Write a HTML CSS and JS code to build a portfolio website",
+      "category": "development",
+      "tags": [],
+      "timestamp": "2026-08-02T13:09:32.909635+00:00",
+      "user_id": "default"
+    },
+    {
+      "id": "95aa301ca22554b4",
+      "content": "Draw an architecture diagram to build a library management system",
+      "category": "development",
+      "tags": [],
+      "timestamp": "2026-08-02T13:16:15.770382+00:00",
+      "user_id": "default"
+    },
+    {
+      "id": "8b4699267fbcb458",
+      "content": "Build an insane 3D WebGL landing page for an orbital satellite platform with email notifications and GitHub issue logging",
+      "category": "development",
+      "tags": [],
+      "timestamp": "2026-08-03T08:00:41.471088+00:00",
+      "user_id": "default"
+    },
+    {
+      "id": "5d004eec3d0ab4c6",
+      "content": "Draw an architecture diagram to build library management system'",
+      "category": "development",
+      "tags": [],
+      "timestamp": "2026-08-05T11:37:41.548701+00:00",
+      "user_id": "default"
+    },
+    {
+      "id": "adc0199a0f91f643",
+      "content": "Explain loop engineering",
+      "category": "learning",
+      "tags": [],
+      "timestamp": "2026-08-05T12:09:12.389418+00:00",
+      "user_id": "default"
+    }
   ]
 }

@@ -22,10 +22,10 @@ const MemoryView = ({ API_URL }) => {
   return (
     <div style={{ padding: '24px', height: '100%', overflowY: 'auto', backgroundColor: 'var(--app-bg)' }}>
       <h2 style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--text-primary)', marginTop: 0 }}>
-        <span style={{ fontSize: '1.5rem' }}>🧠</span> PrismAI Learning Memory
+        <span style={{ fontSize: '1.5rem' }}>🧠</span> LOT AI Learning Memory
       </h2>
       <p style={{ color: 'var(--text-secondary)' }}>
-        PrismAI continuously learns from architectural decisions and preferred design systems across projects.
+        LOT AI continuously learns from architectural decisions and preferred design systems across projects.
       </p>
       
       {loading ? (

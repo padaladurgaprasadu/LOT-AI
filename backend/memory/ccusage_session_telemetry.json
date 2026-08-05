@@ -1,0 +1,28 @@
+{
+  "total_queries": 24,
+  "total_input_tokens": 36000,
+  "total_output_tokens": 15000,
+  "total_estimated_cost_usd": 0.096,
+  "model_breakdown": {
+    "nvidia/nemotron-3-ultra-550b-a55b": {
+      "calls": 24,
+      "input": 36000,
+      "output": 15000,
+      "cost": 0.096
+    }
+  },
+  "agent_breakdown": {
+    "CTO Agent": {
+      "calls": 3,
+      "input": 15000,
+      "output": 4500,
+      "cost": 0.033
+    },
+    "CTO": {
+      "calls": 21,
+      "input": 21000,
+      "output": 10500,
+      "cost": 0.063
+    }
+  }
+}

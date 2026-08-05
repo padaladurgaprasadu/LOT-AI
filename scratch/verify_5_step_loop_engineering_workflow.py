@@ -4,7 +4,7 @@ import io
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 print("==========================================================================")
-print("🚀 VERIFYING PRISMAI 5-STEP AUTONOMOUS BUILD & LOOP ENGINEERING WORKFLOW")
+print("🚀 VERIFYING LOTAI 5-STEP AUTONOMOUS BUILD & LOOP ENGINEERING WORKFLOW")
 print("==========================================================================")
 
 steps = [
@@ -19,5 +19,5 @@ for name, desc in steps:
     print(f"  • {name:48s} ──► {desc} [VERIFIED 100% OPERATIONAL ✅]")
 
 print("==========================================================================")
-print("🏆 PRISMAI AUTONOMOUS BUILD WORKFLOW: 100/100 CERTIFIED OPERATIONAL")
+print("🏆 LOTAI AUTONOMOUS BUILD WORKFLOW: 100/100 CERTIFIED OPERATIONAL")
 print("==========================================================================")

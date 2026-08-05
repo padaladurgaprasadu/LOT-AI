@@ -1,5 +1,5 @@
 """
-PrismAI Adaptive Learning Engine v1.0 — Core Orchestrator
+LOT AI Adaptive Learning Engine v1.0 — Core Orchestrator
 ===========================================================
 Master orchestration module that ties together all adaptive learning components:
 
@@ -18,7 +18,7 @@ Integration flow (injected into api_real.py):
 Key Design Principle (from addyosmani/agent-skills + OpenHands):
   "AI agents should adapt to the human, not force the human to adapt to the AI."
 
-This makes PrismAI 10000x better than ChatGPT, Claude, Cursor, Devin, Kimi K3
+This makes LOT AI 10000x better than ChatGPT, Claude, Cursor, Devin, Kimi K3
 because NO OTHER TOOL has true adaptive cognitive depth routing.
 """
 
@@ -128,7 +128,7 @@ def infer_domain_from_message(message: str) -> Optional[str]:
 
 class AdaptiveLearningEngine:
     """
-    Core adaptive learning orchestrator for PrismAI.
+    Core adaptive learning orchestrator for LOT AI.
     Combines user profiling, Bloom's routing, and forgetting curve
     to produce a personalised, cognitively-calibrated system prompt injection.
     """
@@ -200,7 +200,7 @@ class AdaptiveLearningEngine:
         profile_ctx = self.profile.to_context_dict()
         meta = get_bloom_meta(bloom_level)
 
-        lines = ["\n\n[🧠 PRISMAI ADAPTIVE LEARNING ENGINE v1.0 — PERSONALISED RESPONSE PROFILE]:"]
+        lines = ["\n\n[🧠 LOTAI ADAPTIVE LEARNING ENGINE v1.0 — PERSONALISED RESPONSE PROFILE]:"]
 
         # User intelligence summary
         lines.append(f"User Level: {profile_ctx['overall_level'].upper()}")

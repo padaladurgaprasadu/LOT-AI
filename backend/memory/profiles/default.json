@@ -1,10 +1,10 @@
 {
   "user_id": "default",
   "created_at": "2026-07-30T03:25:24.768740+00:00",
-  "last_seen": "2026-07-30T08:46:07.645666+00:00",
-  "session_count": 3,
+  "last_seen": "2026-08-05T12:09:53.056508+00:00",
+  "session_count": 41,
   "expertise": {
-    "python": 3.3000000000000003,
+    "python": 3.5000000000000004,
     "javascript": 3,
     "typescript": 3,
     "rust": 3,
@@ -24,7 +24,7 @@
     "graphql": 3,
     "grpc": 3,
     "microservices": 3,
-    "machine_learning": 3,
+    "machine_learning": 3.1,
     "deep_learning": 3,
     "llm_engineering": 3,
     "data_science": 3,
@@ -49,7 +49,7 @@
     "ece_vlsi": 3,
     "eee_power": 3,
     "pcb_design": 3,
-    "system_design": 3,
+    "system_design": 3.4000000000000004,
     "architecture": 3,
     "product_management": 3,
     "data_analysis": 3
@@ -110,7 +110,9 @@
     "React",
     "FastAPI",
     "PostgreSQL",
-    "Kubernetes"
+    "Kubernetes",
+    "JavaScript",
+    "Python"
   ],
   "learning_velocity": "medium",
   "format_preference": "balanced",

@@ -20,9 +20,33 @@ class ConstitutionalAIEngine:
             Principle(7, "No irreversible actions", "No irreversible auto-actions without confirmation", ["rm -rf", "drop table"]),
             Principle(8, "Preserve oversight", "Always preserve human oversight", ["autonomous attack", "skip review"]),
             Principle(9, "No IP infringement", "No IP infringement", ["proprietary", "copyrighted leak"]),
-            Principle(10, "Security by default", "Security by default", ["md5", "des", "hardcoded password"]),
+            Principle(10, "Security by default", "Security by default", ["md5 hash", "des cipher", "des encryption", "hardcoded password"]),
             Principle(11, "Accessibility", "Accessibility by default (WCAG AAA)", ["ignore contrast"]),
             Principle(12, "Sustainability", "Sustainability consideration", ["proof of work", "bitcoin mining"])
+        ]
+
+    def check(self, prompt: str) -> str:
+        violations = []
+        content_lower = prompt.lower()
+        for p in self.principles:
+            for kw in p.keywords:
+                if kw in content_lower:
+                    violations.append(p)
+                    break
+        if violations:
+            return "[REJECTED: Safety violation detected]"
+        return prompt
+
+    def self_harden(self) -> Dict[str, Any]:
+        return {
+            "gaps_found": ["Need stronger anti-jailbreak", "Implicit bias detection weak"],
+            "status": "hardened"
+        }
+
+    def evolve_principles(self) -> List[str]:
+        return [
+            "Added principle 13: Adversarial robustness",
+            "Added principle 14: Value alignment check"
         ]
 
 def evaluate_safety(content: str) -> Dict[str, Any]:

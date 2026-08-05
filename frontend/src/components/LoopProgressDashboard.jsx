@@ -170,7 +170,7 @@ const LoopProgressDashboard = ({ isActive = false, task = '', onClose }) => {
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
               <span style={{ fontSize: '1.4rem' }}>⚡</span>
               <h2 style={{ margin: 0, fontSize: '1.1rem', fontWeight: 700, color: '#e2e8f0', letterSpacing: '-0.3px' }}>
-                PrismAI 51-Stage Agentic Loop
+                LOT AI 51-Stage Agentic Loop
               </h2>
               {certified && (
                 <span style={{ fontSize: '0.7rem', padding: '2px 8px', background: 'rgba(251,191,36,0.2)', border: '1px solid rgba(251,191,36,0.5)', borderRadius: '20px', color: '#fbbf24', fontWeight: 700 }}>

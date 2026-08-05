@@ -1,7 +1,7 @@
 """
-PrismAI 5 Sovereign MCP Servers Orchestrator Engine v1.0
+LOT AI 5 Sovereign MCP Servers Orchestrator Engine v1.0
 =========================================================
-Connects PrismAI to 5 Sovereign Model Context Protocol (MCP) Servers:
+Connects LOT AI to 5 Sovereign Model Context Protocol (MCP) Servers:
 1. Context7 MCP (Up-to-date real-time tech documentation)
 2. GitHub MCP (Repository code search, PR automation, issue tracking)
 3. Playwright MCP (E2E headless browser testing, scraping & visual QA)
@@ -45,7 +45,7 @@ def inject_mcp_orchestrator_prompt(system_prompt: str) -> str:
     """
     Injects the 5 Sovereign MCP Servers capability specification into AI system prompts.
     """
-    mcp_block = "\n\n[🔌 PRISMAI 5 SOVEREIGN MCP SERVERS ORCHESTRATOR]:\n"
+    mcp_block = "\n\n[🔌 LOTAI 5 SOVEREIGN MCP SERVERS ORCHESTRATOR]:\n"
     mcp_block += "You are equipped with 5 Sovereign Model Context Protocol (MCP) Servers:\n"
     for key, mcp in SOVEREIGN_MCP_SERVERS.items():
         mcp_block += f"  • {mcp['name']}: {mcp['description']} (Tools: {', '.join(mcp['tools'])})\n"

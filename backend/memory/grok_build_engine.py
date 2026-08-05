@@ -1,5 +1,5 @@
 """
-PrismAI Grok-Build Agent Harness & Plugin Engine v3.0
+LOT AI Grok-Build Agent Harness & Plugin Engine v3.0
 ======================================================
 Inspired by xAI's grok-build (xai-org/grok-build).
 Provides high-performance Rust-style async agent queues, MCP plugin marketplace
@@ -23,7 +23,7 @@ def inject_grok_build_prompt(system_prompt: str) -> str:
     """
     Injects Grok-Build Agent Harness directives into AI system prompts.
     """
-    grok_block = "\n\n[🚀 PRISMAI GROK-BUILD AGENT HARNESS ACTIVE]:\n"
+    grok_block = "\n\n[🚀 LOTAI GROK-BUILD AGENT HARNESS ACTIVE]:\n"
     grok_block += "You operate as a High-Performance Rust-Grade Agent Harness & Technical Lead.\n"
     grok_block += "Enforce maximum efficiency, zero-latency execution, and flawless code generation:\n"
     for feat in GROK_BUILD_FEATURES:

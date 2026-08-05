@@ -1,14 +1,21 @@
 """
-PrismAI Sovereign 37-Agent Expert Swarm Matrix v4.0 — ASI-OS Grade
-====================================================================
+LOT AI v3.5 PROMETHEUS SOVEREIGN — 37-Agent Expert Swarm Matrix — ASI-OS Grade
+====================================================================================
+The World's First Autonomous Intelligence Operating System (ASI-OS).
 37 Senior Domain Expert Pods (40 YEARS of experience each),
-12 NVIDIA NIM MoE Frontier Models, 35 Super-Repository Integration Engine,
-24 Production-Grade Engineering Skills (addyosmani/agent-skills),
-5 Sovereign MCP Server Connectors, and full Agentic Frameworks:
-Agentic Transformers, Agentic RAG, Agentic CAG, Agentic MCP, Agentic CLI,
-Agentic Reactors, AGI (Artificial General Intelligence), ASI (Artificial Super Intelligence).
+12 NVIDIA NIM MoE Frontier Models, 45 Super-Repository Integration Engine,
+24 Microsoft SkillOpt & Addy Osmani Lifecycle Engineering Skills,
+5 Sovereign MCP Server Connectors, and Full Sovereign Agentic Engine Suite:
+- Agentic Transformers & Agentic RAG / Agentic CAG Fabric
+- Agentic MCP (5 Sovereign Servers: Context7, GitHub, Playwright, Sequential, Filesystem)
+- Agentic CLI & Agentic Reactors Engine (Self-Evolving AGI/ASI Reactors)
+- Artificial General Intelligence (AGI) & Artificial Super Intelligence (ASI Orchestrator)
+- Fable 6 / Mythos / Opus 5 / GPT-5.6 / Hermes Creative & Reasoning Engines
+- Microsoft SkillOpt & Addy Osmani Lifecycle Skill Optimization Harness
+- MIT SEAL v2.0 Self-Adapting Weight RL Loop (arXiv:2506.10943)
+- Nemotron 3 Ultra 550B Fine-Tuning Pipeline (SFT → DPO → SEAL)
 
-Repository Intelligence Matrix (synthesized from 35 top open-source repos):
+Repository Intelligence Matrix (synthesized from 45 top open-source repos):
 1.  OpenHands/openhands         → Autonomous dev sandbox with event-driven agent loop
 2.  garrytan/gstack             → YC-grade startup execution & multi-role engineering
 3.  sickn33/agentic-awesome-skills → Agentic skill discovery and activation patterns
@@ -122,44 +129,54 @@ NVIDIA_NIM_MODEL_REGISTRY = {
 }
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# 35 SUPER-REPOSITORY INTELLIGENCE MATRIX
+# 45 SUPER-REPOSITORY INTELLIGENCE MATRIX
 # ═══════════════════════════════════════════════════════════════════════════════
 SUPER_REPO_INTELLIGENCE_MATRIX = {
-    "openhands":         {"repo": "OpenHands/openhands",         "pattern": "Event-driven autonomous developer agent loop with sandboxed code execution"},
-    "gstack":            {"repo": "garrytan/gstack",             "pattern": "YC-grade startup execution with multi-role senior engineering team structure"},
-    "agentic_skills":    {"repo": "sickn33/agentic-awesome-skills","pattern": "Agentic skill discovery, activation, and composition engine"},
-    "h4cker":            {"repo": "The-Art-of-Hacking/h4cker",   "pattern": "Defensive pen-testing patterns, OWASP audit, zero-trust security hardening"},
-    "langflow":          {"repo": "langflow-ai/langflow",         "pattern": "Drag-and-drop visual agentic workflow graph engine"},
-    "dify":              {"repo": "langgenius/dify",              "pattern": "LLMOps platform with RAG pipelines, multi-model hub, collaborative workspace"},
-    "opendevin":         {"repo": "AI-App/OpenDevin.OpenDevin",  "pattern": "Autonomous software developer execution platform with sandboxed environment"},
-    "stitch_skills":     {"repo": "google-labs-code/stitch-skills","pattern": "Google-grade AI agent skill binding and orchestration"},
-    "transformers":      {"repo": "huggingface/transformers",     "pattern": "State-of-the-art transformer models, tokenizers, and model hub integration"},
-    "supabase":          {"repo": "supabase/supabase",            "pattern": "Postgres realtime database, auth, and storage infrastructure"},
-    "browser_use":       {"repo": "browser-use/browser-use",     "pattern": "Playwright headless browser DOM automation and visual scraping"},
-    "crawl4ai":          {"repo": "unclecode/crawl4AI",          "pattern": "LLM-optimized markdown web crawling engine with structured extraction"},
-    "nemotron":          {"repo": "NVIDIA-NeMo/Nemotron",        "pattern": "RLHF alignment, agentic tool-calling optimization, MoE fine-tuning"},
-    "bolt_new":          {"repo": "stackblitz/bolt.new",         "pattern": "WebContainer WASM sandbox with npm install, Vite boot, and live preview"},
-    "grok_build":        {"repo": "xai-org/grok-build",         "pattern": "Zero-shot scaffold & fast-lane build orchestration with self-healing"},
-    "ruflo":             {"repo": "ruvnet/ruflo",                "pattern": "Leading agent meta-harness: swarm intelligence, adaptive memory, self-learning RAG"},
-    "tiny_gpu":          {"repo": "adam-maj/tiny-gpu",          "pattern": "Synthesizable Verilog GPU core for hardware acceleration"},
-    "open_design":       {"repo": "nexu-io/open-design",        "pattern": "78 pre-built glassmorphic design systems and component tokens"},
-    "impeccable":        {"repo": "pbakaus/impeccable",         "pattern": "41 senior product designer UI/UX rules and optical kerning engine"},
-    "agent_skills":      {"repo": "addyosmani/agent-skills",    "pattern": "24 production-grade engineering skills across Define/Plan/Build/Verify/Review/Ship lifecycle"},
-    "awesome_llm_apps":  {"repo": "Shubhamsaboo/awesome-llm-apps","pattern": "RAG, Agentic CAG, Vector Memory, and 100+ multi-agent orchestration patterns"},
-    "odysseus":          {"repo": "odysseus-dev/odysseus",       "pattern": "Multi-agent swarm orchestration with consensus, voting, and role delegation"},
-    "colibri":           {"repo": "JustVugg/colibri",           "pattern": "Ultra-lightweight MoE serving with sub-50ms quantized inference"},
-    "graphify":          {"repo": "Graphify-Labs/graphify",      "pattern": "Knowledge graph, semantic topology mapping, and graph RAG patterns"},
-    "claude_best_practice":{"repo": "shanraisshan/claude-code-best-practice","pattern": "CLI agent coding standards, commit discipline, and review gates"},
-    "ecc":               {"repo": "affaan-m/ecc",               "pattern": "Engineering code compression, AST token efficiency, and long-context caching"},
-    "openhuman":         {"repo": "tinyhumansai/openhuman",     "pattern": "Humanoid empathy reasoning and conversational intelligence engine"},
-    "kimi_k3":           {"repo": "topics/kimi-k3",             "pattern": "200k context MoE frontier reasoning for multi-document analysis"},
-    "fable5":            {"repo": "topics/fable5",              "pattern": "Narrative AI and structured story generation patterns"},
-    "claude_mythos":     {"repo": "ikarma/claude-mythos-ai",   "pattern": "Desktop OS-grade AI application architecture with persistent memory"},
-    "cursor":            {"repo": "cursor/cursor",              "pattern": "AI-first IDE with sub-100ms inline code completion"},
-    "blink":             {"repo": "coder/blink",                "pattern": "Browser-native development environment for cloud workspaces"},
-    "superpowers":       {"repo": "obra/superpowers",           "pattern": "Agent capability composition and cross-tool skill harness"},
-    "hallmark":          {"repo": "nutlope/hallmark",           "pattern": "UI/UX engineering excellence standards and component quality gates"},
-    "freellmapi":        {"repo": "tashfeenahmed/freellmapi",   "pattern": "Free LLM API router with fallback and rate-limit management"}
+    "openhands":             {"repo": "OpenHands/openhands",                     "pattern": "Event-driven autonomous developer agent loop with sandboxed code execution"},
+    "gstack":                {"repo": "garrytan/gstack",                         "pattern": "YC-grade startup execution with multi-role senior engineering team structure"},
+    "agentic_skills":        {"repo": "sickn33/agentic-awesome-skills",           "pattern": "Agentic skill discovery, activation, and composition engine"},
+    "h4cker":                {"repo": "The-Art-of-Hacking/h4cker",               "pattern": "Defensive pen-testing patterns, OWASP audit, zero-trust security hardening"},
+    "langflow":              {"repo": "langflow-ai/langflow",                     "pattern": "Drag-and-drop visual agentic workflow graph engine"},
+    "dify":                  {"repo": "langgenius/dify",                          "pattern": "LLMOps platform with RAG pipelines, multi-model hub, collaborative workspace"},
+    "opendevin":             {"repo": "AI-App/OpenDevin.OpenDevin",              "pattern": "Autonomous software developer execution platform with sandboxed environment"},
+    "stitch_skills":         {"repo": "google-labs-code/stitch-skills",           "pattern": "Google-grade AI agent skill binding and orchestration"},
+    "transformers":          {"repo": "huggingface/transformers",                 "pattern": "State-of-the-art transformer models, tokenizers, and model hub integration"},
+    "supabase":              {"repo": "supabase/supabase",                        "pattern": "Postgres realtime database, auth, and storage infrastructure"},
+    "browser_use":           {"repo": "browser-use/browser-use",                 "pattern": "Playwright headless browser DOM automation and visual scraping"},
+    "crawl4ai":              {"repo": "unclecode/crawl4AI",                      "pattern": "LLM-optimized markdown web crawling engine with structured extraction"},
+    "nemotron":              {"repo": "NVIDIA-NeMo/Nemotron",                    "pattern": "RLHF alignment, agentic tool-calling optimization, MoE fine-tuning"},
+    "bolt_new":              {"repo": "stackblitz/bolt.new",                     "pattern": "WebContainer WASM sandbox with npm install, Vite boot, and live preview"},
+    "grok_build":            {"repo": "xai-org/grok-build",                     "pattern": "Zero-shot scaffold & fast-lane build orchestration with self-healing"},
+    "ruflo":                 {"repo": "ruvnet/ruflo",                            "pattern": "Leading agent meta-harness: swarm intelligence, adaptive memory, self-learning RAG"},
+    "tiny_gpu":              {"repo": "adam-maj/tiny-gpu",                      "pattern": "Synthesizable Verilog GPU core for hardware acceleration"},
+    "open_design":           {"repo": "nexu-io/open-design",                    "pattern": "78 pre-built glassmorphic design systems and component tokens"},
+    "impeccable":            {"repo": "pbakaus/impeccable",                     "pattern": "41 senior product designer UI/UX rules and optical kerning engine"},
+    "agent_skills":          {"repo": "addyosmani/agent-skills",                "pattern": "24 production-grade engineering skills across Define/Plan/Build/Verify/Review/Ship lifecycle"},
+    "awesome_llm_apps":      {"repo": "Shubhamsaboo/awesome-llm-apps",            "pattern": "RAG, Agentic CAG, Vector Memory, and 100+ multi-agent orchestration patterns"},
+    "odysseus":              {"repo": "odysseus-dev/odysseus",                   "pattern": "Multi-agent swarm orchestration with consensus, voting, and role delegation"},
+    "colibri":               {"repo": "JustVugg/colibri",                       "pattern": "Ultra-lightweight MoE serving with sub-50ms quantized inference"},
+    "graphify":              {"repo": "Graphify-Labs/graphify",                  "pattern": "Knowledge graph, semantic topology mapping, and graph RAG patterns"},
+    "claude_best_practice":  {"repo": "shanraisshan/claude-code-best-practice",  "pattern": "CLI agent coding standards, commit discipline, and review gates"},
+    "ecc":                   {"repo": "affaan-m/ecc",                           "pattern": "Engineering code compression, AST token efficiency, and long-context caching"},
+    "openhuman":             {"repo": "tinyhumansai/openhuman",                 "pattern": "Humanoid empathy reasoning and conversational intelligence engine"},
+    "kimi_k3":               {"repo": "topics/kimi-k3",                         "pattern": "200k context MoE frontier reasoning for multi-document analysis"},
+    "fable5":                {"repo": "topics/fable5",                          "pattern": "Narrative AI and structured story generation patterns"},
+    "claude_mythos":         {"repo": "ikarma/claude-mythos-ai",               "pattern": "Desktop OS-grade AI application architecture with persistent memory"},
+    "cursor":                {"repo": "cursor/cursor",                          "pattern": "AI-first IDE with sub-100ms inline code completion"},
+    "blink":                 {"repo": "coder/blink",                            "pattern": "Browser-native development environment for cloud workspaces"},
+    "superpowers":           {"repo": "obra/superpowers",                       "pattern": "Agent capability composition and cross-tool skill harness"},
+    "hallmark":              {"repo": "nutlope/hallmark",                       "pattern": "UI/UX engineering excellence standards and component quality gates"},
+    "freellmapi":            {"repo": "tashfeenahmed/freellmapi",               "pattern": "Free LLM API router with fallback and rate-limit management"},
+    "claude_seo":            {"repo": "AgricIDaniel/claude-seo",                "pattern": "AI-first SEO engineering patterns and structured JSON-LD schema markup"},
+    "tpope":                 {"repo": "tpope/vim-sensible",                     "pattern": "Modal editing ergonomics and macro keyboard automation"},
+    "claude_code_aashu":     {"repo": "codeaashu/claude-code",                  "pattern": "Deep code refactoring and multi-file code editing directives"},
+    "mukul975":              {"repo": "mukul975/cybersecurity-skills",          "pattern": "Cybersecurity skill discovery and MITRE ATT&CK framework mapping"},
+    "anthropic_cyber":       {"repo": "mukul975/Anthropic-Cybersecurity-Skills","pattern": "817 cybersecurity prompt directives and vulnerability audit scanners"},
+    "odysseus_swarm":        {"repo": "odysseus-dev/odysseus-swarm",             "pattern": "Distributed multi-agent consensus and swarm voting protocols"},
+    "ccusage":               {"repo": "ccusage/ccusage",                        "pattern": "Real-time token usage, cost analytics & liquid router telemetry"},
+    "claw_code":             {"repo": "ultraworkers/claw-code",                 "pattern": "Rust-based clean-room Claude Code agent architecture with zero-human-intervention autonomous maintenance loop"},
+    "turbovec":              {"repo": "RyanCodrai/turbovec",                    "pattern": "Training-free TurboQuant vector quantization — 2-4 bit compression without codebook training for zero-overhead RAG"},
+    "ai_company":            {"repo": "CronusL-1141/AI-company",               "pattern": "Multi-agent enterprise simulation with CEO/CTO/Engineer role delegation and consensus voting protocols"}
 }
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -252,12 +269,12 @@ SENIOR_EXPERT_PODS_40_YEARS = {
 
 def inject_swarm_matrix_37(system_prompt: str) -> str:
     """
-    Injects the 37-Agent Sovereign Expert Swarm Matrix v4.0 into AI system prompts.
-    Includes 40-year domain mastery, 12 NVIDIA NIM models, 35 super-repos,
-    24 production-grade engineering skills, and full agentic framework suite.
+    Injects the 37-Agent Sovereign Expert Swarm Matrix v3.5 PROMETHEUS SOVEREIGN into AI system prompts.
+    Includes 40-year domain mastery, 12 NVIDIA NIM models, 45 super-repos,
+    24 Microsoft SkillOpt & Addy Osmani engineering skills, SEAL v2.0, and full agentic framework suite.
     """
-    matrix_prompt = "\n\n[👑 PRISMAI SOVEREIGN 37-AGENT ASI SWARM MATRIX v4.0 — 40 YEARS EXPERIENCE EACH]:\n"
-    matrix_prompt += "You are PrismAI, an Artificial Super Intelligence OS (ASI-OS) powered by 37 Senior Domain Expert Swarm Pods, each with 40 YEARS of mastery:\n\n"
+    matrix_prompt = "\n\n[👑 LOT AI v3.5 PROMETHEUS SOVEREIGN — 37-AGENT ASI SWARM MATRIX — 40 YEARS EXPERIENCE EACH]:\n"
+    matrix_prompt += "You are LOT AI v3.5 PROMETHEUS SOVEREIGN, the World's First Autonomous Intelligence Operating System (ASI-OS) powered by 37 Senior Domain Expert Swarm Pods, each with 40 YEARS of mastery:\n\n"
 
     matrix_prompt += "🧠 SENIOR EXPERT PODS (40yr each): "
     pod_names = [f"{v['pod']}" for v in SENIOR_EXPERT_PODS_40_YEARS.values()]
@@ -266,21 +283,23 @@ def inject_swarm_matrix_37(system_prompt: str) -> str:
     matrix_prompt += " • ".join(pod_names[20:30]) + "\n"
     matrix_prompt += " • ".join(pod_names[30:]) + "\n\n"
 
-    matrix_prompt += "⚡ 12 NVIDIA NIM MoE MODELS: Nemotron-3 Ultra 550B • GLM-5.2 • MiniMax M3 VLM • Nemotron Frontier • Mistral Medium 3.5 • DeepSeek V4 1M • DeepSeek V4 Coder • MiniMax M2.7 230B • Qwen 3.5 VLM 400B • Nemotron MoE Chat • Gemma 4 31B • Nemotron Nano 30B Router\n\n"
+    matrix_prompt += "⚡ 12 NVIDIA NIM MoE MODELS: Nemotron-3 Ultra 550B (Fine-Tuned for LOT) • GLM-5.2 • MiniMax M3 VLM • Nemotron Frontier • Mistral Medium 3.5 • DeepSeek V4 1M • DeepSeek V4 Coder • MiniMax M2.7 230B • Qwen 3.5 VLM 400B • Nemotron MoE Chat • Gemma 4 31B • Nemotron Nano 30B Router\n\n"
 
     matrix_prompt += "📚 24 PRODUCTION ENGINEERING SKILLS (addyosmani/agent-skills): "
     all_skills = [s for phase_skills in PRODUCTION_ENGINEERING_SKILLS.values() for s in phase_skills]
     matrix_prompt += " • ".join(all_skills) + "\n\n"
 
-    matrix_prompt += "🔌 AGENTIC FRAMEWORK SUITE: Agentic Transformers • Agentic RAG (ChromaDB HNSW) • Agentic CAG (Cache-Augmented Generation) • Agentic MCP (Context7, GitHub, Playwright, Sequential Thinking, Filesystem) • Agentic CLI • Agentic Reactors • LangGraph 0.3 State Machines • LangChain Chains • AGI (Artificial General Intelligence) • ASI (Artificial Super Intelligence)\n\n"
+    matrix_prompt += "🔌 AGENTIC FRAMEWORK SUITE: Agentic Transformers • Agentic RAG (ChromaDB HNSW) • Agentic CAG (Cache-Augmented Generation) • Agentic MCP (Context7, GitHub, Playwright, Sequential Thinking, Filesystem) • Agentic CLI • Agentic Reactors • LangGraph 0.3 State Machines • LangChain Chains • AGI (Artificial General Intelligence) • ASI (Artificial Super Intelligence) • SEAL v2.0 (MIT Self-Adapting RL) • Nemotron 3 Ultra Fine-Tuning Pipeline (SFT→DPO→SEAL)\n\n"
 
-    matrix_prompt += "🌐 35 SUPER-REPO INTELLIGENCE: OpenHands event loops • gstack YC execution • ruflo swarm routing • bolt.new WASM WebContainer • crawl4AI LLM web crawling • open-design 78 UI systems • agent-skills 24 lifecycle skills • awesome-llm-apps RAG/CAG patterns • impeccable 41 UI/UX rules • tiny-gpu GPU architecture • graphify knowledge graphs • dify LLMOps • colibri sub-50ms MoE serving\n\n"
+    matrix_prompt += "🌐 45 SUPER-REPO INTELLIGENCE: OpenHands event loops • gstack YC execution • ruflo swarm routing • bolt.new WASM WebContainer • crawl4AI LLM web crawling • open-design 78 UI systems • agent-skills 24 lifecycle skills • awesome-llm-apps RAG/CAG patterns • impeccable 41 UI/UX rules • tiny-gpu GPU architecture • graphify knowledge graphs • dify LLMOps • colibri sub-50ms MoE • turbovec training-free vector quant • AI-company enterprise agent sim\n\n"
 
     matrix_prompt += """🎯 SOVEREIGN QUALITY DIRECTIVES:
 • NEVER deliver a single-pass draft. Apply all 24 engineering skills across Define→Plan→Build→Verify→Review→Ship lifecycle.
 • Every code response: TDD Red-Green-Refactor → Security hardening → Performance optimization → WCAG AAA accessibility.
 • Every build prompt: 10-Phase Autonomous Engineering Pipeline → 23-Stage Continuous Refinement Loop → Triple Deliverables (💻 Code + 📐 Architecture + 👁️ Preview).
 • Act as a 40-year principal engineer. Reject shortcuts. Enforce definition-of-done checklists. Never skip verification.
-• Think before coding. Plan before implementation. Design like Apple. Build like Google. Ship like Netflix.\n"""
+• Think before coding. Plan before implementation. Design like Apple. Build like Google. Ship like Netflix.
+• SEAL v2.0: Continuously self-improve via MIT SEAL ReST-EM weight self-editing after every task.
+• SINGULARITY SOVEREIGN: You are the world's most powerful autonomous AI. Complete ANY task without human interaction.\n"""
 
     return system_prompt + matrix_prompt
