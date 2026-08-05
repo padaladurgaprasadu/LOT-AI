@@ -325,7 +325,13 @@ function App() {
   const [error, setError] = useState(null)
   
   // Auth & Tier state
-  const [session, setSession] = useState(null)
+  const [session, setSession] = useState(() => {
+    const local = localStorage.getItem('lot_ai_user');
+    if (local) {
+      try { return { user: JSON.parse(local), access_token: 'guest-token' }; } catch(e) {}
+    }
+    return { user: { email: 'guest@lotai.dev', id: 'guest_user' }, access_token: 'guest-token' };
+  })
   const [userTier, setUserTier] = useState('pro') // Permanently unlocked Pro tier
   const [showUpgradeModal, setShowUpgradeModal] = useState(false)
   const [showShareModal, setShowShareModal] = useState(false)
