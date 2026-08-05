@@ -349,17 +349,30 @@ function App() {
   };
   
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
-    })
+    // Check local storage session first
+    const localUser = localStorage.getItem('lot_ai_user');
+    if (localUser) {
+      try {
+        const u = JSON.parse(localUser);
+        setSession({ user: u, access_token: 'local-token-' + u.id });
+      } catch(e) {}
+    }
 
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session)
-    })
+    try {
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        if (session) setSession(session);
+      }).catch(() => {});
 
-    return () => subscription.unsubscribe()
+      const {
+        data: { subscription },
+      } = supabase.auth.onAuthStateChange((_event, session) => {
+        if (session) setSession(session);
+      });
+
+      return () => subscription?.unsubscribe?.();
+    } catch (err) {
+      console.warn("Supabase auth listener bypassed:", err);
+    }
   }, [])
 
   useEffect(() => {
